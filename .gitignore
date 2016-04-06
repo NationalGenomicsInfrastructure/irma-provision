@@ -2,3 +2,4 @@
 *.retry
 .vault_password.txt
 pontus.larsson_medsci.uu.se.key
+charon_credentials.yml

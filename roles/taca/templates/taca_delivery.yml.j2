@@ -1,0 +1,85 @@
+log:
+    file: "{{ ngi_pipeline_logs }}/taca.log"
+
+deliver:
+    rootpath: "/proj/{{ ngi_pipeline_sthlm_delivery }}/nobackup/NGI/analysis_ready"
+    analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
+    datapath: <ROOTPATH>/DATA/<PROJECTID>
+    stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
+    deliverypath: /proj/<UPPNEXID>/INBOX/<PROJECTID>
+    report_aggregate: ngi_reports ign_aggregate_report -n stockholm --pandoc_binary
+    report_sample: ngi_reports ign_sample_report -n stockholm --pandoc_binary
+    reportpath: <ANALYSISPATH>/piper_ngi
+    logpath: <REPORTPATH>/logs
+    deliverystatuspath: <REPORTPATH>/08_misc
+    operator: "{{ recipient_mail }}"
+    hash_algorithm: md5
+    files_to_deliver:
+        -   
+            - <ROOTPATH>/DELIVERY.README.txt
+            - <STAGINGPATH>
+        -
+            - <LOGPATH>/version_report.txt
+            - <STAGINGPATH>/00-Reports
+            - required: True
+        -
+            - <REPORTPATH>/delivery/reports/<PROJECTID>_aggregate_report.csv
+            - <STAGINGPATH>/00-Reports
+            - no_digest: True
+        -
+            - <REPORTPATH>/delivery/reports/<SAMPLEID>_ign_sample_report.html
+            - <STAGINGPATH>/<SAMPLEID>/00-Reports
+            - no_digest_cache: True
+        - 
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>*.snpEff.summary.*
+            - <STAGINGPATH>/<SAMPLEID>/00-Reports
+            - required: True
+        -
+            - <ANALYSISPATH>/piper_ngi/06_final_alignment_qc/<SAMPLEID>.clean.dedup.qc
+            - <STAGINGPATH>/<SAMPLEID>/01-QC
+            - required: True
+        -
+            - <ANALYSISPATH>/piper_ngi/05_processed_alignments/<SAMPLEID>.metrics
+            - <STAGINGPATH>/<SAMPLEID>/01-QC
+            - required: True
+        -
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.eval
+            - <STAGINGPATH>/<SAMPLEID>/01-QC
+            - required: True
+        - 
+            - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/<SAMPLEID>.gt_concordance
+            - <STAGINGPATH>/<SAMPLEID>/01-QC
+        - 
+            - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
+            - <STAGINGPATH>/05-Genotyping
+        -
+            - <ROOTPATH>/bam2fastq.sh
+            - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
+            - required: True
+        -
+            - <ANALYSISPATH>/piper_ngi/05_processed_alignments/<SAMPLEID>.clean.dedup.ba[im]
+            - <STAGINGPATH>/<SAMPLEID>/03-BAM
+            - required: True
+        -
+            - <ANALYSISPATH>/piper_ngi/05_processed_alignments/<SAMPLEID>.pre_recal.table
+            - <STAGINGPATH>/<SAMPLEID>/03-BAM
+            - required: True
+        -
+            - <ROOTPATH>/applyRecalibration.sh
+            - <STAGINGPATH>/<SAMPLEID>/03-BAM
+            - required: True
+        - 
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.genomic.vcf.gz
+            - <STAGINGPATH>/<SAMPLEID>/04-VCF
+            - required: True
+        - 
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.genomic.vcf.gz.tbi
+            - <STAGINGPATH>/<SAMPLEID>/04-VCF
+        - 
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.recalibrated.*.annotated.vcf.gz
+            - <STAGINGPATH>/<SAMPLEID>/04-VCF
+            - required: True
+        - 
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.recalibrated.*.annotated.vcf.gz.tbi
+            - <STAGINGPATH>/<SAMPLEID>/04-VCF
+

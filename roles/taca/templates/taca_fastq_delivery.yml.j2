@@ -1,0 +1,21 @@
+log:
+    file: "{{ ngi_pipeline_logs}}/taca.log"
+
+deliver:
+    rootpath: "{{{{ ngi_pipeline_sthlm_delivery }}/nobackup/NGI/analysis_ready"
+    analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
+    datapath: <ROOTPATH>/DATA/<PROJECTID>
+    stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
+    deliverypath: /proj/<UPPNEXID>/INBOX/<PROJECTID>
+    report_aggregate: ngi_reports ign_aggregate_report -n stockholm --pandoc_binary
+    report_sample: ngi_reports ign_sample_report -n stockholm --pandoc_binary
+    reportpath: <ANALYSISPATH>/piper_ngi
+    logpath: <REPORTPATH>/logs
+    deliverystatuspath: <REPORTPATH>/08_misc
+    operator: "{{ recipient_mail }}"
+    hash_algorithm: md5
+    files_to_deliver:
+        -
+            - <DATAPATH>/<SAMPLEID>/*/*
+            - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
+            - required: True

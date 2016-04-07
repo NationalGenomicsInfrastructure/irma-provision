@@ -23,28 +23,10 @@
   shell: /lupus/ngi//sw/anaconda/envs/NGI/bin/pip install -r /lupus/ngi//sw/ngi_pipeline/requirements.txt
   tags: ngi_pipeline
 
-#- name: install ngi_pipeline requirements
-#  pip:
-#      requirements: "{{ ngi_pipeline_dest }}/requirements.txt"
-#      chdir: "{{ ngi_pipeline_dest }}"
-#      virtualenv: "{{ ngi_pipeline_venv }}"
-#      state: present
-#      executable: "{{ ngi_pipeline_venv }}/bin/pip"
-#  tags: ngi_pipeline
-
 - name: install ngi_pipeline
   shell: cd {{ ngi_pipeline_dest }} && /lupus/ngi//sw/anaconda/envs/NGI/bin/pip install .
   tags: ngi_pipeline
  
-#- name: install ngi_pipeline
-#  pip:
-#      name: .
-#      chdir: "{{ ngi_pipeline_dest }}"
-#      virtualenv: "{{ ngi_pipeline_venv }}"
-#      state: present
-#      executable: "{{ ngi_pipeline_venv }}/bin/pip"
-#  tags: ngi_pipeline
-
 # Set Uppsala specific variables
 - set_fact:
     records_db: "{{ records_db_upps }}"

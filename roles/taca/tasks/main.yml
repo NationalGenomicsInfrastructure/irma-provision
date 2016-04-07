@@ -1,0 +1,27 @@
+- name: Fetch TACA-ngi-pipeline from GitHub
+  git: repo={{ taca_ngi_repo }}
+       dest={{ tca_ngi_dest }}
+       version={{ taca_ngi_version }}
+       force=yes
+  tags: taca
+
+- name: Possibly setup virtual environment and install dependencies 
+  shell: conda create -n NGI pip sqlalchemy 
+  when: not ngi_venv_exists.stdout 
+  tags: taca
+
+- name: Install TACA-ngi-pipeline requirements
+  shell: /lupus/ngi//sw/anaconda/envs/NGI/bin/pip install -r /lupus/ngi/sw/taca-ngi-pipeline/requirements.txt
+  tags: taca
+
+- name: Install TACA-ngi-pipeline
+  shell: cd {{ taca_ngi_dest }} && /lupus/ngi/sw/anaconda/envs/NGI/bin/pip install .
+  tags: taca
+
+- name: Deploy taca_delivery.yml config
+  template: src="taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/taca_delivery.yml"
+  tags: taca
+
+- name: Deploy taca_fastq_delivery.yml config
+  template: src="taca_fastq_delivery.yml" dest="{{ ngi_pipeline_conf }}/taca_fastq_delivery.yml"
+  tags: taca

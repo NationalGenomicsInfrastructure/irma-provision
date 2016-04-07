@@ -21,7 +21,6 @@ ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
 ngi_pipeline_db: "{{ root_path }}/db/"
-ngi_pipeline_logs: "{{ root_path }}/log/"
 
 ngi_pipeline_slurm_project: ngi2016001
 ngi_pipeline_sthlm_delivery: ngi2016003
@@ -44,3 +43,8 @@ gatk_bundle_hg19: "{{ root_path }}/piper_references/gatk_bundle/2.8/hg19"
 gatk_key: pontus.larsson_medsci.uu.se.key
 
 recipient_mail: ngi_pipeline_operators@scilifelab.se
+ngi_pipeline_logs: "{{ root_path }}/log/"
+
+taca_ngi_repo: https://github.com/NationalGenomicsInfrastructure/taca-ngi-pipeline.git
+taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
+taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998

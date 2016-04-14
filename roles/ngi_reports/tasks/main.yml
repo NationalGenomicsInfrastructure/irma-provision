@@ -1,0 +1,43 @@
+---
+
+- name: Fetch ngi_reports from github 
+  git: repo={{ ngi_reports_repo }} 
+       dest={{ ngi_reports_dest }}
+       version={{ ngi_reports_version }}
+       force=yes
+       recursive=yes
+  tags: ngi_reports
+
+- name: Install ngi_reports
+  shell: "python setup.py install"
+  args:
+    chmod: {{ ngi_reports_dest }}
+  tags: ngi_reports
+ 
+- name: Install pandocfilters submodule
+  shell: "python setup.py install"
+  args:
+    chmod: "{{ ngi_reports_dest }}/data/pandoc_templates/pandocfilters/"
+  tags: ngi_reports
+
+- set_fact:
+    sit: "uppsala"
+  tags: ngi_reports
+
+- set_fact:
+    site: "stockholm"
+  tags: ngi_reports
+
+- name: Create ngi_reports conf file
+  template: src="ngi_reports.conf" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf" 
+  tags: ngi_reports
+
+##TODOs: 
+# set source
+# install ngi_visualizations
+# install statusdb
+# download and install pandoc
+# install XeLaTeX
+# export XeLaTeX path
+# download fonts
+

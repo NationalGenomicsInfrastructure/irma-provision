@@ -1,12 +1,16 @@
 ---
 sw_path: "{{ root_path }}/sw/"
 
+
 anaconda_path: "{{ sw_path }}/anaconda"
 ansible_path: "/lupus/ngi/irma3/ansible-env/" 
 default_env: "/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sw/uppmax/bin"
 anaconda_env:
   PATH: "{{ anaconda_path }}/bin:{{ ansible_path }}/bin:{{ default_env }}" # this hopefully gets updated by anaconda role
 
+#Nextflow defauts
+nextflow_dest: "{{ sw_path }}/nextflow"
+      
 # Name of the script that should be sourced from the user to get the 
 # relevant environment variables setup. Perhaps move this to defaults vars.  
 bash_env_script: sourceme_common.sh

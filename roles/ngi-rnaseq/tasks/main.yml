@@ -1,5 +1,16 @@
 ---
-- include: dependencies.yml
+
+- name: Copy R dependencies script
+  copy:
+    src: "files/install_R_dependencies.r"
+    dest: "{{ ngi_rnaseq_dest }}/r_packages"
+
+- name: Run R script to install dependencies
+  command: "Rscript install_R_dependencies.r"
+  environment:
+    R_LIBS_USER: "{{ ngi_rnaseq_dest }}/r_packages"
+  args:
+    chdir: "{{ nextflow_dest }}/r_packages"
 
 - name: Fetch NGI-RNAseq from GitHub
   git: repo="{{ ngi_rnaseq_repo }}"

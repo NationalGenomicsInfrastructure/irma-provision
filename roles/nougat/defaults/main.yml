@@ -3,6 +3,10 @@
 # qatools_dest: "{{ sw_path }}/qaTools" 
 # qatools_version: "0af6b1df4a51518483fa8579be8b54219802a0e7"
 
+nougat_singularity_dest: "{{ ngi_resources }}/nougat_singularity"
+nougat_frc_image: "shub://remiolsen/FRCbam-singularity"
+nougat_qa_image: "shub://remiolsen/qaTools-singularity"
+
 kmer_source: "http://kmergenie.bx.psu.edu"
 kmer_dest: "{{ sw_path }}/KmerGenie/"
 kmer_version: "kmergenie-1.7039"

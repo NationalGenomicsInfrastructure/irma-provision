@@ -1,0 +1,33 @@
+---
+
+- name: Fetch NGI-MethySeq from GitHub
+  git: repo="{{ ngi_methylseq_repo }}"
+       dest="{{ ngi_methylseq_dest }}"
+       version="{{ ngi_methylseq_version }}"
+       force=yes
+
+- name: Create NGI-RNAseq config
+  template:
+    src: "ngi-methylseq_site.config"
+    dest: "{{ ngi_pipeline_conf }}/ngi-methylseq_{{ item.site }}.config"
+  with_items:
+  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
+  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
+
+
+- name: Set Methylseq Bismark alias
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
+              line="alias bis-meth='nextflow {{ ngi_methylseq_dest }}/bismark.nf -c {{ ngi_pipeline_conf }}/ngi-methylseq_{{ item.site }}.config'"
+              backup=no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
+
+- name: Set Methylseq BVA alias
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
+              line="alias bva-meth='nextflow {{ ngi_methylseq_dest }}/bva-meth.nf -c {{ ngi_pipeline_conf }}/ngi-methylseq_{{ item.site }}.config'"
+              backup=no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
+

@@ -28,6 +28,7 @@
   roles: 
     - { role: ngi_pipeline, tags: ngi_pipeline }
     - { role: func_accounts, tags: func_accounts }
+    - { role: nextflow, tags: nextflow }
     - { role: tarzan, tags: tarzan }
     - { role: taca, tags: taca }
     - { role: ngi_reports, tags: ngi_reports }
@@ -36,6 +37,7 @@
     - { role: arteria-siswrap-ws, tags: arteria-siswrap }
     - { role: arteria-delivery-ws, tags: arteria-delivery }
     - { role: ngi-rnaseq, tags: ngi-rnaseq }
+    - { role: ngi-methylseq, tags: ngi-methylseq }
     - { role: nougat, tags: nougat }
     - { role: standalone_scripts, tags: standalone_scripts }
     - { role: ugc, tags: ugc }

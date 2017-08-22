@@ -51,6 +51,17 @@
               line='export PATH={{ kmer_dest }}:$PATH'
               backup=no
 
+- name: create nougat singularity
+  file: name={{ nougat_singularity_dest }} state=directory mode=g+s
+
+- name: Download Sigularity image
+  command: singularity pull "{{ item }}"
+  args:
+    chdir: "{{ nougat_singularity_dest }}"
+  with_items:
+    - "{{ nougat_frc_image }}"
+    - "{{ nougat_qa_image }}"
+
 #- name: Install Kmergenie
 #  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
 #  args:

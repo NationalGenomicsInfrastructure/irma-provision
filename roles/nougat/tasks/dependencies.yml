@@ -52,19 +52,20 @@
               line='export PATH={{ kmer_dest }}:$PATH'
               backup=no
 
-- name: Create nougat singularity folder
-  file: name={{ nougat_singularity_dest }} state=directory mode=g+s
+- name: Create NouGAT Singularity folder
+  file: name="{{ ngi_resources }}/singularity/nougat" state=directory mode=g+s
 
 - name: Download nougat singularity images
   command: singularity pull "{{ item }}"
   args:
-    chdir: "{{ nougat_singularity_dest }}"
+    chdir: "{{ ngi_resources }}/singularity/nougat"
   with_items:
-    - "{{ nougat_frc_image }}"
-    - "{{ nougat_qa_image }}"
+    - "{{ nougat_frc_source }}"
+    - "{{ nougat_qa_source }}"
 
+#Mode change to give scripts execute rights
 - name: Create image-run scripts
-  template: src="Singularity_runtime_script.j2" dest="{{ nougat_singularity_dest }}/{{ item.name }}"
+  template: src="Singularity_runtime_script.j2" dest="{{ ngi_resources }}/singularity/nougat/{{ item.name }}" mode=0775
   with_items:
   - { name: "FRC" , image: "{{ nougat_frc_image }}" }
   - { name: "qaCompute", image: "{{ nougat_qa_image }}" }

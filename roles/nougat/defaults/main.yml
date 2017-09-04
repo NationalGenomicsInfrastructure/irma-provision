@@ -3,9 +3,10 @@
 # qatools_dest: "{{ sw_path }}/qaTools" 
 # qatools_version: "0af6b1df4a51518483fa8579be8b54219802a0e7"
 
-nougat_singularity_dest: "{{ ngi_resources }}/nougat_singularity"
-nougat_frc_image: "shub://remiolsen/FRCbam-singularity"
-nougat_qa_image: "shub://remiolsen/qaTools-singularity"
+nougat_frc_source: "shub://remiolsen/FRCbam-singularity"
+nougat_qa_source: "shub://remiolsen/qaTools-singularity"
+nougat_frc_image: "remiolsen-FRCbam-singularity-master.img"
+nougat_qa_image: "remiolsen-qaTools-singularity-master.img"
 
 kmer_source: "http://kmergenie.bx.psu.edu"
 kmer_dest: "{{ sw_path }}/KmerGenie/"
@@ -15,6 +16,6 @@ frc_align_repo: "https://github.com/vezzi/FRC_align.git"
 frc_align_dest: "{{ sw_path }}/FRCAlign"
 frc_align_version: "5b3f53e01cb539c857fd4230ec9410d76220fe22"
 
-nougat_repo: "https://github.com/remiolsen/NouGAT.git"
+nougat_repo: "https://github.com/SciLifeLab/NouGAT.git"
 nougat_dest: "{{ sw_path }}/NouGAT"
-nougat_version: "2af8e21b63da75179c1fdaa9aa7b8d72cb69c9e0"
+nougat_version: "7e7c7ccc727e0fd5577da32b3f4553a17d819d26"

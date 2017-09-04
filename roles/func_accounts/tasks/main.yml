@@ -1,40 +1,43 @@
 ---
 
-- name: install supervisord into NGI venv
+- name: Install supervisord into NGI venv
   shell: conda install supervisor
 
-- name: deploy crontab file for uppsala
+- name: Deploy crontab file for Uppsala
   template: src="crontab_upps.j2" dest="{{ ngi_pipeline_conf }}/crontab_upps"
 
-- name: deploy crontab file for stockholm
+- name: Deploy crontab file for Stockholm
   template: src="crontab_sthlm.j2" dest="{{ ngi_pipeline_conf }}/crontab_sthlm"
 
-- name: create ngi_resources folder 
+- name: Create ngi_resources folder 
   file: name={{ ngi_resources }} state=directory mode=g+s
+
+- name: Create singularity folder
+  file: name={{ ngi_resources }}/singularity state=directory mode=g+s
 
 - set_fact: 
     supervisord_log_dest: "{{ supervisord_log_dest_upps }}"
     ngi_pipeline_web_port: "{{ ngi_pipeline_web_port_upps }}"
 
-- name: deploy supervisord.conf for uppsala
+- name: Deploy supervisord.conf for Uppsala
   template: src="supervisord_site.conf.j2" dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
 
 - set_fact: 
     supervisord_log_dest: "{{ supervisord_log_dest_sthlm }}"
     ngi_pipeline_web_port: "{{ ngi_pipeline_web_port_sthlm }}"
 
-- name: deploy supervisord.conf for stockholm
+- name: Deploy supervisord.conf for Stockholm
   template: src="supervisord_site.conf.j2" dest="{{ ngi_pipeline_conf }}/supervisord_sthlm.conf"
 
 - set_fact: 
     site: "upps"
 
-- name: deploy start supervisord start script for uppsala
+- name: Deploy start supervisord start script for Uppsala
   template: src="start_supervisord_site.sh.j2" dest="{{ ngi_resources }}/start_supervisord_{{ site }}.sh"
 
 - set_fact: 
     site: "sthlm"
 
-- name: deploy start supervisord start script for stockholm
+- name: Deploy start supervisord start script for Stockholm
   template: src="start_supervisord_site.sh.j2" dest="{{ ngi_resources }}/start_supervisord_{{ site }}.sh"
 

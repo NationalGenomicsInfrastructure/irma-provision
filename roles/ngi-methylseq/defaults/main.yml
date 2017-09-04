@@ -1,3 +1,3 @@
 ngi_methylseq_dest: "{{ sw_path }}/ngi-methylseq"
 ngi_methylseq_repo: "https://github.com/SciLifeLab/NGI-MethylSeq.git"
-ngi_methylseq_version: "0.2"
+ngi_methylseq_version: "0.3"

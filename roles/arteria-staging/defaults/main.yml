@@ -1,0 +1,1 @@
+arteria_staging_path: "{{ sw_path }}/arteria/arteria_staging/"  

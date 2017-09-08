@@ -1,0 +1,6 @@
+dependencies:
+  - { role: arteria-siswrap-ws, tags: arteria-siswrap }
+  - { role: arteria-checksum-ws, tags: arteria-checksum }
+  - { role: arteria-delivery-ws, tags: arteria-delivery }
+  - { role: ngi_pipeline, tags: ngi_pipeline }
+

@@ -98,13 +98,9 @@ ansible-playbook install.yml -e deployment_environment=staging -e deployment_ver
 python sync.py staging
 ```
 
-if you want to stage test a specific commit hash of `arteria-checksum`, and the default version of `arteria-siswrap`. When launching the staging services it is recommended to do this inside `screen`, although there are some bundled `supervisord` configs as well. So login to irma1, start a screen session with `screen -S arteria-staging`, and then launch the following commands in separate screen windows: 
-
-```
-/lupus/ngi/staging/arteria-staging-FOO/sw/arteria/siswrap_venv/bin/siswrap-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/siswrap/ --port=10431 --debug
-/lupus/ngi/staging/arteria-staging-FOO/sw/arteria/checksum_venv/bin/checksum-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/checksum/ --port=10421 --debug
-/lupus/ngi/staging/arteria-staging-FOO/sw/anaconda/envs/arteria-delivery/bin/python /lupus/ngi/staging/arteria-staging-FOO/sw/anaconda/envs/arteria-delivery/bin/delivery-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/delivery/ --port=10441 --debug
-```
+if you want to stage test a specific commit hash of `arteria-checksum`, and the default version of `arteria-siswrap`. 
+	
+Launch the Arteria staging services by running the command `start-arteria-staging` as the `funk_004` user. That will spawn a detached screen session named `arteria-staging` with one window for each Arteria web service. If a service has crashed then one can (after debugging the stacktrace) respawn the process by hitting the `r` key  for the relevant window. If one want to manually force a restart of the process one can first abort the process with a normal `^C`, followed by the `r` key as mentioned previously. To kill all Arteria services the whole screen session can be closed down with the command `stop-arteria-staging`.  
 
 #### Nota bene
 

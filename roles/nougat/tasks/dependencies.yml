@@ -4,23 +4,24 @@
        dest="{{ item.dest }}"
        version="{{ item.version }}"
   with_items:
-# commented this out as the defaults were commented out for this tool
-#  -  { repo: "{{ qatools_repo }}", dest: "{{ qatools_dest }}", version: "{{ qatools_version }}" }
   -  { repo: "{{ frc_align_repo }}", dest: "{{ frc_align_dest }}", version: "{{ frc_align_version }}" }
 
-- name: Create FRC_Align build directory
-  file: path="{{ frc_align_dest }}/build" state=directory mode=g+rwxs
-
-- name: Make FRC_Align
-  shell: "module load boost && cmake .."
-  args: 
-    chdir: "{{ frc_align_dest }}/build"
-    creates: "{{ frc_align_dest }}/LICENSE"  
-
-- name: Fetch KmerGenie
-  get_url:
-    url: "{{ kmer_source }}/{{ kmer_version }}.tar.gz"
-    dest: "/scratch/{{ kmer_version }}.tar.gz"
+# Replaced by nougat singularity images
+# Keeping for fallback purposes
+#
+#- name: Create FRC_Align build directory
+#  file: path="{{ frc_align_dest }}/build" state=directory mode=g+rwxs
+#
+#- name: Make FRC_Align
+#  shell: "module load boost && cmake .."
+#  args: 
+#    chdir: "{{ frc_align_dest }}/build"
+#    creates: "{{ frc_align_dest }}/LICENSE"  
+#
+#- name: Fetch KmerGenie
+#  get_url:
+#    url: "{{ kmer_source }}/{{ kmer_version }}.tar.gz"
+#    dest: "/scratch/{{ kmer_version }}.tar.gz"
 
 #Added permission to make it easily removed.
 - name: Unpack KmerGenie
@@ -70,14 +71,6 @@
   - { name: "FRC" , image: "{{ nougat_frc_image }}" }
   - { name: "qaCompute", image: "{{ nougat_qa_image }}" }
 
-#- name: Install Kmergenie
-#  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
-#  args:
-#    chdir: "{{ kmer_dest }}/{{ kmer_version }}"
+- name: Copy Nougat paths configuration
+  template: src="NouGAT_paths.yaml.j2" dest="{{ ngi_pipeline_conf }}/NouGAT_paths.yaml"
 
-#TODO: Omitted for now due to complications. Removed completely in a later version (if decided ofc ;) ) 
-#- name: Make qaTools
-#  shell: "make -f {{ qatools_dest }}/Makefile SAMTOOLS=/sw/apps/bioinfo/samtools/0.1.19/src/"
-#  args:
-#    chdir: "{{ qatools_dest }}"
-#    creates: "{{ qatools_dest }}/LICENSE"

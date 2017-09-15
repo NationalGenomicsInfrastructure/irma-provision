@@ -1,5 +1,5 @@
 qc_analysis:
-  global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml
+  global_config: {{ ngi_pipeline_conf }}/NouGAT_paths.yaml
   time: 1-00:00:00
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
@@ -7,10 +7,10 @@ qc_analysis:
   env: {{ NGI_venv_name }}
   qos: normal
 qc_report:
-  global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml
+  global_config: {{ ngi_pipeline_conf }}/NouGAT_paths.yaml
   qos: normal
 assembly:
-  global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml  
+  global_config: {{ ngi_pipeline_conf }}/NouGAT_paths.yaml 
   time: 1-00:00:00
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
@@ -18,7 +18,7 @@ assembly:
   env: {{ NGI_venv_name }}
   qos: normal
 validation:
-  global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml
+  global_config: {{ ngi_pipeline_conf }}/NouGAT_paths.yaml
   time: 1-00:00:00
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
@@ -26,4 +26,4 @@ validation:
   env: {{ NGI_venv_name }}
   qos: normal
 delivery:
-   global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml
+   global_config: {{ ngi_pipeline_conf }}/NouGAT_paths.yaml

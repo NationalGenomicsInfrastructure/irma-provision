@@ -1,10 +1,14 @@
 ---
 
-- name: Fetch NGI-MethySeq from GitHub
+- name: Fetch NGI-MethylSeq from GitHub
   git: repo="{{ ngi_methylseq_repo }}"
        dest="{{ ngi_methylseq_dest }}"
        version="{{ ngi_methylseq_version }}"
        force=yes
+
+- name: Fetch NGI-MethylSeq Singularity Image
+  cmd: singularity create {{ ngi_resources }}/singularity/ngi-methylseq/ngi-methylseq-{{ ngi_methylseq_version }}.img && \
+       singularity import {{ ngi_resources }}/singularity/ngi-methylseq/ngi-methylseq-{{ ngi_methylseq_version }}.img docker://scilifelab/ngi-methylseq:{{ ngi_methylseq_version }}
 
 - name: Create NGI-RNAseq config
   template:

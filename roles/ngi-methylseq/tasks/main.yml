@@ -10,7 +10,7 @@
   file: name="{{ ngi_resources }}/singularity/ngi-methylseq" state=directory mode=g+s
 
 - name: Pull NGI-MethylSeq Singularity image
-  command: "singularity pull {{ ngi_methylseq_docker }}:{{ ngi_methylseq_version }}"
+  command: "singularity pull {{ ngi_methylseq_docker }}:{{ ngi_methylseq_version }} --name ngi-methylseq-{{ ngi_methylseq_version }}.img"
   environment:
     SINGULARITY_CACHEDIR: "/scratch"
   args:

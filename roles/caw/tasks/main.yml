@@ -1,0 +1,33 @@
+---
+
+- name: Fetch CAW from GitHub
+  git: repo="{{ caw_repo }}"
+       dest="{{ caw_dest }}"
+       version="{{ caw_version }}"
+       force=yes
+
+- name: Create CAW Singularity folder
+  file: name="{{ caw_singularity }}" state=directory mode=g+s
+
+- name: Pull CAW Singularity images
+  command: "nextflow run {{ caw_dest }}/buildContainers.nf --singularity --containerPath {{ caw_sigularity }} --repository {{ caw_singularity_repo }} --tag {{ caw_version }} --containers all"
+  environment:
+    NXF_TEMP: "/scratch/nxf_temp"
+    NXF_WORK: "/scratch/nxf_work"
+    NXF_SINGULARITY_CACHEDIR: "/scratch/nxf_sing_cache"
+
+- name: Create CAW site config
+  template:
+    src: "caw_site.config"
+    dest: "{{ ngi_pipeline_conf }}/caw_{{ item.site }}.config"
+  with_items:
+  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}", container_path: "{{ caw_singularity }}" }
+  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}", container_path: "{{ caw_singularity }}" }
+
+- name: Set CAW alias
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
+              line="alias caw='nextflow run {{ caw_dest }}/main.nf -c {{ ngi_pipeline_conf }}/caw_{{ item.site }}.config -profile slurm'"
+              backup=no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }

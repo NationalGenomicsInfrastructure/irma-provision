@@ -7,14 +7,33 @@
        force=yes
 
 - name: Create CAW Singularity folder
-  file: name="{{ caw_singularity }}" state=directory mode=g+s
+  file: name="{{ caw_singularity }}"
+        state=directory mode=g+s
+
+- name: Create temp directory for CAW singularity images
+  command: "mkdir {{ item }}"
+  args:
+    creates: "{{ item }}"
+  with_items:
+  - "{{ caw_singularity }}/singularity_cache"
+  - "{{ caw_singularity }}/singularity_temp"
 
 - name: Pull CAW Singularity images
-  command: "nextflow run {{ caw_dest }}/buildContainers.nf --singularity --containerPath {{ caw_sigularity }} --repository {{ caw_singularity_repo }} --tag {{ caw_version }} --containers all"
+  command: "singularity build {{ item }}-{{ caw_version }}.img {{ caw_singularity_repo }}/{{ item }}:{{ caw_version }}"
   environment:
-    NXF_TEMP: "/scratch/nxf_temp"
-    NXF_WORK: "/scratch/nxf_work"
-    NXF_SINGULARITY_CACHEDIR: "/scratch/nxf_sing_cache"
+    SINGULARITY_CACHEDIR: "{{ caw_singularity }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ caw_singularity }}/singularity_temp"
+  args:
+    chdir: "{{ caw_singularity }}"
+  with_items: "{{ caw_singularity_images }}"
+
+- name: Remove CAW singularity temp directories
+  command: "rm -rf {{ item }}" 
+  args:
+    removes: "{{ item }}"
+  with_items:
+  - "{{ caw_singularity }}/singularity_cache"
+  - "{{ caw_singularity }}/singularity_temp"
 
 - name: Create CAW site config
   template:

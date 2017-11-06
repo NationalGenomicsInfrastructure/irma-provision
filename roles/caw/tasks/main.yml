@@ -26,6 +26,7 @@
   args:
     chdir: "{{ caw_singularity }}"
   with_items: "{{ caw_singularity_images }}"
+  ignore_errors: true
 
 - name: Remove CAW singularity temp directories
   command: "rm -rf {{ item }}" 

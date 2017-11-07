@@ -6,15 +6,10 @@
        version="{{ caw_version }}"
        force=yes
 
-- name: Create CAW Singularity folder
-  file: name="{{ caw_singularity }}"
-        state=directory mode=g+s
-
-- name: Create temp directory for CAW singularity images
-  command: "mkdir {{ item }}"
-  args:
-    creates: "{{ item }}"
+- name: Create CAW Singularity folder and temp/cache for images
+  file: name="{{ item }}" state=directory mode=g+s
   with_items:
+  - "{{ caw_singularity }}"
   - "{{ caw_singularity }}/singularity_cache"
   - "{{ caw_singularity }}/singularity_temp"
 
@@ -25,13 +20,12 @@
     SINGULARITY_TMPDIR: "{{ caw_singularity }}/singularity_temp"
   args:
     chdir: "{{ caw_singularity }}"
+    creates: "{{ item }}-{{ caw_version }}.img"
   with_items: "{{ caw_singularity_images }}"
   ignore_errors: true
 
 - name: Remove CAW singularity temp directories
-  command: "rm -rf {{ item }}" 
-  args:
-    removes: "{{ item }}"
+  file: name="{{ item }}" state=absent
   with_items:
   - "{{ caw_singularity }}/singularity_cache"
   - "{{ caw_singularity }}/singularity_temp"

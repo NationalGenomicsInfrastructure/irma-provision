@@ -23,7 +23,7 @@
     dest: "{{ ngi_rnaseq_dest }}/r_packages"
 
 - name: Run R script to install dependencies
-  command: "Rscript install_R_dependencies.r"
+  shell: "module load R/3.2.3 && Rscript install_R_dependencies.r"
   environment:
     R_LIBS_USER: "{{ ngi_rnaseq_dest }}/r_packages"
   args:

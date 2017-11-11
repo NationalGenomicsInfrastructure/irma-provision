@@ -11,7 +11,7 @@
   file: path="{{ nextflow_dest }}/workfiles" state=directory mode=g+rwXs
 
 - name: Download NextFlow 
-  get_url: url="http://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
+  get_url: url="https://www.nextflow.io/releases/v0.25.7/nextflow" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
 
 # Resolved any problems. Run-time files are pushed to scratch
 - name: Install NextFlow

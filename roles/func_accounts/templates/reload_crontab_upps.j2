@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# This script is supposed to be run every minute from Uppsala's crontab.
+# It will listen for a certain filesystem flag that is a signal from sync.py
+# that a new Irma environment has been deployed.
+#
+# When that happens this script is supposed to
+#
+# 1. kill all running services from old Irma env
+# 2. reload new crontab
+# 3. launch services from new Irma env
+
+SIGNAL="/tmp/.new_irma_env_deployed"
+USER="funk_004"
+
+if [ ! -f ${SIGNAL} ]; then
+	exit 0
+fi
+
+# Kill our services nicely.
+{% for service in uppsala_crontab_services %}
+  pkill -u ${USER} {{ service }}
+{% endfor %}
+
+sleep 15
+
+# Force kill them if they haven't stopped
+{% for service in uppsala_crontab_services %}
+  pkill -u ${USER} -9 {{ service }}
+{% endfor %}
+
+# We're loading the "latest" crontab for convenience, but
+# the versions/services that are run from the crontab always
+# references a specific version.
+crontab /lupus/ngi/production/latest/conf/crontab_upps
+
+# Launch services again
+bash {{ ngi_resources }}/start_supervisord_upps.sh
+
+sleep 15 # Cassandra needs to have started properly before Kong can launch
+
+kong start -c {{ ngi_pipeline_conf }}/tarzan//webproxy.yml
+
+rm ${SIGNAL}
+

@@ -35,6 +35,9 @@
 - name: Deploy start supervisord start script for Uppsala
   template: src="start_supervisord_site.sh.j2" dest="{{ ngi_resources }}/start_supervisord_{{ site }}.sh"
 
+- name: Deploy script that reloads crontab and its services for Uppsala
+  template: src="reload_crontab_upps.j2" dest="{{ ngi_resources }}/reload_crontab_upps"
+
 - set_fact: 
     site: "sthlm"
 

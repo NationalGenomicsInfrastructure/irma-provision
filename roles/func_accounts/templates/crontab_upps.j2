@@ -10,4 +10,5 @@ SHELL=/bin/bash
 11 * * * *      bash {{ ngi_resources }}/start_supervisord_upps.sh &> /dev/null
 
 # meta crontab: load itself all the time so we do not have to manually load the rules when updated 
-10 * * * * /usr/bin/crontab {{ ngi_pipeline_conf }}/crontab_upps
+#10 * * * * /usr/bin/crontab {{ ngi_pipeline_conf }}/crontab_upps
+*/5 * * * * source $HOME/.bashrc &> /dev/null && bash {{ ngi_resources }}/reload_crontab_upps &> /dev/null

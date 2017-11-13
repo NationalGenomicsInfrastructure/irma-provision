@@ -1,10 +1,13 @@
 ---
 
-ngi_resources: /lupus/ngi/resources/
-
 supervisord_log_dest_upps: "{{ ngi_pipeline_upps_path }}/log/supervisord/"
 supervisord_log_dest_sthlm: "{{ ngi_pipeline_sthlm_path }}/log/supervisord/"
 
 ngi_pipeline_web_port_upps: 6666
 ngi_pipeline_web_port_sthlm: 7777
 
+uppsala_crontab_services: 
+  - supervisord
+  - nginx
+  - serf
+  - dnsmasq

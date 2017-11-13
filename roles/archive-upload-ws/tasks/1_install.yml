@@ -1,0 +1,28 @@
+---
+
+- name: get archive-upload from git
+  git:
+    repo: "{{ archive_upload_repo }}"
+    dest: "{{ archive_upload_src_path }}"
+    version: "{{ archive_upload_version }}"
+
+- name: install archive-upload requirements
+  pip:
+      requirements: "{{ archive_upload_src_path }}/requirements/prod"
+      chdir: "{{ archive_upload_src_path }}"
+      virtualenv: "{{ archive_upload_env_root }}"
+      virtualenv_command: "{{ archive_upload_virtual_env_command }}"
+      state: present
+      executable: "{{ archive_upload_env_root }}/bin/pip"
+      extra_args: "-U"
+
+- name: install archive-upload
+  pip:
+      name: .
+      chdir: "{{ archive_upload_src_path }}"
+      virtualenv: "{{ archive_upload_env_root }}"
+      virtualenv_command: "{{ archive_upload_virtual_env_command }} "
+      state: present
+      executable: "{{ archive_upload_env_root }}/bin/pip"
+      extra_args: "-U"
+

@@ -1,0 +1,24 @@
+---
+
+# Set vars depending on if we're in production or staging. 
+
+# Production 
+- set_fact: 
+    archive_upload_monitored_path: "{{ archive_upload_monitored_path_prod }}"
+    archive_upload_path_to_archive_root: "{{ archive_upload_path_to_archive_root_prod }}"
+    archive_upload_log_dir: "{{ archive_upload_log_dir }}/production/"
+    archive_upload_port: "{{ archive_upload_port_prod }}"
+  when: deployment_environment == "production"
+
+# Staging
+- set_fact:
+    archive_upload_monitored_path: "{{ archive_upload_monitored_path_stage }}"
+    archive_upload_path_to_archive_root: "{{ archive_upload_path_to_archive_root_stage }}"
+    archive_upload_log_dir: "{{ archive_upload_log_dir }}/staging/"
+    archive_upload_port: "{{ archive_upload_port_stage }}"
+  when: deployment_environment in [ "staging", "devel" ]
+
+- include: 1_install.yml
+
+- include: 2_install_config.yml
+

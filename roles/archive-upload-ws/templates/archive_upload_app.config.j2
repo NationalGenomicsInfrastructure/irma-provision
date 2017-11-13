@@ -1,0 +1,36 @@
+---
+
+# Where to find the runfolders 
+monitored_directory: "{{ archive_upload_monitored_path }}"
+
+# Where to find the archive to upload. 
+# On biotanks this will be the same as monitored_directory, 
+# but on Irma we want to use an other path. 
+path_to_archive_root: "{{ archive_upload_path_to_archive_root }}"
+
+# Used when running with localq runner to determine the maximum number of
+# used for running dsmc
+number_of_cores: "{{ archive_upload_cores_to_use }}"
+
+# Port to listen to 
+port: "{{ archive_upload_port }}"
+
+# Path to the dsmc logs
+log_directory: "{{ archive_upload_log_dir }}" 
+
+
+# Whitelisted DSMC warnings
+# ANS1809W = a session with the TSM server has been disconnected: will retry again
+# ANS2042W = a symblic link to a file on other fs has been uploaded: acls/extended attributes might not be backed up
+# ANS2250W = a TSM core file or crash report was found
+#
+# See full list at e.g. https://www.ibm.com/support/knowledgecenter/en/SSGSG7_7.1.1/com.ibm.itsm.msgs.client.doc/msgs_client_list_intro.html
+whitelisted_warnings: "{{ archive_upload_whitelisted_warnings }}"
+
+# Exclude filters (different on biotank and Irma) 
+#
+# Dirs and file extensions to exclude from the _archive copy of the runfolder/project
+exclude_dirs: [""]
+exclude_extensions: [".bam"]
+# # Elements to exclude from the tarball of the _archive dir, only on biotank. 
+exclude_from_tarball: [""]

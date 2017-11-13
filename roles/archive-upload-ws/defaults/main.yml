@@ -3,14 +3,13 @@
 # If deploying to staging one should call with 
 # -e deployment_environment=staging
 # One can also override the default installed version 
-# by overriding the arteria_checksum_version on the command line. 
+# by overriding the archive_upload_version on the command line. 
 #
 # This will set corresponding paths and use the appropriate port.  
 
 archive_upload_repo: https://github.com/johanherman/snpseq-archive-upload.git
 archive_upload_version: new-service
 
-# {{ ngi_pipeline_upps_delivery }}
 # in production this should be  /proj/ngi2016001/nobackup/NGI/ANALYSIS/<PROJECT ID>
 archive_upload_monitored_path_prod: "/proj/ngi2016001/nobackup/arteria/tmp"
 archive_upload_monitored_path_stage: "/proj/ngi2016001/nobackup/arteria/tmp"

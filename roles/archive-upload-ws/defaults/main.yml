@@ -1,0 +1,35 @@
+---
+
+# If deploying to staging one should call with 
+# -e deployment_environment=staging
+# One can also override the default installed version 
+# by overriding the archive_upload_version on the command line. 
+#
+# This will set corresponding paths and use the appropriate port.  
+
+archive_upload_repo: https://github.com/johanherman/snpseq-archive-upload.git
+archive_upload_version: new-service
+
+# in production this should be  /proj/ngi2016001/nobackup/NGI/ANALYSIS/<PROJECT ID>
+archive_upload_monitored_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/arteria/tmp"
+archive_upload_monitored_path_stage: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/arteria/tmp"
+# in production this should be /proj/ngi2016001/nobackup/arteria/pdc_archive_links
+archive_upload_path_to_archive_root_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/arteria/pdc_archive_links/staging/"
+archive_upload_path_to_archive_root_stage: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/arteria/pdc_archive_links/staging/"
+
+archive_upload_env_root: "{{ sw_path }}/arteria/archive_upload_venv"
+archive_upload_src_path: "{{ sw_path }}/arteria/archive_upload_src"
+
+archive_upload_config_root: "{{ ngi_pipeline_conf }}/arteria/archive_upload/"
+archive_upload_app_config: "{{ archive_upload_config_root }}/app.config"
+archive_upload_logger_config: "{{ archive_upload_config_root }}/logger.config"
+
+archive_upload_log_dir: "/proj/{{ ngi_pipeline_upps_delivery }}/private/log/arteria/archive-upload-ws"
+
+archive_upload_port_prod: 10480
+archive_upload_port_stage: 10481 
+archive_upload_cores_to_use: 2
+
+archive_upload_virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"
+
+archive_upload_whitelisted_warnings: ["ANS1809W", "ANS2042W", "ANS2250W"]

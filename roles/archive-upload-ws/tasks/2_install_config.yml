@@ -1,0 +1,33 @@
+---
+
+- name: ensure archive-upload conf dir exists
+  file:
+    state: directory
+    path: "{{ archive_upload_config_root }}"
+    mode: g+rwXs
+
+- name: deploy archive-upload app config
+  template:
+    src: archive_upload_app.config.j2
+    dest: "{{ archive_upload_config_root }}/app.config"
+
+- name: deploy archive-upload logger config
+  template:
+    src: archive_upload_logger.config.j2
+    dest: "{{ archive_upload_config_root }}/logger.config"
+
+- name: modify uppsala's supervisord conf to start archive-upload-ws 
+  ini_file: 
+    dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
+    section="program:archive-upload-ws-{{ deployment_environment }}"
+    option=command
+    value="{{ archive_upload_env_root }}/bin/archive-upload-ws --configroot={{ archive_upload_config_root }} --port={{ archive_upload_port }}"
+    backup=no
+ 
+- name: modify uppsala's supervisord conf to start archive-upload-ws
+  ini_file: 
+    dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
+    section="program:archive-upload-ws-{{ deployment_environment }}"
+    option=autorestart
+    value=true
+    backup=no

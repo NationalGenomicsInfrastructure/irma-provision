@@ -21,8 +21,16 @@ log_directory: "{{ archive_upload_log_dir }}"
 
 # Whitelisted DSMC warnings
 # ANS1809W = a session with the TSM server has been disconnected: will retry again
-# ANS2042W = a symblic link to a file on other fs has been uploaded: acls/extended attributes might not be backed up
+# ANS2042W = a symbolic link to a file on other fs has been uploaded: acls/extended attributes might not be backed up
 # ANS2250W = a TSM core file or crash report was found
+#
+# We do not want our archive jobs to get a failed state in upstream Arteria workflows due to DSMC's
+# various return codes. In this case we do not care that we dropped the connection to PDC, and then
+# restored it and successfully uploaded everything. We do not also care that the file permissions
+# on a symlink couldn't be set perfectly. And we do not want the upload to have failed just because
+# there is some old crash report laying around (as TSM generates those for various reasons). 
+# We're interested in the times when TSM actually DO crash though, but that shouldn't stop other
+# jobs to succeed. 
 #
 # See full list at e.g. https://www.ibm.com/support/knowledgecenter/en/SSGSG7_7.1.1/com.ibm.itsm.msgs.client.doc/msgs_client_list_intro.html
 whitelisted_warnings: "{{ archive_upload_whitelisted_warnings }}"

@@ -6,14 +6,6 @@
     path: "{{ archive_upload_config_root }}"
     mode: g+rwXs
 
-#- name: ensure arteria-dsmc log dir exists
-#  file: 
-#    state: directory
-#    path: "{{ arteria_dsmc_log_dir }}"
-#    owner: arteria
-#    group: arteria
-#    mode: g+rwXs
-
 - name: deploy archive-upload app config
   template:
     src: archive_upload_app.config.j2

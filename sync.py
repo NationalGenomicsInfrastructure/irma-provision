@@ -28,7 +28,7 @@ def disable_twofactor(user, host, password, token):
 	send_token(child, user, host, token)
 
 # Expect a password prompt and send our collected password
-def send_password(user, host, password):  
+def send_password(child, user, host, password):  
 	exp_pass = "{0}@{1}'s password:".format(user, host)
 	child.expect(exp_pass)
 	print('Sending SSH password')
@@ -37,7 +37,7 @@ def send_password(user, host, password):
 # Expect a token prompt and send our collected token; 
 # then expect a bash prompt. Or expect a bash prompt 
 # immediately if our token grace period is enabled. 
-def send_token(user, host, token): 
+def send_token(child, user, host, token): 
 	exp_token = "Please enter the current code from your second factor:.\r\n"
 	exp_success = ".*\$ " # Matches the end of a bash prompt 
 
@@ -55,7 +55,7 @@ def send_token(user, host, token):
 		child.sendline("exit")
 
 def signal_new_env(user, host, password, token): 
-	signal_new_env = "/usr/bin/ssh {}@{} 'touch /tmp/.new_irma_env_deployed && chgrp ngi-sw /tmp/.n    ew_irma_env_deployed'".format(user, host)
+	signal_new_env = "/usr/bin/ssh {}@{} 'touch /tmp/.new_irma_env_deployed && chgrp ngi-sw /tmp/.new_irma_env_deployed'".format(user, host)
 	child = pexpect.spawn(signal_new_env)
 	send_password(child, user, host, password)
 	send_token(child, user, host, token)
@@ -110,9 +110,10 @@ def check_file_attributes(src_root_path):
 	else: 
 		print "Everything looks OK. Continuing with rsync."
 
+	return (wrong_perm, perm_output)
 
 # Sync our destignated folders.
-def sync_to_cluster(user, host, password, src_root_path, dest, rsync_log_path): 
+def sync_to_cluster(user, host, password, src_root_path, dest, rsync_log_path, wrong_perm, perm_output): 
 	excludes = "--exclude=*.swp --exclude=irma3/"
 	rsync_cmd = "/bin/rsync -avzP --omit-dir-times --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
 	# TODO: Do this cleaner? 
@@ -121,6 +122,7 @@ def sync_to_cluster(user, host, password, src_root_path, dest, rsync_log_path):
 	# First doing a dry-run to confirm sync. 
 	print('Initiating a rsync dry-run')
 	child = pexpect.spawn(dry_cmd)
+	exp_pass = "{0}@{1}'s password:".format(user, host)
 	child.expect(exp_pass) 
 	print('Sending dry-run password')
 	child.sendline(password)
@@ -173,8 +175,8 @@ def get_credentials():
 
 if __name__ == '__main__': 
 	parser = argparse.ArgumentParser()
-	parser.add_argument("environment", choices=["production", "staging"], help="which environment to sync     over")
-	parser.add_argument("-d", "--destination", help="the non-standard destination path on the remote host     to sync to")
+	parser.add_argument("environment", choices=["production", "staging"], help="which environment to sync over")
+	parser.add_argument("-d", "--destination", help="the non-standard destination path on the remote host to sync to")
 	args = parser.parse_args()
  
 	ngi_root = "/lupus/ngi/"
@@ -191,8 +193,8 @@ if __name__ == '__main__':
 
 	password, token = get_credentials()
 	disable_twofactor(user, host, password, token)
-	check_file_attributes(src_root_path)	
-	sync_to_cluster(user, host, src_root_path, dest, rsync_log_path)
+	wrong_perm, perm_output = check_file_attributes(src_root_path)	
+	sync_to_cluster(user, host, password, src_root_path, dest, rsync_log_path, wrong_perm, perm_output)
 
 	# Uppsala need to relaunch their services that are run in their crontab
   # when a new Irma environment has been deployed in production. Therefore we
@@ -203,9 +205,12 @@ if __name__ == '__main__':
 	# again. We could signal the new env before launching the rsync, but that is 
 	# not really robust, as the rsync might abort prematurely, and the services 
 	# will also try to restart before the sync is finished.
-	if args.environment == "production": 
-		print "We will now signal the cluster that the new production environment has been deployed."
-		token = get_token("Enter your second factor again: ")
-		disable_twofactor(user, host, password, token)
-		signal_new_env(user, host, password, token)
-		print "Successfully signaled a new version deployed." 
+	#
+  # Out commented for now. Not sure if we're gonna use this, and I'm also getting timeout
+  # errors.
+	#if args.environment == "production": 
+	#	print "We will now signal the cluster that the new production environment has been deployed."
+	#	token = get_token("Enter your second factor again: ")
+	#	disable_twofactor(user, host, password, token)
+	#	signal_new_env(user, host, password, token)
+	#	print "Successfully signaled a new version deployed." 

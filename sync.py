@@ -48,7 +48,7 @@ def send_token(child, user, host, token):
 		child.sendline(token)
 		print('Waiting for success')
 		child.expect(exp_success)
-		child.sendline("Logged in with password + factor, logging out.") 
+		print("Logged in with password + factor, logging out.") 
 		child.sendline("exit")
 	elif recv == 1:
 		print('Logged in with password, logging out.')

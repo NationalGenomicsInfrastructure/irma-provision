@@ -27,8 +27,12 @@ mkdir -p {{ proj_root }}/$1/private/log/supervisord
 if [ $1 == "ngi2016003" ]; then
 mkdir -p {{ proj_root }}/$1/genotype_data/incoming
 mkdir -p {{ proj_root }}/$1/genotype_data/archive
+ACKNOWLEDGE_SITE="ACKNOWLEDGEMENTS_S.txt"
+else
+ACKNOWLEDGE_SITE="ACKNOWLEDGEMENTS_U.txt"
 fi
+
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/DELIVERY.README.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/DELIVERY.README.txt
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/scripts/applyRecalibration.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/applyRecalibration.sh
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/scripts/bam2fastq.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/bam2fastq.sh
-ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/ACKNOWLEDGEMENTS.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/ACKNOWLEDGEMENTS.txt
+ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/$ACKNOWLEDGE_SITE {{ proj_root }}/$1/nobackup/NGI/softlinks/ACKNOWLEDGEMENTS.txt

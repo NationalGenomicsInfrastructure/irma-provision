@@ -54,20 +54,16 @@
               backup=no
 
 - name: Create NouGAT Singularity folder
-  file: name="{{ ngi_resources }}/singularity/nougat" state=directory mode=g+s
+  file: name="{{ nougat_containers_path }}" state=directory mode=g+s
 
-# - name: Download nougat singularity images
-#   command: singularity pull "{{ item }}"
-#   args:
-#     chdir: "{{ ngi_resources }}/singularity/nougat"
-#   with_items:
-#     - "{{ nougat_frc_source }}"
-#     - "{{ nougat_qa_source }}"
+- name: Create parent directory for each image
+  file: name="{{ nougat_containers_path }}/{{ item.name }}" state=directory mode=g+s
+  with_items:
+      - "{{ nougat_containers_info }}"
 
 - name: Download nougat singularity images
   command: singularity pull --name "{{ item.name }}.simg" "{{ item.url }}"
   args:
-    creates: "{{ nougat_containers_path }}/{{ item.name }}"
     chdir: "{{ nougat_containers_path }}/{{ item.name }}"
   with_items:
       - "{{ nougat_containers_info }}"

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-singularity run `dirname "$0"`/{{ item.image }} $@
+singularity exec `dirname "$0"`/{{ item.0.name }}.simg {{ item.1 }} "$@"

@@ -56,20 +56,28 @@
 - name: Create NouGAT Singularity folder
   file: name="{{ ngi_resources }}/singularity/nougat" state=directory mode=g+s
 
+# - name: Download nougat singularity images
+#   command: singularity pull "{{ item }}"
+#   args:
+#     chdir: "{{ ngi_resources }}/singularity/nougat"
+#   with_items:
+#     - "{{ nougat_frc_source }}"
+#     - "{{ nougat_qa_source }}"
+
 - name: Download nougat singularity images
-  command: singularity pull "{{ item }}"
+  command: singularity pull --name "{{ item.name }}.simg" "{{ item.url }}"
   args:
-    chdir: "{{ ngi_resources }}/singularity/nougat"
+    creates: "{{ nougat_containers_path }}/{{ item.name }}"
+    chdir: "{{ nougat_containers_path }}/{{ item.name }}"
   with_items:
-    - "{{ nougat_frc_source }}"
-    - "{{ nougat_qa_source }}"
+      - "{{ nougat_containers_info }}"
 
 #Mode change to give scripts execute rights
 - name: Create image-run scripts
-  template: src="Singularity_runtime_script.j2" dest="{{ ngi_resources }}/singularity/nougat/{{ item.name }}" mode=0775
-  with_items:
-  - { name: "FRC" , image: "{{ nougat_frc_image }}" }
-  - { name: "qaCompute", image: "{{ nougat_qa_image }}" }
+  template: src="Singularity_runtime_script.j2" dest="{{ nougat_containers_path }}/{{ item.0.name }}/{{ item.1 }}" mode=0775
+  with_subelements:
+      - "{{ nougat_containers_info }}"
+      - exec
 
 - name: Copy Nougat paths configuration
   template: src="NouGAT_paths.yaml.j2" dest="{{ ngi_pipeline_conf }}/NouGAT_paths.yaml"

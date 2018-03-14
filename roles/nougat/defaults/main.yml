@@ -3,10 +3,30 @@
 # qatools_dest: "{{ sw_path }}/qaTools" 
 # qatools_version: "0af6b1df4a51518483fa8579be8b54219802a0e7"
 
-nougat_frc_source: "shub://remiolsen/FRCbam-singularity"
-nougat_qa_source: "shub://remiolsen/qaTools-singularity"
-nougat_frc_image: "remiolsen-FRCbam-singularity-master.img"
-nougat_qa_image: "remiolsen-qaTools-singularity-master.img"
+nougat_containers_path: "{{ ngi_resources }}/singularity/nougat"
+nougat_containers_info:
+    - name: "FRC"
+      url: "shub://remiolsen/FRCbam-singularity"
+      exec:
+          - "FRC"
+    - name: "qaCompute"
+      url: "shub://remiolsen/qaTools-singularity"
+      exec:
+          - "qaCompute"
+    - name: "abyss"
+      url: "docker://bcgsc/abyss"
+      exec:
+          - "abyss-pe"
+          - "ABYSS-P"
+    - name: "spades"
+      url: "docker://remiolsen/spades"
+      exec:
+          - "spades.py"
+    - name: "allpathslg"
+      url: "docker://remiolsen/allpathslg"
+      exec:
+          - "RunAllPathsLG"
+          - "PrepareAllPathsInputs.pl"
 
 kmer_source: "http://kmergenie.bx.psu.edu"
 kmer_dest: "{{ sw_path }}/KmerGenie/"

@@ -4,6 +4,8 @@
 # qatools_version: "0af6b1df4a51518483fa8579be8b54219802a0e7"
 
 nougat_containers_path: "{{ ngi_resources }}/singularity/nougat"
+# The name should same as the parent directory mentioned for each
+# module in the template file "NouGAT_paths.yaml.j2"
 nougat_containers_info:
     - name: "FRC"
       url: "shub://remiolsen/FRCbam-singularity"

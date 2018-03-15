@@ -57,9 +57,11 @@
   file: name="{{ nougat_containers_path }}/{{ item.name }}" state=directory mode=g+s
   with_items:
       - "{{ nougat_containers_info }}"
+      - { name: "singularity_cache" }
+      - { name: "singularity_temp" }
 
 - name: Download nougat singularity images
-  command: singularity pull --name "{{ item.name }}.simg" "{{ item.url }}"
+  command: singularity build {{ item.name }}.simg {{ item.url }}
   environment:
     SINGULARITY_CACHEDIR: "{{ nougat_containers_path }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ nougat_containers_path }}/singularity_temp"

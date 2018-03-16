@@ -47,7 +47,7 @@
   with_items:
   - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
 
-- name:Deploy WGS standard stockholm configs
+- name: Deploy WGS standard stockholm configs
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_wgs_delivery.yml"
   with_items:
   - { proj_path: "{{ milou_delivery_root }}", name: "taca" }

@@ -27,24 +27,19 @@ deliver:
         -
             - <ANALYSISPATH>/qc_sisyphus/reports
             - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
-{% elif "sthlm" == site %}
-        -
-            - <ANALYSISPATH>/reports/*
-            - <STAGINGPATH>/00-Reports
-{% endif %}
-{% if "/proj/" == item.proj_path %}
-#Adds FASTQ files to Lupus (aka irma) deliveries
-        -
-            - <DATAPATH>/<SAMPLEID>/*/*
-            - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
-            - required: True
-{% endif %}
         -
             - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
             - <STAGINGPATH>
         -   
             - {{ ngi_site_softlinks }}/DELIVERY.README.txt
             - <STAGINGPATH>
+{% if "/proj/" == item.proj_path or "sthlm == site "%}
+#Adds FASTQ files to Lupus (aka irma) deliveries
+        -
+            - <DATAPATH>/<SAMPLEID>/*/*
+            - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
+            - required: True
+{% endif %}
         -
             - <LOGPATH>/version_report.txt
             - <STAGINGPATH>/00-Reports
@@ -82,10 +77,12 @@ deliver:
         - 
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/<SAMPLEID>.gt_concordance
             - <STAGINGPATH>/<SAMPLEID>/01-QC
+{% if "upps" == site %}
         -
             - {{ ngi_site_softlinks }}/bam2fastq.sh
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
+{% endif %}
         -
             - <ANALYSISPATH>/piper_ngi/05_processed_alignments/<SAMPLEID>.clean.dedup.ba[im]
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
@@ -115,3 +112,16 @@ deliver:
         -
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
             - <STAGINGPATH>/05-Genotyping
+{% if "sthlm" == site %}
+    misc_files_to_deliver:
+        -
+            - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
+            - <STAGINGPATH>
+        -   
+            - {{ ngi_site_softlinks }}/DELIVERY.README.txt
+            - <STAGINGPATH>
+        -
+            - <ANALYSISPATH>/reports/*
+            - <STAGINGPATH>/00-Reports
+    save_meta_info: True
+{% endif %}

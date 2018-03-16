@@ -15,12 +15,16 @@ deliver:
     hash_algorithm: md5
     files_to_deliver:
         -
-            - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
-            - <STAGINGPATH>
-        -
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
+    misc_files_to_deliver:
+        -
+            - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
+            - <STAGINGPATH>
         -
             - <ANALYSISPATH>/reports/*
             - <STAGINGPATH>/00-Reports
+{% if site == "sthlm" %}
+    save_meta_info: True
+{% endif %}

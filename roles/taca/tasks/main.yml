@@ -39,23 +39,21 @@
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_sthlm_delivery }}"
     recipient_mail: "{{ recipient_mail_sthlm }}"
 
-- name: Deploy sthlm_taca_local.yml config
-  template: src="site_taca_local.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_local.yml"
+- name: Deploy sthlm_taca_cleanup.yml config
+  template: src="site_taca_cleanup.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_cleanup.yml"
 
 - name: Deploy sthlm_fastq_taca_delivery.yml config
   template: src="site_fastq_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_fastq_delivery.yml"
   with_items:
-  - { proj_path: "{{ proj_root }}", name: "lupus" }
   - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
 
 - name: Deploy standard stockholm configs
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_delivery.yml"
   with_items:
-  - { proj_path: "{{ proj_root }}", name: "lupus" }
   - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
 
-- name: Deploy RNABP stockholm configs
-  template: src="site_rna_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_rna_delivery.yml"
-  with_items:
-  - { proj_path: "{{ proj_root }}", name: "lupus" }
-  - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
+- name: Deploy application specific stockholm configs
+  template: src="site_app_specific_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.0.name }}_{{ item.1 }}_delivery.yml"
+  with_subelements:
+  - { proj_path: "{{ milou_delivery_root }}", name: "taca", application: ["rna", "denovo"] }
+  - application

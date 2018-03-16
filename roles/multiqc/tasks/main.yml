@@ -1,8 +1,4 @@
 ---
-#Install specific version of dependency for Multiqc
-- name: Install NetworkX v1.1
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install networkx==1.1"
-
 - name: Fetch MultiQC from GitHub
   git: repo="{{ multiqc_repo }}"
        dest="{{ multiqc_dest }}"

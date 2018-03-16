@@ -11,7 +11,7 @@
   file: path="{{ nextflow_dest }}/workfiles" state=directory mode=g+rwXs
 
 - name: Download NextFlow 
-  get_url: url="https://www.nextflow.io/releases/v0.25.7/nextflow" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
+  get_url: url="https://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
 
 # Resolved any problems. Run-time files are pushed to scratch
 - name: Install NextFlow
@@ -48,4 +48,6 @@
   - { envvar: "export NXF_LAUNCHBASE=$PWD/work"}
 # Defines where the classpath file ends up
   - { envvar: "export NXF_LAUNCHER=$PWD/work"}
+# Path to java to be used for nextflow
+  - { envvar: "export NXF_JAVA_HOME={{ nextflow_java }}"}
 

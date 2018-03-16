@@ -53,23 +53,35 @@
               line='export PATH={{ kmer_dest }}:$PATH'
               backup=no
 
-- name: Create NouGAT Singularity folder
-  file: name="{{ ngi_resources }}/singularity/nougat" state=directory mode=g+s
+- name: Create NouGAT Singularity folder and sub folders for each container
+  file: name="{{ nougat_containers_path }}/{{ item.name }}" state=directory mode=g+s
+  with_items:
+      - "{{ nougat_containers_info }}"
+      - { name: "singularity_cache" }
+      - { name: "singularity_temp" }
 
 - name: Download nougat singularity images
-  command: singularity pull "{{ item }}"
+  command: singularity build {{ item.name }}.simg {{ item.url }}
+  environment:
+    SINGULARITY_CACHEDIR: "{{ nougat_containers_path }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ nougat_containers_path }}/singularity_temp"
   args:
-    chdir: "{{ ngi_resources }}/singularity/nougat"
+    chdir: "{{ nougat_containers_path }}/{{ item.name }}"
   with_items:
-    - "{{ nougat_frc_source }}"
-    - "{{ nougat_qa_source }}"
+      - "{{ nougat_containers_info }}"
+
+- name: Remove Nougat singularity cache directories
+  file: name="{{ item }}" state=absent
+  with_items:
+  - "{{ nougat_containers_path }}/singularity_cache"
+  - "{{ nougat_containers_path }}/singularity_temp"
 
 #Mode change to give scripts execute rights
 - name: Create image-run scripts
-  template: src="Singularity_runtime_script.j2" dest="{{ ngi_resources }}/singularity/nougat/{{ item.name }}" mode=0775
-  with_items:
-  - { name: "FRC" , image: "{{ nougat_frc_image }}" }
-  - { name: "qaCompute", image: "{{ nougat_qa_image }}" }
+  template: src="Singularity_runtime_script.j2" dest="{{ nougat_containers_path }}/{{ item.0.name }}/{{ item.1 }}" mode=0775
+  with_subelements:
+      - "{{ nougat_containers_info }}"
+      - exec
 
 - name: Copy Nougat paths configuration
   template: src="NouGAT_paths.yaml.j2" dest="{{ ngi_pipeline_conf }}/NouGAT_paths.yaml"

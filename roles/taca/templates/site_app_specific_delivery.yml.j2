@@ -7,7 +7,7 @@ deliver:
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
     stagingpathhard: <ROOTPATH>/DELIVERY_HARD/<PROJECTID> 
-    deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTNAME>-<PROJECTID>"
+    deliverypath: "{{ milou_delivery_root }}/<UPPNEXID>/INBOX/<PROJECTNAME>-<PROJECTID>"
     reportpath: <ANALYSISPATH>/piper_ngi
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
@@ -15,16 +15,26 @@ deliver:
     hash_algorithm: md5
     files_to_deliver:
         -
-            - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
-            - <STAGINGPATH>
-        -
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
+    misc_files_to_deliver:
         - 
-           - <ANALYSISPATH>/rnaseq_ngi/results
-           - <STAGINGPATH>/01-Results
-           - required: True
+{% if "rna" == item %}
+            - <ANALYSISPATH>/rnaseq_ngi/results/
+            - <STAGINGPATH>/01-RNA-Results
+            - required: True
+{% elif "denovo" == item %}
+            - <ANALYSISPATH>/nougat_ngi/02_QC_reports/
+            - <STAGINGPATH>/01-QC-Results
+            - required: True
+{% endif %}
+        -
+            - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
+            - <STAGINGPATH>
         -
             - <ANALYSISPATH>/reports/*
             - <STAGINGPATH>/00-Reports
+{% if "sthlm" == site %}
+    save_meta_info: True
+{% endif %}

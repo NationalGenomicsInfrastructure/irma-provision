@@ -3,10 +3,32 @@
 # qatools_dest: "{{ sw_path }}/qaTools" 
 # qatools_version: "0af6b1df4a51518483fa8579be8b54219802a0e7"
 
-nougat_frc_source: "shub://remiolsen/FRCbam-singularity"
-nougat_qa_source: "shub://remiolsen/qaTools-singularity"
-nougat_frc_image: "remiolsen-FRCbam-singularity-master.img"
-nougat_qa_image: "remiolsen-qaTools-singularity-master.img"
+nougat_containers_path: "{{ ngi_resources }}/singularity/nougat"
+# The name should same as the parent directory mentioned for each
+# module in the template file "NouGAT_paths.yaml.j2"
+nougat_containers_info:
+    - name: "FRC"
+      url: "shub://remiolsen/FRCbam-singularity"
+      exec:
+          - "FRC"
+    - name: "qaCompute"
+      url: "shub://remiolsen/qaTools-singularity"
+      exec:
+          - "qaCompute"
+    - name: "abyss"
+      url: "docker://bcgsc/abyss"
+      exec:
+          - "abyss-pe"
+          - "ABYSS-P"
+    - name: "spades"
+      url: "docker://remiolsen/spades"
+      exec:
+          - "spades.py"
+    - name: "allpathslg"
+      url: "docker://remiolsen/allpathslg"
+      exec:
+          - "RunAllPathsLG"
+          - "PrepareAllPathsInputs.pl"
 
 kmer_source: "http://kmergenie.bx.psu.edu"
 kmer_dest: "{{ sw_path }}/KmerGenie/"
@@ -18,4 +40,4 @@ frc_align_version: "5b3f53e01cb539c857fd4230ec9410d76220fe22"
 
 nougat_repo: "https://github.com/SciLifeLab/NouGAT.git"
 nougat_dest: "{{ sw_path }}/NouGAT"
-nougat_version: "7e7c7ccc727e0fd5577da32b3f4553a17d819d26"
+nougat_version: "1c661ad2ada38ab0afe569dfdda263373748b16b"

@@ -40,7 +40,6 @@
     - { role: ngi-rnaseq, tags: ngi-rnaseq }
     - { role: ngi-methylseq, tags: ngi-methylseq }
     - { role: ngi-neutronstar, tags: ngi-neutronstar }
-    - { role: caw, tags: caw }
     - { role: nougat, tags: nougat }
     - { role: standalone_scripts, tags: standalone_scripts }
     - { role: ugc, tags: ugc }

@@ -5,7 +5,7 @@ tarzan_conf: "{{ ngi_pipeline_conf }}/tarzan/"
 
 ## Paths for all sw to download and later build 
 
-kong_version: 0.7.0
+kong_version: 0.12.3
 # Not needed anymore. 
 #kong_url: https://github.com/Mashape/kong/archive/0.7.0.tar.gz
 #kong_file: 0.7.0.tar.gz
@@ -17,9 +17,9 @@ luajit_file: LuaJIT-2.1.0-beta2.tar.gz
 luajit_version: 2.1.0-beta2
 luajit_dest: "{{ tarzan_dest }}/luajit/"
 
-luarocks_url: http://keplerproject.github.io/luarocks/releases/luarocks-2.3.0.tar.gz
-luarocks_file: luarocks-2.3.0.tar.gz
-luarocks_version: 2.3.0
+luarocks_url: http://luarocks.org/releases/luarocks-2.4.3.tar.gz 
+luarocks_file: luarocks-2.4.3.tar.gz
+luarocks_version: 2.4.3
 luarocks_dest: "{{ tarzan_dest }}/luarocks/"
 
 # kong depends on cassandra as backend 
@@ -29,9 +29,9 @@ cassandra_version: 2.2.5
 cassandra_dest: "{{ tarzan_dest }}/cassandra/"
 
 # kong depends on the openresty nginx clone
-openresty_url: https://openresty.org/download/openresty-1.9.7.3.tar.gz
-openresty_file: openresty-1.9.7.3.tar.gz
-openresty_version: 1.9.7.3
+openresty_url: https://openresty.org/download/openresty-1.11.2.5.tar.gz
+openresty_file: openresty-1.11.2.5.tar.gz
+openresty_version: 1.11.2.5
 openresty_dest: "{{ tarzan_dest }}/openresty/"
 
 # openresty depends on a newer version of openssl

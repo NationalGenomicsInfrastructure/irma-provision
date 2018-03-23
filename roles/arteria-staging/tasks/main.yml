@@ -3,6 +3,7 @@
 - name: create arteria-staging folders
   file: path="{{ item }}"
         state=directory
+        mode=g+rwXs
   with_items: 
     - "{{ arteria_staging_path }}"
     - "{{ arteria_staging_path }}/bin"

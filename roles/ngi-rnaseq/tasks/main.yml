@@ -51,7 +51,7 @@
 
 - name: Set alias for NGI-RNAseq
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias rnaseq='nextflow run {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config' -profile uppmax"
+              line="alias rnaseq='nextflow run {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config -profile uppmax'"
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }

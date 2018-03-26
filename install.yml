@@ -37,6 +37,7 @@
     - { role: arteria-checksum-ws, tags: arteria-checksum }
     - { role: arteria-siswrap-ws, tags: arteria-siswrap }
     - { role: arteria-delivery-ws, tags: arteria-delivery }
+    - { role: sarek, tags: sarek }
     - { role: ngi-rnaseq, tags: ngi-rnaseq }
     - { role: ngi-methylseq, tags: ngi-methylseq }
     - { role: ngi-neutronstar, tags: ngi-neutronstar }

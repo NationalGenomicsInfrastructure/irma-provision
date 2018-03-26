@@ -1,3 +1,6 @@
 ---
 ngi_rnaseq_repo: "https://github.com/SciLifeLab/NGI-RNAseq.git"
-ngi_rnaseq_version: "1.3.1"
+ngi_rnaseq_version: "1.4"
+ngi_rnaseq_singularity_url: "docker://scilifelab/ngi-rnaseq:{{ ngi_rnaseq_version }}"
+ngi_rnaseq_singularity_path: "{{ ngi_resources }}/singularity/ngi_rnaseq"
+ngi_rnaseq_image: "ngi-rnaseq-{{ ngi_rnaseq_version }}.img"

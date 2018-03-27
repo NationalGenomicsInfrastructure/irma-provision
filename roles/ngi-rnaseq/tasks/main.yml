@@ -35,9 +35,13 @@
   - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
 
 - name: Set alias for NGI-RNAseq
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias rnaseq='nextflow run {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config -profile uppmax'"
-              backup=no
+  lineinfile:
+    dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"
+    line: >
+          alias rnaseq='nextflow run {{ ngi_rnaseq_dest }}/main.nf -profile uppmax
+          -with-singularity {{ ngi_rnaseq_singularity_path }}/{{ ngi_rnaseq_image }}
+          -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config'
+    backup: no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
   - { site: "upps", script: "{{ bash_env_upps_script }}" }

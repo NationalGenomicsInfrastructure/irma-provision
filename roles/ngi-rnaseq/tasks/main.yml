@@ -6,6 +6,26 @@
        version="{{ ngi_rnaseq_version }}"
        force=yes
 
+- name: Create NGI-RNAseq temp/cache folder for images
+  file: name="{{ item }}" state=directory mode=g+s
+  with_items:
+  - "{{ ngi_rnaseq_singularity_path }}/singularity_cache"
+  - "{{ ngi_rnaseq_singularity_path }}/singularity_temp"
+
+- name: Pull NGI-RNAseq Singularity images
+  command: "singularity build {{ ngi_rnaseq_image }} {{ ngi_rnaseq_singularity_url }}"
+  environment:
+    SINGULARITY_CACHEDIR: "{{ ngi_rnaseq_singularity_path }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ ngi_rnaseq_singularity_path }}/singularity_temp"
+  args:
+    chdir: "{{ ngi_rnaseq_singularity_path }}"
+
+- name: Remove NGI-RNAseq singularity temp directories
+  file: name="{{ item }}" state=absent
+  with_items:
+  - "{{ ngi_rnaseq_singularity_path }}/singularity_cache"
+  - "{{ ngi_rnaseq_singularity_path }}/singularity_temp"
+
 - name: Create NGI-RNAseq config
   template:
     src: "ngi-rnaseq_site.config"
@@ -14,25 +34,9 @@
   - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
   - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
 
-- name: Create R dependencies subdirectory
-  file: path="{{ ngi_rnaseq_dest }}/r_packages" state=directory mode=g+rwXs
-
-- name: Copy R dependencies script
-  copy:
-    src: "files/install_R_dependencies.r"
-    dest: "{{ ngi_rnaseq_dest }}/r_packages"
-
-- name: Run R script to install dependencies
-  shell: "module load R/3.2.3 && Rscript install_R_dependencies.r"
-  environment:
-    R_LIBS_USER: "{{ ngi_rnaseq_dest }}/r_packages"
-  args:
-    chdir: "{{ ngi_rnaseq_dest }}/r_packages"
-
-
-- name: Set alias
+- name: Set alias for NGI-RNAseq
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias rnaseq='nextflow run {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config'"
+              line="alias rnaseq='nextflow run {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config -profile uppmax'"
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }

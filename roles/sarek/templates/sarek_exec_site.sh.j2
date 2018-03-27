@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# A shell wrapper to call sarek in irma with appropriate config files
+
+function sarek {
+    if [ -f {{ sarek_dest }}/$1 ]; then
+        nextflow run {{ sarek_dest }}/$1 -c {{ ngi_pipeline_conf }}/sarek_{{ item.site }}.config -profile slurm ${@:2};
+    else
+        echo "Please specify some valid script that exist here {{ sarek_dest }}";
+    fi;
+}

@@ -6,21 +6,6 @@
        version="{{ ngi_rnaseq_version }}"
        force=yes
 
-- name: Create R dependencies subdirectory
-  file: path="{{ ngi_rnaseq_dest }}/r_packages" state=directory mode=g+rwXs
-
-- name: Copy R dependencies script
-  copy:
-    src: "files/install_R_dependencies.r"
-    dest: "{{ ngi_rnaseq_dest }}/r_packages"
-
-- name: Run R script to install dependencies
-  shell: "module load R/3.2.3 && Rscript install_R_dependencies.r"
-  environment:
-    R_LIBS_USER: "{{ ngi_rnaseq_dest }}/r_packages"
-  args:
-    chdir: "{{ ngi_rnaseq_dest }}/r_packages"
-
 - name: Create NGI-RNAseq temp/cache folder for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:

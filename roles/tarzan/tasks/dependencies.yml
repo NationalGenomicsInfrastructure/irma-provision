@@ -1,74 +1,12 @@
 ---
-# kong demands: 
-# luajit
+# kong demands:
+# openssl sources
+# openresty (comes with luajit)
 # luarocks
-# openresty
 # cassandra
 # serf
 
 # use a loop a la http://stackoverflow.com/questions/30785281/one-loop-over-multiple-ansible-tasks ? 
-
-- name: create luajit destination directory 
-  file: path={{ luajit_dest }} state=directory mode=g+rwXs
-
-- name: download luajit archive
-  get_url:
-    url: "{{ luajit_url }}"
-    dest: "{{ luajit_dest }}/{{ luajit_file }}"
-
-- name: unpack luajit to destination
-  unarchive: 
-    src: "{{ luajit_dest }}/{{ luajit_file }}" 
-    dest: "{{ luajit_dest }}"
-    copy: no 
-    creates: "{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}"
-    mode: g+rwX,o+rX
-
-- name: set luajits install path
-  lineinfile: dest="{{ luajit_dest }}/LuaJIT-{{ luajit_version }}/Makefile"
-              regexp="^export PREFIX=./usr/local"
-              line='export PREFIX={{ luajit_dest }}/{{ luajit_version }}'
-              backup=no
-
-- name: compile luajit 
-  shell: make install
-  args: 
-    chdir: "{{ luajit_dest }}/LuaJIT-{{ luajit_version }}"
-    creates: "{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}"
-
-- name: symlink lua to luajit-version binary
-  file: src="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}" path="{{ luajit_dest }}/{{ luajit_version }}/bin/lua" state=link
-
-- name: symlink luajit to luajit-version binary
-  file: src="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}" path="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit" state=link
-
-- name: create luarocks destination directory
-  file: path={{ luarocks_dest }} state=directory mode=g+rwXs
-
-- name: download luarocks archive
-  get_url:
-    url: "{{ luarocks_url }}"
-    dest: "{{ luarocks_dest }}/{{ luarocks_file }}"
-
-- name: unpack luarocks to destination
-  unarchive: 
-    src: "{{ luarocks_dest }}/{{ luarocks_file }}" 
-    dest: "{{ luarocks_dest }}"
-    copy: no 
-    creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
-    mode: g+rwX,o+rX
-
-- name: configure luarocks
-  shell: "./configure --with-lua={{ luajit_dest }}/{{ luajit_version }} --with-lua-include={{ luajit_dest }}/{{ luajit_version }}/include/luajit-2.1 --prefix={{ luarocks_dest }}/{{ luarocks_version }}"
-  args: 
-    chdir: "{{ luarocks_dest }}/luarocks-{{ luarocks_version }}"
-    creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
-
-- name: compile luarocks 
-  shell: make build && make install
-  args: 
-    chdir: "{{ luarocks_dest }}/luarocks-{{ luarocks_version }}"
-    creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
 
 - name: create openssl destination directory
   file: path={{ openssl_dest }} state=directory mode=g+rwXs
@@ -103,7 +41,7 @@
     mode: g+rwX,o+rX
 
 - name: configure openresty
-  shell: "./configure --with-pcre-jit --with-ipv6 --with-http_realip_module --with-http_ssl_module --with-http_stub_status_module --with-luajit={{ luajit_dest }}/{{ luajit_version }} --prefix={{ openresty_dest }}/{{ openresty_version }} --with-openssl={{ openssl_dest }}/openssl-{{ openssl_version }}/" 
+  shell: "./configure --with-pcre-jit --with-ipv6 --with-http_realip_module --with-http_ssl_module --with-http_stub_status_module --with-http_v2_module --prefix={{ openresty_dest }}/{{ openresty_version }} --with-openssl={{ openssl_dest }}/openssl-{{ openssl_version }}/" 
   args: 
     chdir: "{{ openresty_dest }}/openresty-{{ openresty_version }}"
     creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
@@ -113,6 +51,34 @@
   args: 
     chdir: "{{ openresty_dest}}/openresty-{{ openresty_version }}" 
     creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
+
+- name: create luarocks destination directory
+  file: path={{ luarocks_dest }} state=directory mode=g+rwXs
+
+- name: download luarocks archive
+  get_url:
+    url: "{{ luarocks_url }}"
+    dest: "{{ luarocks_dest }}/{{ luarocks_file }}"
+
+- name: unpack luarocks to destination
+  unarchive: 
+    src: "{{ luarocks_dest }}/{{ luarocks_file }}" 
+    dest: "{{ luarocks_dest }}"
+    copy: no 
+    creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
+    mode: g+rwX,o+rX
+
+- name: configure luarocks
+  shell: "./configure --lua-suffix=jit --with-lua={{ openresty_dest }}/{{ openresty_version }}/luajit --with-lua-include={{ openresty_dest }}/{{ openresty_version }}/luajit/include/luajit-2.1 --prefix={{ luarocks_dest }}/{{ luarocks_version }}"
+  args: 
+    chdir: "{{ luarocks_dest }}/luarocks-{{ luarocks_version }}"
+    creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
+
+- name: compile luarocks 
+  shell: make build && make install
+  args: 
+    chdir: "{{ luarocks_dest }}/luarocks-{{ luarocks_version }}"
+    creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
 
 - name: create cassandra destination directory
   file: path={{ cassandra_dest }} state=directory mode=g+rwXs

@@ -33,6 +33,6 @@
      line: >
          alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile uppmax
          -with-singularity {{ neutronstar_singularity_path }}/ngi-neutronstar.simg
-         --clusterOptions="-A {{ ngi_pipeline_sthlm_delivery }} -p node" --max_memory 250.GB'
+         --clusterOptions="-A {{ ngi_pipeline_sthlm_delivery }} -p node" --max_memory 250'
      backup: no
 

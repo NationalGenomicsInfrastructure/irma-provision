@@ -8,8 +8,27 @@
 
 - include: dependencies.yml 
 
+# when installing with luarocks, the startup script is no longer created
+# therefore we install from source. The Makefile uses luarocks for
+# installation, so there is no big difference there, but it also allows us
+# to copy the startup script manually
+- name: get kong sources
+  git:
+    repo: https://github.com/Kong/kong
+    version: "{{ kong_version }}"
+    dest: "{{ kong_dest }}"
+
 - name: install kong via luarocks
-  shell: "export PATH={{ tarzan_env_path }}:$PATH && luarocks install kong {{ kong_version }}-0"
+  shell: "export PATH={{ tarzan_env_path }}:$PATH && make install"
+  args:
+    chdir: "{{ kong_dest }}"
+
+- name: copy kong's start script
+  copy:
+    src: "{{ kong_dest }}/bin/kong"
+    dest: "{{ luarocks_dest }}/{{ luarocks_version }}/bin"
+    remote_src: yes
+    mode: 0775
 
 - name: add the kong paths to funk_004's environment via the sourceme_upps script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}

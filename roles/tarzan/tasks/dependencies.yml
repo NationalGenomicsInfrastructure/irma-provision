@@ -68,8 +68,20 @@
     creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
     mode: g+rwX,o+rX
 
+- name: figure out luajit version/include folder name
+  find:
+    paths: "{{ openresty_dest }}/{{ openresty_version }}/luajit/include"
+    patterns: "luajit-*"
+    recurse: no
+    file_type: directory
+  register: luajit_include_folder
+
+- name: make sure the include folder is unambiguous
+  assert:
+    that: "luajit_include_folder.matched == 1"
+
 - name: configure luarocks
-  shell: "./configure --lua-suffix=jit --with-lua={{ openresty_dest }}/{{ openresty_version }}/luajit --with-lua-include={{ openresty_dest }}/{{ openresty_version }}/luajit/include/luajit-2.1 --prefix={{ luarocks_dest }}/{{ luarocks_version }}"
+  shell: "./configure --lua-suffix=jit --with-lua={{ openresty_dest }}/{{ openresty_version }}/luajit --with-lua-include={{ luajit_include_folder.files[0].path }} --prefix={{ luarocks_dest }}/{{ luarocks_version }}"
   args: 
     chdir: "{{ luarocks_dest }}/luarocks-{{ luarocks_version }}"
     creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"

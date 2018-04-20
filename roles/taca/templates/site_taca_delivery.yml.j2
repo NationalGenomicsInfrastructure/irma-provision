@@ -34,7 +34,7 @@ deliver:
             - {{ ngi_site_softlinks }}/DELIVERY.README.txt
             - <STAGINGPATH>
 {% endif %}
-{% if "/proj/" == item.proj_path or "sthlm == site "%}
+{% if "/proj/" == item.proj_path or "sthlm" == site %}
 #Adds FASTQ files to Lupus (aka irma) deliveries
         -
             - <DATAPATH>/<SAMPLEID>/*/*

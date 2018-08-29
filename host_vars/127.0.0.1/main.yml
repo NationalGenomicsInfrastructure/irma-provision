@@ -50,6 +50,10 @@ sarek_tag: "latest"
 sarek_dest: "{{ sw_path }}/sarek"
 sarek_containers: "{{ ngi_containers }}/sarek"
 
+rnaseq_repo: "https://github.com/nf-core/rnaseq.git"
+rnaseq_version: "1.0"
+rnaseq_dest: "{{ sw_path }}/rnaseq"
+
 gatk_key: pontus.larsson_medsci.uu.se.key
 snic_sthlm_creds: snic_credentials_sthlm.yaml
 orderportal_creds: orderportal_credentials.yaml

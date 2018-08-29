@@ -38,8 +38,8 @@
     - { role: arteria-siswrap-ws, tags: arteria-siswrap }
     - { role: arteria-delivery-ws, tags: arteria-delivery }
     - { role: sarek, tags: sarek }
-    - { role: ngi-rnaseq, tags: ngi-rnaseq }
-    - { role: ngi-methylseq, tags: ngi-methylseq }
+    - { role: rnaseq, tags: rnaseq }
+    - { role: methylseq, tags: methylseq }
     - { role: ngi-neutronstar, tags: ngi-neutronstar }
     - { role: nougat, tags: nougat }
     - { role: standalone_scripts, tags: standalone_scripts }

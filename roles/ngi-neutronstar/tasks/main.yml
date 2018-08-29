@@ -9,30 +9,30 @@
 - name: Create NGI-NeutronStar temp/cache folder for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:
-  - "{{ neutronstar_singularity_path }}/singularity_cache"
-  - "{{ neutronstar_singularity_path }}/singularity_temp"
+  - "{{ neutronstar_container_path }}/singularity_cache"
+  - "{{ neutronstar_container_path }}/singularity_temp"
 
 - name: Pull NGI-NeutronStar Singularity images
-  command: "singularity build ngi-neutronstar.simg {{ neutronstar_singularity_url }}"
+  command: "singularity build ngi-neutronstar.simg {{ neutronstar_container_url }}"
   environment:
-    SINGULARITY_CACHEDIR: "{{ neutronstar_singularity_path }}/singularity_cache"
-    SINGULARITY_TMPDIR: "{{ neutronstar_singularity_path }}/singularity_temp"
+    SINGULARITY_CACHEDIR: "{{ neutronstar_container_path }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ neutronstar_container_path }}/singularity_temp"
   args:
-    chdir: "{{ neutronstar_singularity_path }}"
+    chdir: "{{ neutronstar_container_path }}"
   ignore_errors: true
 
 - name: Remove NGI-NeutronStar singularity temp directories
   file: name="{{ item }}" state=absent
   with_items:
-  - "{{ neutronstar_singularity_path }}/singularity_cache"
-  - "{{ neutronstar_singularity_path }}/singularity_temp"
+  - "{{ neutronstar_container_path }}/singularity_cache"
+  - "{{ neutronstar_container_path }}/singularity_temp"
 
 - name: Set NGI-NeutronStar alias
   lineinfile:
      dest: "{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
      line: >
          alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile uppmax
-         -with-singularity {{ neutronstar_singularity_path }}/ngi-neutronstar.simg
+         -with-singularity {{ neutronstar_container_path }}/ngi-neutronstar.simg
          --clusterOptions="-A {{ ngi_pipeline_sthlm_delivery }} -p node" --max_memory 250'
      backup: no
 

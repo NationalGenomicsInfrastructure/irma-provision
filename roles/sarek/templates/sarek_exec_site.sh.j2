@@ -4,7 +4,7 @@
 
 function sarek {
     if [ -f {{ sarek_dest }}/$1 ]; then
-        nextflow run {{ sarek_dest }}/$1 -c {{ ngi_pipeline_conf }}/sarek_{{ item.site }}.config -profile slurm ${@:2};
+        nextflow run {{ sarek_dest }}/$1 -profile slurm --project '{{ item.project_id }}' --containerPath '{{ sarek_containers }}' --tag '{{ sarek_tag }}' ${@:2};
     else
         echo "Please specify some valid script that exist here {{ sarek_dest }}";
     fi;

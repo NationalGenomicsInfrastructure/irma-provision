@@ -9,41 +9,33 @@
 - name: Create sarek Singularity folder and temp/cache for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:
-  - "{{ sarek_singularity }}/singularity_cache"
-  - "{{ sarek_singularity }}/singularity_temp"
+  - "{{ sarek_containers }}/singularity_cache"
+  - "{{ sarek_containers }}/singularity_temp"
 
 - name: Pull sarek Singularity images
-  command: "singularity build {{ item }}-{{ sarek_version }}.img {{ sarek_singularity_repo }}/{{ item }}:{{ sarek_version }}"
+  command: "singularity build {{ item }}-{{ sarek_tag }}.img {{ sarek_containers_repo }}/{{ item }}:{{ sarek_tag }}"
   environment:
-    SINGULARITY_CACHEDIR: "{{ sarek_singularity }}/singularity_cache"
-    SINGULARITY_TMPDIR: "{{ sarek_singularity }}/singularity_temp"
+    SINGULARITY_CACHEDIR: "{{ sarek_containers }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ sarek_containers }}/singularity_temp"
   args:
-    chdir: "{{ sarek_singularity }}"
-    creates: "{{ item }}-{{ sarek_version }}.img"
-  with_items: "{{ sarek_singularity_images }}"
+    chdir: "{{ sarek_containers }}"
+    creates: "{{ item }}-{{ sarek_tag }}.img"
+  with_items: "{{ sarek_containers_images }}"
   ignore_errors: true
 
 - name: Remove sarek singularity temp directories
   file: name="{{ item }}" state=absent
   with_items:
-  - "{{ sarek_singularity }}/singularity_cache"
-  - "{{ sarek_singularity }}/singularity_temp"
-
-- name: Create sarek site config
-  template:
-    src: "sarek_site.config"
-    dest: "{{ ngi_pipeline_conf }}/sarek_{{ item.site }}.config"
-  with_items:
-  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}", container_path: "{{ sarek_singularity }}" }
-  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}", container_path: "{{ sarek_singularity }}" }
+  - "{{ sarek_containers }}/singularity_cache"
+  - "{{ sarek_containers }}/singularity_temp"
 
 - name: Create sarek wrapper function
   template:
     src: "sarek_exec_site.sh.j2"
     dest: "{{ ngi_resources }}/sarek_exec_{{ item.site }}.sh"
   with_items:
-  - { site: "sthlm" }
-  - { site: "upps" }
+  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
+  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
 
 - name: Source sarek wrapper function
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"

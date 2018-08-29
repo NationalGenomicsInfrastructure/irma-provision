@@ -1,10 +1,6 @@
 ---
-sarek_repo: "https://github.com/SciLifeLab/sarek.git"
-sarek_version: "2.0.0"
-sarek_dest: "{{ sw_path }}/sarek"
-sarek_singularity: "{{ ngi_resources }}/singularity/sarek"
-sarek_singularity_repo: "docker://maxulysse"
-sarek_singularity_images:
+sarek_containers_repo: "docker://maxulysse"
+sarek_containers_images:
     - "sarek"
     - "fastqc"
     - "freebayes"

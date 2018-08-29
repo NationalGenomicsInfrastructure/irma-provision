@@ -2,5 +2,5 @@
 neutronstar_repo: "https://github.com/SciLifeLab/NGI-NeutronStar"
 neutronstar_version: "c92ce0d99baff39bfcbb36c64be03160dc0331f8"
 neutronstar_dest: "{{ sw_path }}/ngi-neutronstar"
-neutronstar_singularity_path: "{{ ngi_resources }}/singularity/ngi-neutronstar"
-neutronstar_singularity_url: "docker://remiolsen/ngi-neutronstar"
+neutronstar_container_url: "docker://remiolsen/ngi-neutronstar"
+neutronstar_container_path: "{{ ngi_containers }}/ngi-neutronstar"

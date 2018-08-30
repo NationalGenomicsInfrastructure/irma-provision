@@ -1,4 +1,4 @@
 ---
 rnaseq_container_url: "docker://nfcore/rnaseq:{{ rnaseq_version }}"
-rnaseq_container_path: "{{ ngi_resources }}/rnaseq"
+rnaseq_container_path: "{{ ngi_containers }}/rnaseq"
 rnaseq_image: "rnaseq-{{ rnaseq_version }}.img"

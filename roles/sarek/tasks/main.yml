@@ -6,7 +6,7 @@
        version="{{ sarek_version }}"
        force=yes
 
-- name: Create sarek Singularity folder and temp/cache for images
+- name: Create sarek containers folder and temp/cache for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:
   - "{{ sarek_containers }}/singularity_cache"
@@ -23,7 +23,7 @@
   with_items: "{{ sarek_containers_images }}"
   ignore_errors: true
 
-- name: Remove sarek singularity temp directories
+- name: Remove sarek containers temp directories
   file: name="{{ item }}" state=absent
   with_items:
   - "{{ sarek_containers }}/singularity_cache"

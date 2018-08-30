@@ -1,0 +1,35 @@
+---
+
+- name: Fetch nf-core/methylseq from GitHub
+  git: repo="{{ methylseq_repo }}"
+       dest="{{ methylseq_dest }}"
+       version="{{ methylseq_version }}"
+       force=yes
+
+- name: Create nf-core/methylseq Singularity folder
+  file: name="{{ methylseq_container_path }}" state=directory mode=g+s
+
+- name: Pull nf-core/methylseq Singularity image
+  command: "singularity build methylseq-{{ methylseq_version }}.img {{ methylseq_container_url }}:{{ methylseq_version }}" 
+  environment:
+    SINGULARITY_CACHEDIR: "/scratch"
+  args:
+    chdir: "{{ methylseq_container_path }}"
+
+- name: Create nf-core/methylseq config
+  template:
+    src: "methylseq_site.config"
+    dest: "{{ ngi_pipeline_conf }}/methylseq_{{ item.site }}.config"
+  with_items:
+  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
+  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
+
+
+- name: Set nf-core/methylseq Bismark alias
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
+              line="alias methylseq='nextflow run {{ methylseq_dest }}/bismark.nf -c {{ ngi_pipeline_conf }}/methylseq_{{ item.site }}.config'"
+              backup=no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
+

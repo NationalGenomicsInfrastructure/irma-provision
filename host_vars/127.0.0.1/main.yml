@@ -19,12 +19,13 @@ bash_env_sthlm_script: sourceme_sthlm.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ sw_path }}/ngi_pipeline"
-ngi_pipeline_version: 2174e7428f572c4e9848e77b9afa4d5d91e3d76b 
+ngi_pipeline_version: 061dc824237e1b95aca76d1c0ecfea0108c779f7
 NGI_venv_name: "NGI"
 ngi_pipeline_venv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
 ngi_resources: "{{ root_path }}/resources/"
+ngi_containers: "{{ ngi_resources }}/containers"
 
 ngi_pipeline_sthlm_delivery: ngi2016003
 ngi_pipeline_upps_delivery: ngi2016001
@@ -43,7 +44,15 @@ ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 piper_module_version: 1.5.1
 gatk_bundle_b37: "/sw/data/uppnex/piper_references/2016-04-07/gatk_bundle/2.8/b37/"
 
-ngi_rnaseq_dest: "{{ sw_path }}/ngi-rnaseq"
+sarek_repo: "https://github.com/SciLifeLab/sarek.git"
+sarek_version: "c63d8134bbec0cf72c534e16bd8f43c932b02193"
+sarek_tag: "latest"
+sarek_dest: "{{ sw_path }}/sarek"
+sarek_containers: "{{ ngi_containers }}/sarek"
+
+rnaseq_repo: "https://github.com/nf-core/rnaseq.git"
+rnaseq_version: "1.0"
+rnaseq_dest: "{{ sw_path }}/rnaseq"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
 snic_sthlm_creds: snic_credentials_sthlm.yaml

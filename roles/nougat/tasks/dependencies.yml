@@ -53,14 +53,14 @@
               line='export PATH={{ kmer_dest }}:$PATH'
               backup=no
 
-- name: Create NouGAT Singularity folder and sub folders for each container
+- name: Create NouGAT containers folder and sub folders for each container
   file: name="{{ nougat_containers_path }}/{{ item.name }}" state=directory mode=g+s
   with_items:
       - "{{ nougat_containers_info }}"
       - { name: "singularity_cache" }
       - { name: "singularity_temp" }
 
-- name: Download nougat singularity images
+- name: Download nougat container images
   command: singularity build {{ item.name }}.simg {{ item.url }}
   environment:
     SINGULARITY_CACHEDIR: "{{ nougat_containers_path }}/singularity_cache"
@@ -70,7 +70,7 @@
   with_items:
       - "{{ nougat_containers_info }}"
 
-- name: Remove Nougat singularity cache directories
+- name: Remove Nougat container cache directories
   file: name="{{ item }}" state=absent
   with_items:
   - "{{ nougat_containers_path }}/singularity_cache"

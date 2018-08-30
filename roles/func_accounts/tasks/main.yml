@@ -12,8 +12,8 @@
 - name: Create ngi_resources folder 
   file: name={{ ngi_resources }} state=directory mode=g+s
 
-- name: Create singularity folder
-  file: name={{ ngi_resources }}/singularity state=directory mode=g+s
+- name: Create ngi_containers folder
+  file: name={{ ngi_containers }} state=directory mode=g+s
 
 - set_fact: 
     supervisord_log_dest: "{{ supervisord_log_dest_upps }}"

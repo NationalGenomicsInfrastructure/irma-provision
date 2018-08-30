@@ -38,6 +38,17 @@ piper:
     path_to_setupfilecreator: setupfilecreator
     gatk_key: "{{ ngi_resources }}/piper/{{ gatk_key }}"
 
+sarek:
+    profile: slurm
+    nf_path: {{ nextflow_dest }}/nextflow
+    sarek_path: {{ sarek_dest }}
+    containerPath: {{ sarek_containers }}
+    tag: {{ sarek_tag }}
+    genome_base: /sw/data/uppnex/ToolBox/hg38bundle
+    tools:
+      - haplotypecaller
+      - snpeff
+
 supported_genomes:
     # GRCh37: Indexed version of "/lupus/data/uppnex/reference/Homo_sapiens/GRCh37/concat/Homo_sapiens.GRCh37.57.dna.concat.fa"
     "GRCh37": "{{ gatk_bundle_b37 }}/human_g1k_v37.fasta"
@@ -61,7 +72,7 @@ analysis:
             analysis_engine: ngi_pipeline.engines.qc_ngi
         RNA-seq:
             analysis_engine: ngi_pipeline.engines.rna_ngi
-            ngi_nf_path: {{ ngi_rnaseq_dest }}/main.nf
+            ngi_nf_path: {{ rnaseq_dest }}/main.nf
             sthlm_ngi_conf: {{ sthlm_rna_seq_conf }}
             upps_ngi_conf: {{ upps_rna_seq_conf }}
     top_dir: nobackup/NGI

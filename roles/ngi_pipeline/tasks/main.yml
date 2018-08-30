@@ -42,6 +42,9 @@
 - name: Create ngi_resources/piper folder
   file: name="{{ ngi_resources }}/piper" state=directory mode=g+s
 
+- name: Create deployed tools version file
+  file: name="{{ deployed_tool_versions }}" state=touch
+
 - name: Deploy GATK license key 
   copy: src="files/{{ gatk_key }}" dest="{{ ngi_resources }}/piper/{{ gatk_key }}"
 
@@ -102,3 +105,16 @@
               line='export PATH={{ anaconda_path }}/bin:$PATH'
               backup=no
 
+- name: Try getting anaconda version
+  shell: "conda --version"
+  register: conda_version
+  ignore_errors: true
+
+- name: Store anaconda version in deployment
+  lineinfile: dest="{{ deployed_tool_versions }}"
+              line="Anaconda: {{ conda_version.stdout }}"
+  when: "{{ conda_version.stdout }}"
+
+- name: Store ngi_pipeline version in deployment
+  lineinfile: dest="{{ deployed_tool_versions }}"
+              line="NGI Pipeline: {{ ngi_pipeline_version }}"

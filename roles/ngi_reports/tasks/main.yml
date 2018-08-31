@@ -34,3 +34,11 @@
   with_items:
   - { site: "upps", env_script: "{{ bash_env_upps_script }}" }
   - { site: "sthlm", env_script: "{{ bash_env_sthlm_script }}" }
+
+- name: Store ngi_reports tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "{{ item.tool_name }}: {{ item.tool_version }}"
+  with_items:
+    - { tool_name: "ngi_reports", tool_version: "{{ ngi_reports_version }}" }
+    - { tool_name: "ngi_visualizations", tool_version: "{{ ngi_visual_version }}" } 

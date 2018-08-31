@@ -54,3 +54,7 @@
     value=true
     backup=no
 
+- name: Store arteria-delivery-ws tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "arteria-delivery: {{ arteria_delivery_version }}"

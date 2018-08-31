@@ -79,3 +79,8 @@
 - name: setup link to sisyphus latest
   file: state=link src="{{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }}" dest="{{ sisyphus_path }}/sisyphus-latest" mode=775
 
+- name: Store sisyphus tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "sisyphus: {{ sisyphus_version.stdout }}"
+  when: "'{{ sisyphus_version.stdout }}'"

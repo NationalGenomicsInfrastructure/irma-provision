@@ -36,3 +36,11 @@
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", flags: "-t ngi"}
   - { site: "upps", script: "{{ bash_env_upps_script }}", flags: "" }
+
+- name: Store MultiQC tool version in deployement
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "{{ item.tool_name }}: {{ item.tool_version }}"
+  with_items:
+    - { tool_name: "MultiQC", tool_version: "{{ multiqc_version }}" }
+    - { tool_name: "MultiQC_NGI", tool_version: "{{ multiqc_ngi_version }}" }

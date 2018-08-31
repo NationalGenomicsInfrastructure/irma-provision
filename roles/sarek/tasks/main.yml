@@ -44,3 +44,8 @@
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
   - { site: "upps", script: "{{ bash_env_upps_script }}" }
+
+- name: Store SAREK tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "sarek: {{ sarek_version }}"

@@ -84,3 +84,14 @@
 
 - name: deploy script for easier stoping of kong services
   template: src="stop_kong.sh.j2" dest="{{ ngi_resources }}/stop_kong.sh" mode=g+rwx
+
+- name: Store tarzan tools version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "{{ item.tool_name }}: {{ item.tool_version }}"
+  with_items:
+    - { tool_name: "Kong", tool_version: "{{ kong_version }}" }
+    - { tool_name: "Luarocks", tool_version: "{{ luarocks_version }}" }
+    - { tool_name: "Cassandra", tool_version: "{{ cassandra_version }}" }
+    - { tool_name: "Openresty", tool_version: "{{ openresty_version }}" }
+    - { tool_name: "Serf", tool_version: "{{ serf_version }}" }

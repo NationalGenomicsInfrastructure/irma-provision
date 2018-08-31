@@ -45,3 +45,8 @@
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
   - { site: "upps", script: "{{ bash_env_upps_script }}" }
+
+- name: Store rnaseq tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "rnaseq: {{ rnaseq_version }}"

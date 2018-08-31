@@ -51,3 +51,7 @@
 # Path to java to be used for nextflow
   - { envvar: "export NXF_JAVA_HOME={{ nextflow_java }}"}
 
+- name: Store nextflow version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "Nextflow: {{ nextflow_ver.stdout }}"

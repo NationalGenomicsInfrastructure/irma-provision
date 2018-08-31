@@ -25,3 +25,15 @@
 - name: deploy ugc bash env file 
   template: src="sourceme_ugc.sh.j2" dest="{{ ngi_pipeline_conf }}/sourceme_ugc.sh"
 
+- name: try to get ugc-delivery commit version
+  command: git rev-parse HEAD
+  args:
+    chdir: "{{ delivery_src }}"
+  register: delivery_version
+  ignore_errors: true
+
+- name: Store ugc-delivery tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "ugc-delivery: {{ delivery_version.stdout }}"
+  when: "'{{ delivery_version.stdout }}'"

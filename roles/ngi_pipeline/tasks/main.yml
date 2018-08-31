@@ -43,7 +43,9 @@
   file: name="{{ ngi_resources }}/piper" state=directory mode=g+s
 
 - name: Create deployed tools version file
-  file: name="{{ deployed_tool_versions }}" state=touch
+  copy:
+    dest: "{{ deployed_tool_versions }}"
+    content: "-- {{ deployment_environment }} ({{ deployment_version }}) --"
 
 - name: Deploy GATK license key 
   copy: src="files/{{ gatk_key }}" dest="{{ ngi_resources }}/piper/{{ gatk_key }}"

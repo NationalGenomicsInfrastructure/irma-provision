@@ -22,3 +22,7 @@
 
 - include: 2_install_config.yml
 
+- name: Store arteria-checksum-ws tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "arteria-checksum: {{ arteria_checksum_version }}"

@@ -56,3 +56,12 @@
   template: src="site_app_specific_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_{{ item }}_delivery.yml"
   with_items: ['rna', 'denovo']
 
+- name: Store taca tools version on deployement
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "{{ item.tool_name }}: {{ item.tool_version }}"
+  with_items:
+    - { tool_name: "TACA", tool_version: "{{ taca_version }}" }
+    - { tool_name: "taca-ngi-pipeline", tool_version: "{{ taca_ngi_version }}" }
+    - { tool_name: "StatusDB", tool_version: "{{ statusdb_version }}" }
+    - { tool_name: "flowcell_parser", tool_version: "{{ flowcell_parser_version }}" }

@@ -66,5 +66,8 @@ validation_data:
  - "160915_ST-1234_0123_ATESTFCCXX"
  - "160915_ST-1234_0124_BCHR22CCXX"
 
+# File with tools/software version in the deployed env
+deployed_tool_versions: "{{ ngi_resources }}/deployed_tools.version"
+
 # Empty placeholder that gets filled by tasks/pre-install.yml
 root_path: 

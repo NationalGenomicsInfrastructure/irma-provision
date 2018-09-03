@@ -21,10 +21,30 @@
     when: deployment_environment != "devel" 
 
   - block:
-
     - name: Make wildwest directory editable by anyone that can access irma
       shell: "find {{ proj_root }} -user `whoami` -exec chmod g+rwXs,o=rwX {} \\;"
     when: deployment_environment == "staging"
+  
+  - block:
+    - name: Try to get irma_provision latest version
+      command: git rev-parse HEAD
+      register: irma_provision_version
+
+    - name: Add irma_provision version to deployed tools files
+      lineinfile:
+        dest: "{{ deployed_tool_versions }}"
+        line: "-- Deployed at {{ ansible_date_time.iso8601 }} by irma_provision ({{ irma_provision_version.stdout }}) --"
+      when: "'{{ irma_provision_version.stdout }}'"
+
+    # Create an alias to easily get the deployed tools version
+    # not using 'blockinline' to avoid ansible markers
+    - name: Create alias 'deployed_env'
+      lineinfile:
+        dest: "{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+        line: "{{ item }}"
+      with_items:
+        - "#alias to get versions for tools installed in the current deployment"
+        - "alias deployed_env='cat {{ deployed_tool_versions }}'"
 
   - debug: msg="Finished deploying to {{ root_path }}"
 

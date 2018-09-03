@@ -36,3 +36,7 @@
          --clusterOptions="-A {{ ngi_pipeline_sthlm_delivery }} -p node" --max_memory 250'
      backup: no
 
+- name: Store ngi-neutronstar tool version in deployement
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "NGI-neutronStar: {{ neutronstar_version }}"

@@ -22,3 +22,7 @@
 
 - include: 2_install_config.yml
 
+- name: Store archive-upload-ws tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "snpseq-archive-upload: {{ archive_upload_version }}"

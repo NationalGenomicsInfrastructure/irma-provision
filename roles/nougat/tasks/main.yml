@@ -22,3 +22,12 @@
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
               line="export NOUGAT_CONF={{ ngi_pipeline_conf }}/NouGAT_config.conf"
               backup=no
+
+- name: Store nougat tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "{{ item.tool_name }}: {{ item.tool_version }}"
+  with_items:
+    - { tool_name: "NouGAT", tool_version: "{{ nougat_version }}" }
+    - { tool_name: "KmerGenie", tool_version: "{{ kmer_version }}" }
+    - { tool_name: "FRC_align", tool_version: "{{ frc_align_version }}" }

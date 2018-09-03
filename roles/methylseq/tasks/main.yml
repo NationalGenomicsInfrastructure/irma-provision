@@ -33,3 +33,7 @@
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
   - { site: "upps", script: "{{ bash_env_upps_script }}" }
 
+- name: Store methylseq tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "methylseq: {{ methylseq_version }}"

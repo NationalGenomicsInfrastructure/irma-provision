@@ -75,6 +75,8 @@ analysis:
             ngi_nf_path: {{ rnaseq_dest }}/main.nf
             sthlm_ngi_conf: {{ sthlm_rna_seq_conf }}
             upps_ngi_conf: {{ upps_rna_seq_conf }}
+        sarek_germline_grch38:
+            analysis_engine: ngi_pipeline.engines.sarek
     top_dir: nobackup/NGI
     sthlm_root: {{ ngi_pipeline_sthlm_delivery }}
     upps_root: {{ ngi_pipeline_upps_delivery }}

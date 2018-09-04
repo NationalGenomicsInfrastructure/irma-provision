@@ -43,6 +43,7 @@ sarek:
     nf_path: {{ nextflow_dest }}/nextflow
     sarek_path: {{ sarek_dest }}
     containerPath: {{ sarek_containers }}
+    project: {{ ngi_pipeline_slurm_project }}
     tag: {{ sarek_tag }}
     genome_base: /sw/data/uppnex/ToolBox/hg38bundle
     tools:
@@ -75,6 +76,8 @@ analysis:
             ngi_nf_path: {{ rnaseq_dest }}/main.nf
             sthlm_ngi_conf: {{ sthlm_rna_seq_conf }}
             upps_ngi_conf: {{ upps_rna_seq_conf }}
+        sarek_germline_grch38:
+            analysis_engine: ngi_pipeline.engines.sarek
     top_dir: nobackup/NGI
     sthlm_root: {{ ngi_pipeline_sthlm_delivery }}
     upps_root: {{ ngi_pipeline_upps_delivery }}

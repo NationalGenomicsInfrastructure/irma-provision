@@ -33,12 +33,12 @@ log_directory: "{{ archive_upload_log_dir }}"
 # jobs to succeed. 
 #
 # See full list at e.g. https://www.ibm.com/support/knowledgecenter/en/SSGSG7_7.1.1/com.ibm.itsm.msgs.client.doc/msgs_client_list_intro.html
-whitelisted_warnings: "{{ archive_upload_whitelisted_warnings }}"
+whitelisted_warnings: {{ archive_upload_whitelisted_warnings | to_json }}
 
 # Exclude filters (different on biotank and Irma) 
 #
 # Dirs and file extensions to exclude from the _archive copy of the runfolder/project
-exclude_dirs: [""]
-exclude_extensions: [".bam"]
+exclude_dirs: {{ archive_upload_exclude_dirs | to_json }}
+exclude_extensions: {{ archive_upload_exclude_extensions | to_json }}
 # # Elements to exclude from the tarball of the _archive dir
-exclude_from_tarball: []
+exclude_from_tarball: {{ archive_upload_exclude_from_tarball | to_json }}

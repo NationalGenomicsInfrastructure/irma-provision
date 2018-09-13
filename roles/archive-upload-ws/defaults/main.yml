@@ -8,7 +8,7 @@
 # This will set corresponding paths and use the appropriate port.  
 
 archive_upload_repo: https://github.com/Molmed/snpseq-archive-upload.git
-archive_upload_version: v1.0.0-rc1
+archive_upload_version: v1.0.0
 
 # in production this should be  /proj/ngi2016001/nobackup/NGI/ANALYSIS/<PROJECT ID>
 archive_upload_monitored_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/ANALYSIS/"
@@ -39,3 +39,6 @@ archive_upload_virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv
 # ANS2042W = a symblic link to a file on other fs has been uploaded: acls/extended attributes might not be backed up
 # ANS2250W = a TSM core file or crash report was found
 archive_upload_whitelisted_warnings: ["ANS1809W", "ANS2042W", "ANS2250W"]
+archive_upload_exclude_dirs: []
+archive_upload_exclude_extensions: [".bam"]
+archive_upload_exclude_from_tarball: []

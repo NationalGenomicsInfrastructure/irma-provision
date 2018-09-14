@@ -46,7 +46,7 @@
               backup=no
 
 - name: deploy config for kong
-  template: src="kong.yml.j2" dest="{{ tarzan_conf }}/webproxy.yml"
+  template: src="kong.conf.j2" dest="{{ tarzan_conf }}/webproxy.conf"
 
 - name: deploy ssl cert for kong
   copy: src="tarzan_cert.pem" dest="{{ tarzan_conf }}/tarzan_cert.pem"
@@ -64,12 +64,12 @@
 
 - name: modify uppsala's crontab to start kong
   lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
-              line='@reboot source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.yml'
+              line='@reboot source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.conf'
               backup=no
 
 - name: modify uppsala's crontab to start kong
   lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
-              line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.yml'
+              line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.conf'
               backup=no
 
 - name: snapshot cassandra once a week, so that normal backups can be taken of a sany copy of files (kb sizes)  

@@ -45,8 +45,8 @@ piper_module_version: 1.5.1
 gatk_bundle_b37: "/sw/data/uppnex/piper_references/2016-04-07/gatk_bundle/2.8/b37/"
 
 sarek_repo: "https://github.com/SciLifeLab/sarek.git"
-sarek_version: "c63d8134bbec0cf72c534e16bd8f43c932b02193"
-sarek_tag: "latest"
+sarek_version: "2.2.0"
+sarek_tag: "2.2.0"
 sarek_dest: "{{ sw_path }}/sarek"
 sarek_containers: "{{ ngi_containers }}/sarek"
 

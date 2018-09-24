@@ -13,7 +13,7 @@
   - "{{ sarek_containers }}/singularity_temp"
 
 - name: Pull sarek Singularity images
-  command: "singularity build {{ item }}-{{ sarek_tag }}.img {{ sarek_containers_repo }}/{{ item }}:{{ sarek_tag }}"
+  command: "singularity build {{ item }}-{{ sarek_tag }}.simg {{ sarek_containers_repo }}/{{ item }}:{{ sarek_tag }}"
   environment:
     SINGULARITY_CACHEDIR: "{{ sarek_containers }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ sarek_containers }}/singularity_temp"

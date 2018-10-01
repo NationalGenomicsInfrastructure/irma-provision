@@ -88,13 +88,13 @@ qc:
         - bioinfo-tools
     fastqc:
         load_modules:
-            - FastQC
+            - FastQC/0.11.5
         threads: 16
     fastq_screen:
         config_path: "{{ ngi_pipeline_conf }}/fastq_screen.irma.conf"
         load_modules:
-            - bowtie2
-            - fastq_screen
+            - bowtie2/2.3.4.1
+            - fastq_screen/0.11.1
         subsample_reads: 200000
         threads: 1
         make_md5: True

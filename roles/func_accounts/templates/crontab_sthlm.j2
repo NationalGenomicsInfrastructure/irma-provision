@@ -1,8 +1,9 @@
 SHELL=/bin/bash
 #@reboot source $HOME/.bash_profile && supervisord -c {{ ngi_pipeline_conf }}/supervisord_sthlm.conf
 
-# updates charon with locally stored run info
-0 * * * * source $HOME/.bashrc &> /dev/null && update_charon_with_local_jobs_status.py -e piper &> /dev/null
+# updates charon with locally stored run info for piper and sarek, respectively
+1 * * * * source $HOME/.bashrc &> /dev/null && update_charon_with_local_jobs_status.py -e piper &> /dev/null
+6 * * * * source $HOME/.bashrc &> /dev/null && update_charon_with_local_jobs_status.py -e sarek &> /dev/null
 
 # restart supervisord if it has died for some reason
 #11 * * * *      bash {{ ngi_resources }}/start_supervisord_sthlm.sh &> /dev/null

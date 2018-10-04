@@ -27,7 +27,7 @@
 
 - name: Set nf-core/methylseq Bismark alias
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias methylseq='nextflow run {{ methylseq_dest }}/bismark.nf -c {{ ngi_pipeline_conf }}/methylseq_{{ item.site }}.config'"
+              line="alias methylseq='nextflow run {{ methylseq_dest }}/ -c {{ ngi_pipeline_conf }}/methylseq_{{ item.site }}.config -profile uppmax'"
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }

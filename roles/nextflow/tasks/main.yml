@@ -43,8 +43,6 @@
   - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
   - { envvar: "export NXF_VER={{ nextflow_ver.stdout }}"}
   - { envvar: "export NXF_HOME={{ nextflow_dest }}/workfiles"}
-  - { envvar: "export NXF_WORK=$PWD/work"}
-  - { envvar: "export NXF_TEMP=$PWD/work"}
   - { envvar: "export NXF_LAUNCHBASE=$PWD/work"}
 # Defines where the classpath file ends up
   - { envvar: "export NXF_LAUNCHER=$PWD/work"}

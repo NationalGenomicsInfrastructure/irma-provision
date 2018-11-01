@@ -1,13 +1,25 @@
 # Kind of meager recipe, but will most likely grow from dependencies
 
-- name: Fetch standalone_scripts from GitHub
-  git: repo="{{ ss_repo }}"
-       dest="{{ ss_dest }}"
+# Deploy sthlm scripts
+- name: Fetch sthlm standalone_scripts from GitHub
+  git: repo="{{ ss_sthlm_repo }}"
+       dest="{{ ss_sthlm_dest }}"
+       force=yes
+
+# Deploy upps scripts
+- name: Fetch upps standalone_scripts from GitHub
+  git: repo="{{ ss_upps_repo }}"
+       dest="{{ ss_upps_dest }}"
        force=yes
 
 # Since the standalone repo is more free-form than others
 # putting PATH at end of $PATH as a safeguard from future problems
-- name: Add standalone scripts to end of $PATH via sourceme
+- name: Add standalone scripts to end of sthlm's $PATH via sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
-              line='export PATH=$PATH:{{ ss_dest }}'
+              line='export PATH=$PATH:{{ ss_sthlm_dest }}'
+              backup=no
+
+- name: Add standalone scripts to end of upps' $PATH via sourceme
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
+              line='export PATH=$PATH:{{ ss_upps_dest }}'
               backup=no

@@ -1,3 +1,6 @@
 ---
-ss_repo: "https://github.com/SciLifeLab/standalone_scripts.git"
-ss_dest: "{{ sw_path }}/standalone_scripts"
+ss_sthlm_repo: "https://github.com/SciLifeLab/standalone_scripts.git"
+ss_sthlm_dest: "{{ sw_path }}/standalone_scripts"
+
+ss_upps_repo: "https://github.com/Molmed/irma-scripts.git"
+ss_upps_dest: "{{ sw_path }}/upps_standalone_scripts"

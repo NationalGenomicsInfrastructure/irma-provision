@@ -63,7 +63,7 @@ The following files need to be present on irma3 in order to successfully deploy 
 
 Typically roles are developed (or at least tested) locally on `irma3`. 
 
-Start by forking the repository https://github.com/NationalGenomicsInfrastructure/irma-provision to your private Github repo. Then clone this private repository to `/lupus/ngi/irma3/devel`. Inside there you can develop your own Ansible roles in your private feature branch. 
+Start by forking the repository https://github.com/NationalGenomicsInfrastructure/irma-provision to your private Github repo. Then clone this private repository to `/lupus/ngi/irma3/devel`. Inside there you can develop your own Ansible roles in your private feature branch. Note that the git repository does not include the required `files` subdirectory (see above). This directory can be created manually or copied from an existing setup.
 
 If you want to test your roles/playbook run `ansible-playbook install.yml`. This will install your development run in `/lupus/ngi/irma3/devel-root/<username>_<branch_name>`. 
 
@@ -102,18 +102,15 @@ if you want to stage test a specific commit hash of `arteria-checksum`, and the 
 	
 Launch the Arteria staging services by running the command `start-arteria-staging` as the `funk_004` user. That will spawn a detached screen session named `arteria-staging` with one window for each Arteria web service. If a service has crashed then one can (after debugging the stacktrace) respawn the process by hitting the `r` key  for the relevant window. If one want to manually force a restart of the process one can first abort the process with a normal `^C`, followed by the `r` key as mentioned previously. To kill all Arteria services the whole screen session can be closed down with the command `stop-arteria-staging`.  
 
-#### Nota bene
-
-Remember that you will probably have to restart services manually after a new production release have been rolled out. First re-load the crontab as the func user on `irma1` with a `crontab /lupus/ngi/production/latest/conf/crontab_SITE`. Then, depending on what software your func user is running, continue with manually shutting down the old versions and re-start the new versions of the software. In the case of Uppsala one should then do a `/lupus/ngi/production/latest/resources/stop_kong.sh` followed by starting `supervisord` and `kong` (see the crontab).  
-
 ### Typical production deployments
 
-A typical deployment of a production environment to Irma consists of two steps
+A typical deployment of a production environment to Irma consists of the following steps
 
 - Running through the Ansible playbook for a production release, which will install all the software under `/lupus/ngi/production/<version>` (and create a symlink `/lupus/ngi/production/latest` pointing to it)
 - Syncing everything under `/lupus/ngi/production` to the cluster
+- Reload *each site's* crontabs and services
 
-To accomplish this run the following commands:
+To install software and sync to the cluster, run the following commands:
 
 ```
    cd /lupus/ngi/irma3/deploy
@@ -126,6 +123,11 @@ To accomplish this run the following commands:
 This will install and sync over the Irma environment version `vX.Y`.
 
 To see all available production releases go to https://github.com/NationalGenomicsInfrastructure/irma-provision/releases
+
+#### Reload crontabs and services
+
+Remember that you will probably have to restart services manually after a new production release have been rolled out. This must be done for *each site*. First re-load the crontab as the func user on `irma1` with a `crontab /lupus/ngi/production/latest/conf/crontab_SITE`. Then, depending on what software your func user is running, continue with manually shutting down the old versions and re-start the new versions of the software. In the case of Uppsala one should then do a `/lupus/ngi/production/latest/resources/stop_kong.sh` followed by starting `supervisord` and `kong` (see the crontab).  
+
 
 ## Manual initializations on irma1
 

@@ -1,0 +1,9 @@
+---
+neutronstar_repo: "https://github.com/nf-core/neutronstar"
+neutronstar_dest: "{{ sw_path }}/neutronstar"
+# neutronstar_container_url: "docker://nf-core/neutronstar:{{ rnaseq_version }}"
+neutronstar_container_url: "docker://remiolsen/neutronstar"
+neutronstar_container_path: "{{ ngi_containers }}/neutronstar"
+# neutronstar_image: "neutronstar-{{ neutronstar_version }}.simg"
+neutronstar_image: "neutronstar.simg"
+neutronstar_version: "c92ce0d99baff39bfcbb36c64be03160dc0331f8"

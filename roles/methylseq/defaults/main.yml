@@ -1,6 +1,7 @@
 ---
 methylseq_repo: "https://github.com/nf-core/methylseq.git"
 methylseq_dest: "{{ sw_path }}/methylseq"
-methylseq_container_url: "docker://nfcore/methylseq"
+methylseq_container_url: "docker://nfcore/methylseq:{{ methylseq_version }}"
 methylseq_container_path: "{{ ngi_containers }}/methylseq"
+methylseq_image: "methylseq-{{ methylseq_version }}.simg"
 methylseq_version: "1.1"

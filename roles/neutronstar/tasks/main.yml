@@ -1,19 +1,19 @@
 ---
 
-- name: Fetch NGI-NeutronStar from GitHub
+- name: Fetch neutronstar from GitHub
   git: repo="{{ neutronstar_repo }}"
        dest="{{ neutronstar_dest }}"
        version="{{ neutronstar_version }}"
        force=yes
 
-- name: Create NGI-NeutronStar temp/cache folder for images
+- name: Create neutronstar temp/cache folder for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:
   - "{{ neutronstar_container_path }}/singularity_cache"
   - "{{ neutronstar_container_path }}/singularity_temp"
 
-- name: Pull NGI-NeutronStar Singularity images
-  command: "singularity build ngi-neutronstar.simg {{ neutronstar_container_url }}"
+- name: Pull neutronstar Singularity images
+  command: "singularity build {{ neutronstar_image }} {{ neutronstar_container_url }}"
   environment:
     SINGULARITY_CACHEDIR: "{{ neutronstar_container_path }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ neutronstar_container_path }}/singularity_temp"
@@ -21,22 +21,32 @@
     chdir: "{{ neutronstar_container_path }}"
   ignore_errors: true
 
-- name: Remove NGI-NeutronStar singularity temp directories
+- name: Remove neutronstar singularity temp directories
   file: name="{{ item }}" state=absent
   with_items:
   - "{{ neutronstar_container_path }}/singularity_cache"
   - "{{ neutronstar_container_path }}/singularity_temp"
 
-- name: Set NGI-NeutronStar alias
+- name: Create neutronstar config
+  template:
+    src: "neutronstar_site.config"
+    dest: "{{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config"
+  with_items:
+  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
+  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
+
+- name: Set neutronstar alias
   lineinfile:
      dest: "{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
      line: >
          alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile uppmax
-         -with-singularity {{ neutronstar_container_path }}/ngi-neutronstar.simg
-         --clusterOptions="-A {{ ngi_pipeline_sthlm_delivery }} -p node" --max_memory 250'
+         -c {{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config'
      backup: no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
 
-- name: Store ngi-neutronstar tool version in deployement
+- name: Store neutronstar tool version in deployement
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
-    line: "NGI-neutronStar: {{ neutronstar_version }}"
+    line: "neutronstar: {{ neutronstar_version }}"

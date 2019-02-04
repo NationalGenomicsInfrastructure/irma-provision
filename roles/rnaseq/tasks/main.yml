@@ -39,7 +39,6 @@
     dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"
     line: >
           alias rnaseq='nextflow run {{ rnaseq_dest }}/main.nf -profile uppmax
-          -with-singularity {{ rnaseq_container_path }}/{{ rnaseq_image }}
           -c {{ ngi_pipeline_conf }}/rnaseq_{{ item.site }}.config'
     backup: no
   with_items:

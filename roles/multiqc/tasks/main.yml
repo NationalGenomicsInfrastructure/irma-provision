@@ -25,7 +25,7 @@
 
 - name: Deploy multiqc configs
   template: src="multiqc_config.yml.j2" dest="{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"
-  with_items: 
+  with_items:
   - { site: "sthlm", disable_ngi_hooks: "False"}
   - { site: "upps", disable_ngi_hooks: "True"}
 
@@ -34,10 +34,10 @@
               line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml {{ item.flags }}'"
               backup=no
   with_items:
-  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", flags: "-t ngi"}
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", flags: ""}
   - { site: "upps", script: "{{ bash_env_upps_script }}", flags: "" }
 
-- name: Store MultiQC tool version in deployement
+- name: Store MultiQC tool version in deployment
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
     line: "{{ item.tool_name }}: {{ item.tool_version }}"

@@ -3,16 +3,16 @@ sw_path: "{{ root_path }}/sw/"
 
 
 anaconda_path: "{{ sw_path }}/anaconda"
-ansible_path: "/lupus/ngi/irma3/ansible-env/" 
+ansible_path: "/lupus/ngi/irma3/ansible-env/"
 default_env: "/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sw/uppmax/bin"
 anaconda_env:
   PATH: "{{ anaconda_path }}/bin:{{ ansible_path }}/bin:{{ default_env }}" # this hopefully gets updated by anaconda role
 
 #Nextflow defauts
 nextflow_dest: "{{ sw_path }}/nextflow"
-      
-# Name of the script that should be sourced from the user to get the 
-# relevant environment variables setup. Perhaps move this to defaults vars.  
+
+# Name of the script that should be sourced from the user to get the
+# relevant environment variables setup. Perhaps move this to defaults vars.
 bash_env_script: sourceme_common.sh
 bash_env_upps_script: sourceme_upps.sh
 bash_env_sthlm_script: sourceme_sthlm.sh
@@ -50,19 +50,15 @@ sarek_tag: "2.2.0"
 sarek_dest: "{{ sw_path }}/sarek"
 sarek_containers: "{{ ngi_containers }}/sarek"
 
-rnaseq_repo: "https://github.com/nf-core/rnaseq.git"
-rnaseq_version: "1.0"
-rnaseq_dest: "{{ sw_path }}/rnaseq"
-
 gatk_key: pontus.larsson_medsci.uu.se.key
 snic_sthlm_creds: snic_credentials_sthlm.yaml
 orderportal_creds: orderportal_credentials.yaml
 
 recipient_mail_sthlm: ngi_pipeline_operators@scilifelab.se
-recipient_mail_upps: medsci-molmed-bioinfo@googlegroups.com 
+recipient_mail_upps: medsci-molmed-bioinfo@googlegroups.com
 
 validation_data_root: "/lupus/ngi/validation_data/"
-validation_data: 
+validation_data:
  - "160915_ST-1234_0123_ATESTFCCXX"
  - "160915_ST-1234_0124_BCHR22CCXX"
 
@@ -70,4 +66,4 @@ validation_data:
 deployed_tool_versions: "{{ ngi_resources }}/deployed_tools.version"
 
 # Empty placeholder that gets filled by tasks/pre-install.yml
-root_path: 
+root_path:

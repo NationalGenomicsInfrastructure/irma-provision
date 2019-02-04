@@ -1,10 +1,4 @@
 ---
-sarek_repo: "https://github.com/SciLifeLab/sarek.git"
-sarek_version: "2.2.0"
-sarek_tag: "2.2.0"
-sarek_dest: "{{ sw_path }}/sarek"
-sarek_containers: "{{ ngi_containers }}/sarek"
-
 sarek_containers_repo: "docker://maxulysse"
 sarek_containers_images:
     - "sarek"

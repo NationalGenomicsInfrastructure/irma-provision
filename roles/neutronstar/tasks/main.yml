@@ -39,7 +39,7 @@
   lineinfile:
      dest: "{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
      line: >
-         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile uppmax
+         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile standard,uppmax
          -c {{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config'
      backup: no
   with_items:

@@ -49,6 +49,7 @@ sarek_version: "2.2.2"
 sarek_tag: "2.2.2"
 sarek_dest: "{{ sw_path }}/sarek"
 sarek_containers: "{{ ngi_containers }}/sarek"
+sarek_irma_config: "{{ ngi_pipeline_conf }}/sarek_irma.config"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
 snic_sthlm_creds: snic_credentials_sthlm.yaml

@@ -29,6 +29,11 @@
   - "{{ sarek_containers }}/singularity_cache"
   - "{{ sarek_containers }}/singularity_temp"
 
+- name: Deploy irma-specific sarek config
+  copy:
+    src: files/sarek_irma.config
+    dest: "{{ sarek_irma_config }}"
+
 - name: Create sarek wrapper function
   template:
     src: "sarek_exec_site.sh.j2"

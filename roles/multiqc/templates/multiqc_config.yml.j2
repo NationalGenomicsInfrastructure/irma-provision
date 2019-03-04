@@ -18,3 +18,6 @@ megaqc_url: http://megaqc.scilifelab.se/api/upload_parse
 megaqc_access_token: {{ megaqc_token_sthlm_stage }}
 {% endif %}
 {% endif %}
+{% if item.site == "upps" and deployment_environment in ["production", "staging"]%}
+template: default
+{% endif %}

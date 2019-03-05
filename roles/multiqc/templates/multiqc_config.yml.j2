@@ -1,11 +1,16 @@
 ---
 no_version_check: True
 
+{% if item.site == "upps" %}
+swedac_accredited: False
+{% endif %}
+
 {% if item.site == "sthlm" and deployment_environment in ["production", "staging"]%}
 push_statusdb: True
 save_remote: True
 template: ngi
 plots_flat_numseries: 1000
+swedac_accredited: True
 {% if deployment_environment == "production" %}
 remote_sshkey: "/home/funk_006/ssh_keys/id_rsa"
 remote_port: '5912'             # Optional

@@ -38,7 +38,7 @@ virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtual
 
 sisyphus_path: "{{ arteria_siswrap_env_root }}/deps/sisyphus/"
 sisyphus_git_repo: https://github.com/Molmed/sisyphus.git
-sisyphus_repo_branch: master
+sisyphus_repo_branch: v16.2.0
 
 # Where to install our local Perl packages
 perllib_dest: "{{ ngi_resources }}/arteria/perl"

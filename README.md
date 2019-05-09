@@ -75,7 +75,7 @@ Do the following once the feature has been approved:
     cd /lupus/ngi/irma3/deploy
     git checkout master 
     git pull 
-    ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=<YYMMDD>.<commit_short>
+    ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=$(date +%y%m%d).$(git rev-parse --short HEAD)
     python sync.py staging
 ```
 

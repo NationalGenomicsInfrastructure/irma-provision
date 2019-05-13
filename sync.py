@@ -69,7 +69,7 @@ if recv == 0:
 	print('Waiting for success')
 	child.expect(exp_success)
 	child.sendline("Logged in with password + factor, logging out.") 
-        child.sendline("exit")
+	child.sendline("exit")
 elif recv == 1:
 	print('Logged in with password, logging out.')
 	child.sendline("exit")
@@ -128,9 +128,9 @@ else:
 # Step 5. Sync our destignated folders.
 
 excludes = "--exclude=*.swp --exclude=irma3/"
-rsync_cmd = "/bin/rsync -avzP --omit-dir-times --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
+rsync_cmd = "/bin/rsync -avzP --omit-dir-times {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest)
 # TODO: Do this cleaner? 
-dry_cmd = "/bin/rsync --dry-run -avzP --omit-dir-times --delete {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest) 
+dry_cmd = "/bin/rsync --dry-run -avzP --omit-dir-times {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest)
 
 # First doing a dry-run to confirm sync. 
 print('Initiating a rsync dry-run')

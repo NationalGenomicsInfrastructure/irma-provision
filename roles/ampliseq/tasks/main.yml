@@ -1,0 +1,52 @@
+---
+
+- name: Fetch nf-core/ampliseq from GitHub
+  git: repo="{{ ampliseq_repo }}"
+       dest="{{ ampliseq_dest }}"
+       version="{{ ampliseq_version }}"
+       force=yes
+
+- name: Create nf-core/ampliseq Singularity folder
+  file: name="{{ ampliseq_container_path }}" state=directory mode=g+s
+
+- name: Create nf-core/ampliseq temp/cache folder for images
+  file: name="{{ item }}" state=directory mode=g+s
+  with_items:
+  - "{{ ampliseq_container_path }}/singularity_cache"
+  - "{{ ampliseq_container_path }}/singularity_temp"
+
+- name: Pull nf-core/ampliseq Singularity image
+  command: "singularity build {{ ampliseq_image }} {{ ampliseq_container_url }}" 
+  environment:
+    SINGULARITY_CACHEDIR: "{{ ampliseq_container_path }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ ampliseq_container_path }}/singularity_temp"
+  args:
+    chdir: "{{ ampliseq_container_path }}"
+
+- name: Remove nf-core/ampliseq singularity temp directories
+  file: name="{{ item }}" state=absent
+  with_items:
+  - "{{ ampliseq_container_path }}/singularity_cache"
+  - "{{ ampliseq_container_path }}/singularity_temp"
+
+- name: Create nf-core/ampliseq config
+  template:
+    src: "ampliseq_site.config"
+    dest: "{{ ngi_pipeline_conf }}/ampliseq_{{ item.site }}.config"
+  with_items:
+  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
+  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
+
+
+- name: Set nf-core/ampliseq Bismark alias
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
+              line="alias ampliseq='nextflow run {{ ampliseq_dest }}/ -c {{ ngi_pipeline_conf }}/ampliseq_{{ item.site }}.config -profile uppmax'"
+              backup=no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
+
+- name: Store ampliseq tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "ampliseq: {{ ampliseq_version }}"

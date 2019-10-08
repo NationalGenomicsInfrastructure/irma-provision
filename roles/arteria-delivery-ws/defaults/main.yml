@@ -7,7 +7,7 @@
 #
 # This will set corresponding paths and use the appropriate port. 
 arteria_delivery_repo: https://github.com/arteria-project/arteria-delivery.git
-arteria_delivery_version: v2.3.1
+arteria_delivery_version: v2.4.0
 
 arteria_install_path: "{{ sw_path }}/arteria"
 conda_bin: "{{ sw_path }}/anaconda/bin/conda"

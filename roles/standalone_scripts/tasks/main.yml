@@ -10,7 +10,15 @@
 - name: Fetch upps standalone_scripts from GitHub
   git: repo="{{ ss_upps_repo }}"
        dest="{{ ss_upps_dest }}"
+       version="{{ ss_upps_version }}"
        force=yes
+
+# Symlink the upps scripts to the local project
+- name: Symlink upps standalone scripts
+  file:
+    src: {{ ss_upps_dest }}
+    dest: {{ ss_upps_local_dest }}
+    state: link
 
 # Since the standalone repo is more free-form than others
 # putting PATH at end of $PATH as a safeguard from future problems
@@ -23,3 +31,4 @@
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
               line='export PATH=$PATH:{{ ss_upps_dest }}'
               backup=no
+

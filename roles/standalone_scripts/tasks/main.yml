@@ -16,8 +16,8 @@
 # Symlink the upps scripts to the local project
 - name: Symlink upps standalone scripts
   file:
-    src: {{ ss_upps_dest }}
-    dest: {{ ss_upps_local_dest }}
+    src: "{{ ss_upps_dest }}"
+    dest: "{{ ss_upps_local_dest }}"
     state: link
 
 # Since the standalone repo is more free-form than others

@@ -10,7 +10,7 @@
 - name: Create NextFlow installation subdirectory
   file: path="{{ nextflow_dest }}/workfiles" state=directory mode=g+rwXs
 
-- name: Download NextFlow 
+- name: Download NextFlow
   get_url: url="{{ nextflow_download_url }}" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
 
 # Resolved any problems. Run-time files are pushed to scratch
@@ -32,6 +32,14 @@
               line="export PATH={{ root_path }}/sw/nextflow:$PATH"
               backup=no
 ###
+
+- name: Create irma config
+  template:
+    src: "nextflow_irma_site.config"
+    dest: "{{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config"
+  with_items:
+  - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
+  - { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }
 
 # Change target to {{ ngi_rnaseq_dest }} when using module system
 # NXF_WORK is omitted, which puts them under current directory

@@ -40,7 +40,7 @@
 
 - name: Set nf-core/atacseq Bismark alias
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias atacseq='nextflow run {{ atacseq_dest }}/ -c {{ ngi_pipeline_conf }}/atacseq_{{ item.site }}.config -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config'"
+              line="alias atacseq='nextflow run {{ atacseq_dest }}/ -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config -c {{ ngi_pipeline_conf }}/atacseq_{{ item.site }}.config'"
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }

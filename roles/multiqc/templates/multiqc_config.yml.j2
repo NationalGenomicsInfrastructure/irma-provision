@@ -15,7 +15,6 @@ swedac_accredited: True
 swedac_location: 'stockholm'
 {% if deployment_environment == "production" %}
 remote_sshkey: "/home/funk_006/ssh_keys/id_rsa"
-remote_port: '5912'             # Optional
 remote_destination: 'ngi.web@ngi-internal.scilifelab.se:/var/local/mqc_reports/'
 {% elif deployment_environment == "staging" %}
 remote_sshkey: "/home/funk_007/ssh_keys/id_rsa"

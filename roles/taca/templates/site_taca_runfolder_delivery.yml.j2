@@ -1,0 +1,11 @@
+log:
+    file: "{{ ngi_pipeline_sthlm_path }}/log/taca.log"
+
+deliver:
+    rootpath: "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}"
+    datapath: <ROOTPATH>/incoming
+    stagingpathhard: <ROOTPATH>/nobackup/NGI/DELIVERY_HARD/<PROJECTID>
+    operator: "{{ recipient_mail }}"
+{% if "sthlm" == site %}
+    save_meta_info: True
+{% endif %}

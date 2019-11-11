@@ -11,13 +11,13 @@
 
 - name: Install TACA-ngi-pipeline
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
-  args: 
+  args:
     chdir: "{{ taca_ngi_dest }}"
 
 - name: Create TACA delivery configs directory
   file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
 
-- set_fact: 
+- set_fact:
     site: "upps"
     site_full: "uppsala"
     ngi_pipeline_site_path: "{{ ngi_pipeline_upps_path }}"
@@ -29,9 +29,9 @@
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_delivery.yml"
   with_items:
   - { proj_path: "{{ proj_root }}", name: "lupus" }
-  - { proj_path: "{{ milou_delivery_root }}", name: "taca" } 
+  - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
 
-- set_fact: 
+- set_fact:
     site: "sthlm"
     site_full: "stockholm"
     ngi_pipeline_site_path: "{{ ngi_pipeline_sthlm_path }}"
@@ -55,6 +55,9 @@
 - name: Deploy application specific stockholm configs
   template: src="site_app_specific_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_{{ item }}_delivery.yml"
   with_items: ['rna', 'denovo']
+
+- name: Deploy runfolder delivery stockholm config
+  template: src="site_taca_runfolder_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_runfolder_delivery.yml"
 
 - name: Store taca tools version on deployement
   lineinfile:

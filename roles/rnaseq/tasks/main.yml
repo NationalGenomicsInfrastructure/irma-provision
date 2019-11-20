@@ -38,9 +38,9 @@
   lineinfile:
     dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"
     line: >
-          alias rnaseq='nextflow run {{ rnaseq_dest }}/main.nf
-          -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config
-          -c {{ ngi_pipeline_conf }}/rnaseq_{{ item.site }}.config'
+          alias rnaseq='nextflow run {{ rnaseq_dest }}/
+              -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config
+              -c {{ ngi_pipeline_conf }}/rnaseq_{{ item.site }}.config'
     backup: no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }

@@ -1,0 +1,27 @@
+process {
+  {% for i in item.0.containers %}
+  container = '{{ ngi_containers }}/{{ item.0.name }}/{{ i }}'
+  {% endfor %}
+  {% if item.0.name=='methylseq' %}
+  memory = { 15.GB * task.attempt }
+  time = { 6.h * task.attempt }
+
+  withName:qualimap {
+        cpus = { 4 * task.attempt }
+        memory = { 62.GB * task.attempt }
+        time = { 2.d * task.attempt }
+  }
+  {% endif %}  
+}
+params {
+    {% if item.0.name=='rnaseq' %}
+    reverse_stranded = true
+    {% elif item.0.name=='methylseq' %}
+    genomes {
+        'GRCh38' {
+            bismark = "${params.igenomes_base}/Homo_sapiens/NCBI/GRCh38/Sequence/BismarkIndex"
+            fasta   = "${params.igenomes_base}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta"
+        }
+    }
+  {% endif %} 
+}

@@ -1,0 +1,9 @@
+nextflow_java: "/sw/comp/java/x86_64/sun_jdk1.8.0_151"
+nextflow_version_tag: "v19.04.1"
+nextflow_download_url: "https://github.com/nextflow-io/nextflow/releases/download/{{ nextflow_version_tag }}/nextflow"
+nf_core_env: "/lupus/ngi/irma3/nf-core-env"
+pipelines:
+  - name: rnaseq 
+    release: 1.4.2
+    containers:
+      - nf-core-rnaseq-1.4.2.simg

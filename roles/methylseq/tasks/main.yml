@@ -42,8 +42,8 @@
   lineinfile:
       dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"
       line: >
-        alias methylseq='nextflow run {{ methylseq_dest }}/
-             -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config
+        alias methylseq='nextflow run {{ methylseq_dest }}/ \
+             -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config \
              -c {{ ngi_pipeline_conf }}/methylseq_{{ item.site }}.config'
       backup: no
   with_items:

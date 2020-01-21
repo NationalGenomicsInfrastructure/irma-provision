@@ -11,17 +11,10 @@ process {
         memory = { 62.GB * task.attempt }
         time = { 2.d * task.attempt }
   }
-  {% endif %}  
+  {% endif %}
 }
 params {
     {% if item.0.name=='rnaseq' %}
     reverse_stranded = true
-    {% elif item.0.name=='methylseq' %}
-    genomes {
-        'GRCh38' {
-            bismark = "${params.igenomes_base}/Homo_sapiens/NCBI/GRCh38/Sequence/BismarkIndex"
-            fasta   = "${params.igenomes_base}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta"
-        }
-    }
-  {% endif %} 
+    {% endif %} 
 }

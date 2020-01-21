@@ -4,7 +4,7 @@ neutronstar_dest: "{{ sw_path }}/neutronstar"
 # neutronstar_container_url: "docker://nf-core/neutronstar:{{ rnaseq_version }}"
 neutronstar_container_path: "{{ ngi_containers }}/neutronstar"
 # neutronstar_image: "neutronstar-{{ neutronstar_version }}.simg"
-neutronstar_version: "157a0c904fd5c8de6a174a184aee4a0ac96a871b"
+neutronstar_version: "71f6e3f0377dfb0b4c8324a9cb965d8140869d76"
 
 # Temporary variables whilst under dev by Remi
 neutronstar_container_url: "docker://remiolsen/neutronstar"

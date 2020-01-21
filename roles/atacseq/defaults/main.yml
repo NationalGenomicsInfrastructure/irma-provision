@@ -1,7 +1,0 @@
----
-atacseq_repo: "https://github.com/nf-core/atacseq.git"
-atacseq_dest: "{{ sw_path }}/atacseq"
-atacseq_container_url: "docker://nfcore/atacseq:{{ atacseq_version }}"
-atacseq_container_path: "{{ ngi_containers }}/atacseq"
-atacseq_image: "atacseq-{{ atacseq_version }}.simg"
-atacseq_version: "1.0.0"

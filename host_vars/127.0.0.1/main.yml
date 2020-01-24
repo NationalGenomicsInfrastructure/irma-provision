@@ -44,7 +44,9 @@ ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 piper_module_version: 1.5.1
 gatk_bundle_b37: "/sw/data/uppnex/piper_references/2016-04-07/gatk_bundle/2.8/b37/"
 
-sarek_tag: "2.5.2"
+sarek_repo: "https://github.com/SciLifeLab/sarek.git"
+sarek_version: "2.3.FIX1"
+sarek_tag: "2.3"
 sarek_dest: "{{ sw_path }}/sarek"
 sarek_containers: "{{ ngi_containers }}/sarek"
 sarek_irma_config: "{{ ngi_pipeline_conf }}/sarek_irma.config"

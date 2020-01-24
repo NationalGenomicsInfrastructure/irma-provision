@@ -9,25 +9,37 @@
 - name: Create sarek containers folder and temp/cache for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:
-  - "{{ sarek_containers }}/singularity_cache"
-  - "{{ sarek_containers }}/singularity_temp"
+  - "sarek/singularity_cache"
+  - "sarek/singularity_temp"
 
-- name: Pull sarek Singularity images
-  command: "singularity build {{ item }}-{{ sarek_tag }}.simg {{ sarek_containers_repo }}/{{ item }}:{{ sarek_tag }}"
+- name: Pull sarek Singularity image
+  command: "singularity pull --name sarek-{{ sarek_version}}.simg {{ sarek_containers_repo }}/sarek:{{ sarek_version }}"
   environment:
-    SINGULARITY_CACHEDIR: "{{ sarek_containers }}/singularity_cache"
-    SINGULARITY_TMPDIR: "{{ sarek_containers }}/singularity_temp"
+    SINGULARITY_CACHEDIR: "sarek/singularity_cache"
+    SINGULARITY_TMPDIR: "sarek/singularity_temp"
   args:
     chdir: "{{ sarek_containers }}"
-    creates: "{{ item }}-{{ sarek_tag }}.img"
-  with_items: "{{ sarek_containers_images }}"
+    creates: "sarek-{{ version }}.simg"
+  ignore_errors: true
+
+- name: Pull sarekvep, sareksnpeff Singularity images
+  command: "singularity pull --name {{ item.0 }}-{{ sarek_version }}.{{ item.1 }}.simg {{ sarek_containers_repo }}/{{ item.0 }}:{{ sarek_version }}.{{ item.1 }}"
+  environment:
+    SINGULARITY_CACHEDIR: "sarek/singularity_cache"
+    SINGULARITY_TMPDIR: "sarek/singularity_temp"
+  args:
+    chdir: "{{ sarek_containers }}"
+    creates: "{{ item.0 }}-{{ sarek_version }}.{{ item.1 }}.simg"
+  with_nested:
+    - "{{ sarek_genome_specific_containers }}"
+    - "{{ sarek_genomes }}"
   ignore_errors: true
 
 - name: Remove sarek containers temp directories
   file: name="{{ item }}" state=absent
   with_items:
-  - "{{ sarek_containers }}/singularity_cache"
-  - "{{ sarek_containers }}/singularity_temp"
+  - "sarek/singularity_cache"
+  - "sarek/singularity_temp"
 
 - name: Deploy irma-specific sarek config
   copy:

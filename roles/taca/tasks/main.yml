@@ -59,7 +59,7 @@
 - name: Deploy runfolder delivery stockholm config
   template: src="site_taca_runfolder_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_runfolder_delivery.yml"
 
-- name: Store taca tools version on deployement
+- name: Store taca tools version on deployment
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
     line: "{{ item.tool_name }}: {{ item.tool_version }}"

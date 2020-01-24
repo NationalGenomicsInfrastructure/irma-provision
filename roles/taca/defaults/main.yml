@@ -5,7 +5,7 @@ taca_ngi_version: 4df67826eea84aef95682570c3bb1ce71890c1fb
 
 statusdb_repo: "https://github.com/SciLifeLab/statusdb.git"
 statusdb_dest: "{{ sw_path }}/statusdb"
-statusdb_version: "ca2a3faea82a10359c70f7a7697db499b5c82b17"
+statusdb_version: "4100278170269759e65dd0e8801a33787dd5d5c2"
 
 flowcell_parser_repo: "https://github.com/SciLifeLab/flowcell_parser.git"
 flowcell_parser_dest: "{{ sw_path }}/flowcell_parser"

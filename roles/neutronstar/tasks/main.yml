@@ -46,7 +46,7 @@
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
   - { site: "upps", script: "{{ bash_env_upps_script }}" }
 
-- name: Store neutronstar tool version in deployment
+- name: Store neutronstar tool version in deployement
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
     line: "neutronstar: {{ neutronstar_version }}"

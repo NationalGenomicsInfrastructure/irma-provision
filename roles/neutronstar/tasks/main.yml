@@ -11,8 +11,8 @@
   with_items:
   - "{{ neutronstar_container_path }}/singularity_cache"
   - "{{ neutronstar_container_path }}/singularity_temp"
-    - "{{ supernova_container_path }}/singularity_cache"
-    - "{{ supernova_container_path }}/singularity_temp"
+  - "{{ supernova_container_path }}/singularity_cache"
+  - "{{ supernova_container_path }}/singularity_temp"
 
 - name: Pull neutronstar Singularity images
   command: "singularity build {{ neutronstar_image }} {{ neutronstar_container_url }}"

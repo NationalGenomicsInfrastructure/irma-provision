@@ -9,3 +9,8 @@ neutronstar_version: "1.0.0"
 # Temporary variables whilst under dev by Remi
 neutronstar_container_url: "docker://nfcore/neutronstar"
 neutronstar_image: "neutronstar.simg"
+
+supernova_container_url: "docker://nfcore/supernova"
+supernova_image: "supernova.simg"
+supernova_version: "2.1.1"
+supernova_container_path: "{{ ngi_containers }}/supernova"

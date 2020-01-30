@@ -6,11 +6,13 @@
        version="{{ neutronstar_version }}"
        force=yes
 
-- name: Create neutronstar temp/cache folder for images
+- name: Create neutronstar and supernova temp/cache folder for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:
   - "{{ neutronstar_container_path }}/singularity_cache"
   - "{{ neutronstar_container_path }}/singularity_temp"
+    - "{{ supernova_container_path }}/singularity_cache"
+    - "{{ supernova_container_path }}/singularity_temp"
 
 - name: Pull neutronstar Singularity images
   command: "singularity build {{ neutronstar_image }} {{ neutronstar_container_url }}"
@@ -21,11 +23,22 @@
     chdir: "{{ neutronstar_container_path }}"
   ignore_errors: true
 
-- name: Remove neutronstar singularity temp directories
+- name: Pull supernova Singularity images
+  command: "singularity build {{ supernova_image }} {{ supernova_container_url }}"
+  environment:
+    SINGULARITY_CACHEDIR: "{{ supernova_container_path }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ supernova_container_path }}/singularity_temp"
+  args:
+    chdir: "{{ supernova_container_path }}"
+  ignore_errors: true
+
+- name: Remove neutronstar and supernova singularity temp directories
   file: name="{{ item }}" state=absent
   with_items:
   - "{{ neutronstar_container_path }}/singularity_cache"
   - "{{ neutronstar_container_path }}/singularity_temp"
+  - "{{ supernova_container_path }}/singularity_cache"
+  - "{{ supernova_container_path }}/singularity_temp"
 
 - name: Create neutronstar config
   template:
@@ -39,8 +52,8 @@
   lineinfile:
      dest: "{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
      line: >
-         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile standard,uppmax
-         -c {{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config'
+         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile standard,uppmax \
+         -c {{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config --supernova_container {{ supernova_container_path }}'
      backup: no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
@@ -50,3 +63,8 @@
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
     line: "neutronstar: {{ neutronstar_version }}"
+
+- name: Store supernova tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "supernova: {{ supernova_version }}"

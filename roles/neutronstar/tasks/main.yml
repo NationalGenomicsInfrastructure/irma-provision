@@ -52,7 +52,7 @@
   lineinfile:
      dest: "{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
      line: >
-         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile standard,uppmax \
+         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile singularity \
          -c {{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config --supernova_container {{ supernova_container_path }}'
      backup: no
   with_items:

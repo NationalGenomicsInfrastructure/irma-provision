@@ -19,7 +19,7 @@ remote_destination: 'ngi.web@ngi-internal.scilifelab.se:/var/local/mqc_reports/'
 {% elif deployment_environment == "staging" %}
 remote_sshkey: "/home/funk_007/ssh_keys/id_rsa"
 remote_port: '22'             # Optional
-remote_destination: 'genomics.www@tools-dev.scilifelab.se:/var/local/mqc_reports/'
+remote_destination: 'ngi.web@ngi-internal-dev.scilifelab.se:/home/ngi.web/mqc_reports/'
 megaqc_url: http://megaqc.scilifelab.se/api/upload_parse
 megaqc_access_token: {{ megaqc_token_sthlm_stage }}
 {% endif %}

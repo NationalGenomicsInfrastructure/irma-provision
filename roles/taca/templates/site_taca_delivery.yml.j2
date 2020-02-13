@@ -23,10 +23,10 @@ deliver:
 {% endif %}
     files_to_deliver:
 {% if "upps" == site %}
-#Adds Sisyphus files to Uppsala deliveries
+#Adds reports files to Uppsala deliveries
         -
-            - <ANALYSISPATH>/qc_sisyphus/reports
-            - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
+            - <ANALYSISPATH>/seqreports/reports
+            - <STAGINGPATH>/00-Reports/SequenceQC/seqreports
         -
             - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
             - <STAGINGPATH>
@@ -75,9 +75,11 @@ deliver:
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam*.eval
             - <STAGINGPATH>/<SAMPLEID>/01-QC
             - required: True
+{% if "sthlm" == site %}
         - 
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/<SAMPLEID>.gt_concordance
             - <STAGINGPATH>/<SAMPLEID>/01-QC
+{% endif %}
 {% if "upps" == site %}
         -
             - {{ ngi_site_softlinks }}/bam2fastq.sh
@@ -110,10 +112,10 @@ deliver:
         - 
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.annotated.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
+{% if "sthlm" == site %}
         -
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
             - <STAGINGPATH>/05-Genotyping
-{% if "sthlm" == site %}
     misc_files_to_deliver:
         -
             - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt

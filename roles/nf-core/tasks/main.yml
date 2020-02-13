@@ -54,7 +54,6 @@
     dest: "{{ ngi_pipeline_conf }}/{{ item.1.script }}"
     line: >
           alias {{ item.0.name }}='nextflow run {{ sw_path }}{{ item.0.name }}/workflow/ \
-          --custom_config_base {{ sw_path }}{{ item.0.name }}/configs \
           -profile uppmax \
           -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.1.site }}.config \
           -c {{ ngi_pipeline_conf }}/{{ item.0.name }}_{{ item.1.site }}.config'

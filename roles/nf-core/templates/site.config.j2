@@ -1,7 +1,5 @@
 process {
-  {% for i in item.0.containers %}
-  container = '{{ ngi_containers }}/{{ item.0.name }}/{{ i }}'
-  {% endfor %}
+  container = '{{ ngi_containers }}/{{ item.0.name }}/nf-core-{{ item.0.name }}-{{ item.0.release }}.simg'
   {% if item.0.name=='methylseq' %}
   memory = { 15.GB * task.attempt }
   time = { 6.h * task.attempt }
@@ -16,5 +14,5 @@ process {
 params {
     {% if item.0.name=='rnaseq' %}
     reverse_stranded = true
-    {% endif %} 
+    {% endif %}
 }

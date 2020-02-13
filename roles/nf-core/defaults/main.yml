@@ -5,17 +5,9 @@ nf_core_env: "/lupus/ngi/irma3/nf-core-env"
 pipelines:
   - name: rnaseq
     release: 1.4.2
-    containers:
-      - nf-core-rnaseq-1.4.2.simg
   - name: methylseq
     release: 1.4
-    containers:
-      - nf-core-methylseq-1.4.simg
   - name: ampliseq
     release: 1.1.2
-    containers:
-      - nf-core-ampliseq-1.1.2.simg
   - name: atacseq
     release: 1.1.0
-    containers:
-      - nf-core-atacseq-1.1.0.simg

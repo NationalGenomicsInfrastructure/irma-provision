@@ -37,10 +37,9 @@
   with_items: "{{ pipelines }}"
 
 - name: Move singularity images
-  shell: "mv {{ sw_path }}{{ item.0.name }}/singularity-images/{{ item.1 }} {{ ngi_containers }}/{{ item.0.name }}/"
-  with_subelements:
+  shell: "mv {{ sw_path }}{{ item.name }}/singularity-images/nf-core-{{ item.name }}-{{ item.release }}.simg {{ ngi_containers }}/{{ item.name }}/"
+  with_items:
     - "{{ pipelines }}"
-    - containers
 
 - name: Create nf-core config
   template:

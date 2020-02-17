@@ -1,7 +1,0 @@
----
-rnaseq_repo: "https://github.com/nf-core/rnaseq.git"
-rnaseq_dest: "{{ sw_path }}/rnaseq"
-rnaseq_container_url: "docker://nfcore/rnaseq:{{ rnaseq_version }}"
-rnaseq_container_path: "{{ ngi_containers }}/rnaseq"
-rnaseq_image: "rnaseq-{{ rnaseq_version }}.simg"
-rnaseq_version: "1.4.2"

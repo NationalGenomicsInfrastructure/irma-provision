@@ -1,25 +1,25 @@
 # This file should be placed under $HOME/.ngiconfig/ngi_config.yaml
 # or its path exported as the environment variable NGI_CONFIG
 
-# TODO: Deploy the correct version of the database. 
+# TODO: Deploy the correct version of the database.
 database:
     record_tracking_db_path: {{ ngi_pipeline_db }}
 
 environment:
     project_id: {{ ngi_pipeline_slurm_project }}
-    ngi_scripts_dir: {{ ngi_pipeline_dest }}/scripts 
+    ngi_scripts_dir: {{ ngi_pipeline_dest }}/scripts
     conda_env: NGI
     flowcell_inbox:
             - {{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/incoming
             - {{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/incoming
-# TODO: This QOS flag is probably not used/needed any longer. 
-#       Enable later in the future if required. 
+# TODO: This QOS flag is probably not used/needed any longer.
+#       Enable later in the future if required.
 
 {% if deployment_environment in [ "staging", "devel" ] %}
 slurm:
      queue: testcore
 {% endif %}
- 
+
 piper:
     #sample:
     #    required_autosomal_coverage: 28.4
@@ -34,7 +34,7 @@ piper:
     #    - arg1
     #    - arg2
     #    - arg3
-    # TODO: Piper module adds setupfilecreator to the path; unsure if this works or if complete path is required.  
+    # TODO: Piper module adds setupfilecreator to the path; unsure if this works or if complete path is required.
     path_to_setupfilecreator: setupfilecreator
     gatk_key: "{{ ngi_resources }}/piper/{{ gatk_key }}"
 
@@ -54,7 +54,7 @@ sarek:
 supported_genomes:
     # GRCh37: Indexed version of "/lupus/data/uppnex/reference/Homo_sapiens/GRCh37/concat/Homo_sapiens.GRCh37.57.dna.concat.fa"
     "GRCh37": "{{ gatk_bundle_b37 }}/human_g1k_v37.fasta"
-    # GRMc38 is currently not used.  
+    # GRMc38 is currently not used.
     #"GRCm38": "/sw/data/uppnex/reference/Mus_musculus/GRCm38/concat/Mus_musculus.GRCm38.69.dna.concat.fa"
     "rn4": None
     "saccer2": None
@@ -74,7 +74,7 @@ analysis:
             analysis_engine: ngi_pipeline.engines.qc_ngi
         RNA-seq:
             analysis_engine: ngi_pipeline.engines.rna_ngi
-            ngi_nf_path: {{ rnaseq_dest }}/main.nf
+            ngi_nf_path: {{ sw_path }}rnaseq/workflow/
             sthlm_ngi_conf: {{ sthlm_rna_seq_conf }}
             upps_ngi_conf: {{ upps_rna_seq_conf }}
         wgs_germline:
@@ -111,8 +111,8 @@ gt_concordance:
     INTERVAL_FILE: {{ ngi_pipeline_dest }}/static/snps.interval_list
     SNPS_FILE: {{ ngi_pipeline_dest }}/static/maf_snps.txt
 
-logging: 
-    log_file: "{{ ngi_pipeline_log }}" 
+logging:
+    log_file: "{{ ngi_pipeline_log }}"
 
 mail:
     recipient: {{ recipient_mail }}

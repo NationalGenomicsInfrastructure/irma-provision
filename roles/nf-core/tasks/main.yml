@@ -1,0 +1,70 @@
+---
+
+- name: install nf-core
+  local_action:
+    module: pip
+    virtualenv_command: /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py
+    virtualenv: "{{ nf_core_env }}"
+    name: nf-core
+    state: present
+
+- name: Download NextFlow
+  local_action:
+    get_url url="{{ nextflow_download_url }}" dest="{{ nf_core_env }}/bin" mode="u+rwx,g=rwx"
+
+- name: Install NextFlow
+  local_action:
+    module: command
+    _raw_params: "{{ nf_core_env }}/bin/nextflow"
+  environment:
+    NXF_LAUNCHER: "/scratch"
+    NXF_HOME: "{{ nf_core_env }}/nextflow"
+    NXF_WORK: "/scratch"
+
+- name: nf-core
+  command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }} --singularity --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
+  environment:
+    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
+  args:
+    chdir: "{{ sw_path }}"
+  with_items: "{{ pipelines }}"
+
+- name: Create directories for singularity images
+  file:
+    path: "{{ ngi_containers }}/{{ item.name }}"
+    state: directory
+    mode: g+s
+  with_items: "{{ pipelines }}"
+
+- name: Move singularity images
+  shell: "mv {{ sw_path }}{{ item.name }}/singularity-images/nf-core-{{ item.name }}-{{ item.release }}.simg {{ ngi_containers }}/{{ item.name }}/"
+  with_items:
+    - "{{ pipelines }}"
+
+- name: Create nf-core config
+  template:
+    src: "site.config.j2"
+    dest: "{{ ngi_pipeline_conf }}/{{ item.0.name }}_{{ item.1.site }}.config"
+  with_nested:
+  - "{{ pipelines }}"
+  - [ { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }, { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }]
+
+- name: Set alias for pipeline
+  lineinfile:
+    dest: "{{ ngi_pipeline_conf }}/{{ item.1.script }}"
+    line: >
+          alias {{ item.0.name }}='nextflow run {{ sw_path }}{{ item.0.name }}/workflow/ \
+          -profile uppmax \
+          -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.1.site }}.config \
+          -c {{ ngi_pipeline_conf }}/{{ item.0.name }}_{{ item.1.site }}.config'
+    backup: no
+  with_nested:
+  - "{{ pipelines }}"
+  - [ { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }, { site: "upps", script: "{{ bash_env_upps_script }}" } ]
+
+- name: Store tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "{{ item.name }}: {{ item.release }}"
+  with_items:
+  - "{{ pipelines }}"

@@ -1,11 +1,12 @@
 ---
-sarek_containers_repo: "docker://maxulysse"
-sarek_containers_images:
-    - "sarek"
-    - "r-base"
-    - "runallelecount"
-    - "snpeff"
-    - "snpeffgrch37"
-    - "snpeffgrch38"
-    - "vepgrch37"
-    - "vepgrch38"
+sarek_containers_repo: "docker://nfcore"
+sarek_repo: "https://github.com/nf-core/sarek.git"
+sarek_version: "2.5.2"
+sarek_genome_specific_containers:
+  - sarekvep
+  - sareksnpeff
+sarek_genomes:
+  - GRCh38
+  - GRCh37
+  - GRCm38
+  - CanFam3.1

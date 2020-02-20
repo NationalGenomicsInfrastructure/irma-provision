@@ -39,10 +39,9 @@ piper:
     gatk_key: "{{ ngi_resources }}/piper/{{ gatk_key }}"
 
 sarek:
-    profile: slurm
+    profile: uppmax
     nf_path: {{ nextflow_dest }}/nextflow
     sarek_path: {{ sarek_dest }}
-    config: {{ sarek_irma_config }}
     containerPath: {{ sarek_containers }}
     project: {{ ngi_pipeline_slurm_project }}
     tag: {{ sarek_tag }}

@@ -58,7 +58,7 @@
           -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config \
           -c {{ ngi_pipeline_conf }}/sarek_irma.config'
     backup: no
-    with_items:
+  with_items:
     - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }
     - { site: "upps", script: "{{ bash_env_upps_script }}", project_id: "{{ ngi_pipeline_upps_delivery }}" }
 

@@ -54,7 +54,7 @@
     line: >
           alias sarek='nextflow run {{ sarek_dest }}/workflow/ \
           -profile uppmax \
-          ---project {{ item.project_id }} \
+          --project {{ item.project_id }} \
           -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config \
           -c {{ ngi_pipeline_conf }}/sarek_irma.config'
     backup: no

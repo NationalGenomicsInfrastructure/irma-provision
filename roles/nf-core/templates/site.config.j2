@@ -11,8 +11,8 @@ process {
   }
   {% endif %}
 }
-params {
-    {% if item.0.name=='rnaseq' %}
+{% if item.0.name=='rnaseq' %}
+params {  
     reverse_stranded = true
-    {% endif %}
 }
+{% endif %}

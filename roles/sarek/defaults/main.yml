@@ -1,7 +1,5 @@
 ---
 sarek_containers_repo: "docker://nfcore"
-sarek_repo: "https://github.com/nf-core/sarek.git"
-sarek_version: "2.5.2"
 sarek_genome_specific_containers:
   - sarekvep
   - sareksnpeff

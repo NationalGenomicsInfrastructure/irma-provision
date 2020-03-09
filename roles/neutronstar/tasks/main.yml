@@ -50,15 +50,17 @@
 
 - name: Set neutronstar alias
   lineinfile:
-     dest: "{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
+     dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"
      line: >
-         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile uppmax \
+         alias neutronstar='nextflow run {{ neutronstar_dest }}/main.nf -profile singularity \
          -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config \
-         -c {{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config --supernova_container {{ supernova_container_path }}'
+         -c {{ ngi_pipeline_conf }}/neutronstar_{{ item.site }}.config --supernova_container {{ supernova_container_path }}/{{ supernova_image }}'
      backup: no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
   - { site: "upps", script: "{{ bash_env_upps_script }}" }
+
+ -process.executor=slurm -process.clusterOptions=‘-A ngi2016004’ --max_memory=250.GB
 
 - name: Store neutronstar tool version in deployment
   lineinfile:

@@ -60,8 +60,6 @@
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
   - { site: "upps", script: "{{ bash_env_upps_script }}" }
 
- -process.executor=slurm -process.clusterOptions=‘-A ngi2016004’ --max_memory=250.GB
-
 - name: Store neutronstar tool version in deployment
   lineinfile:
     dest: "{{ deployed_tool_versions }}"

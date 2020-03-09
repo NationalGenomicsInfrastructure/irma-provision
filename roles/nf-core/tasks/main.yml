@@ -25,6 +25,8 @@
   command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }} --singularity --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
   environment:
     PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
+    SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
   args:
     chdir: "{{ sw_path }}"
   with_items: "{{ pipelines }}"
@@ -40,6 +42,12 @@
   shell: "mv {{ sw_path }}{{ item.name }}/singularity-images/nf-core-{{ item.name }}-{{ item.release }}.simg {{ ngi_containers }}/{{ item.name }}/"
   with_items:
     - "{{ pipelines }}"
+
+- name: Remove singularity cache directories
+  file: name="{{ item }}" state=absent
+  with_items:
+  - "{{ ngi_containers }}/singularity_cache"
+  - "{{ ngi_containers }}/singularity_temp"
 
 - name: Create nf-core config
   template:

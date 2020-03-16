@@ -1,27 +1,30 @@
 ---
 
-- name: Fetch ngi_pipeline from github 
-  git: repo={{ ngi_pipeline_repo }} 
+- name: Fetch ngi_pipeline from github
+  git: repo={{ ngi_pipeline_repo }}
        dest={{ ngi_pipeline_dest }}
        version={{ ngi_pipeline_version }}
        force=yes
 
-- name: "Check if {{ NGI_venv_name }} virtual env exists" 
+- name: "Check if {{ NGI_venv_name }} virtual env exists"
   shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_name }}$"
   register: "{{ NGI_venv_name }}_venv_exists"
   ignore_errors: true
 
-- name: Setup virtual env and install dependencies 
+- name: Setup virtual env and install dependencies
   shell: "conda create -n {{ NGI_venv_name }} pip"
   when: "not {{ NGI_venv_name }}_venv_exists.stdout"
+
+- name: (Temporary until everything is updated) Install click7.0 as click7.1 breaks everything
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install click==7.0"
 
 - name: Install ngi_pipeline requirements
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_pipeline_dest }}/requirements.txt"
 
 - name: Install ngi_pipeline
   shell: "cd {{ ngi_pipeline_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
- 
-- name: Create ngi_pipeline conf directory 
+
+- name: Create ngi_pipeline conf directory
   file: path="{{ ngi_pipeline_conf }}" state=directory mode=g+s
 
 - name: Create ngi_pipeline staging incoming & archive directories
@@ -33,10 +36,10 @@
   - { site: "{{ ngi_pipeline_upps_delivery }}", dir: "archive"}
   when: deployment_environment in ["staging", "devel"]
 
-- name: Install PyVCF for joint calling 
+- name: Install PyVCF for joint calling
   shell: "{{ ngi_pipeline_venv }}/bin/pip install PyVCF"
 
-- name: Create ngi_resources folder 
+- name: Create ngi_resources folder
   file: name="{{ ngi_resources }}" state=directory mode=g+s
 
 - name: Create ngi_resources/piper folder
@@ -47,7 +50,7 @@
     dest: "{{ deployed_tool_versions }}"
     content: "-- {{ deployment_environment }} ({{ deployment_version }}) --"
 
-- name: Deploy GATK license key 
+- name: Deploy GATK license key
   copy: src="files/{{ gatk_key }}" dest="{{ ngi_resources }}/piper/{{ gatk_key }}"
 
 # Set Uppsala specific variables
@@ -57,7 +60,7 @@
     ngi_pipeline_log: "{{ ngi_pipeline_log_upps }}"
     recipient_mail: "{{ recipient_mail_upps }}"
 
-- name: Deploy irma ngi_pipeline config for uppsala 
+- name: Deploy irma ngi_pipeline config for uppsala
   template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ upps_config }}"
 
 # Set Stockholm specific variables
@@ -70,24 +73,24 @@
 - name: Deploy irma ngi_pipeline config for stockholm
   template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ sthlm_config }}"
 
-- name: Deploy common bash environment variables 
+- name: Deploy common bash environment variables
   template: src="{{ bash_env_script }}.j2" dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
 
-# Set Uppsala specific variables 
-- set_fact: 
+# Set Uppsala specific variables
+- set_fact:
     site_config: "{{ upps_config }}"
     charon_api_token: "{{ charon_api_token_upps }}"
     tsm_config_file: "{{ tsm_config_file_upps }}"
     site: "upps"
 
-- name: Deploy uppsala site bash environment variables 
+- name: Deploy uppsala site bash environment variables
   template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
 
 - name: Deploy uppnex_datadeliver script for Uppsala
   copy: src="files/uppnex_datadeliver" dest="{{ sw_path }}/uppnex_datadeliver" mode="u=rwx,g=rwx,o=rx"
 
 # Set Stockholm specific variables
-- set_fact: 
+- set_fact:
     site_config: "{{ sthlm_config }}"
     charon_api_token: "{{ charon_api_token_sthlm }}"
     tsm_config_file: "{{ tsm_config_file_sthlm }}"
@@ -96,8 +99,8 @@
 - name: Deploy stockholm site bash environment variables
   template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
 
-- name: Deploy fastqc conf for irma 
-  copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
+- name: Deploy fastqc conf for irma
+  copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}"
 
 - name: Deploy script for creating site specific ngi_pipeline dirs for logs and db
   template: src=create_ngi_pipeline_dirs.sh.j2 dest={{ ngi_resources }}/create_ngi_pipeline_dirs.sh
@@ -122,4 +125,3 @@
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
     line: "NGI Pipeline: {{ ngi_pipeline_version }}"
-

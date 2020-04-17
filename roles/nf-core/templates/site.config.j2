@@ -10,9 +10,17 @@ process {
         time = { 2.d * task.attempt }
   }
   {% endif %}
+  {% if item.0.name=='ampliseq' %}
+  withName:classifier {
+        cpus = 20
+        memory = 120.GB
+        time = 36.h
+  }
+  {% endif %}
 }
 {% if item.0.name=='rnaseq' %}
-params {
-    reverseStranded = true
-}
+params.reverseStranded = true
+{% endif %}
+{% if item.0.name=='ampliseq' %}
+params.reference_database = '{{ ngi_resources }}ampliseq/Silva_132_release.zip'
 {% endif %}

@@ -6,7 +6,7 @@ pipelines:
   - name: rnaseq
     release: 1.4.2
   - name: methylseq
-    release: 1.4
+    release: 1.5
   - name: ampliseq
     release: 1.1.2
   - name: atacseq

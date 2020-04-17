@@ -6,7 +6,7 @@ deliver:
     analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
-    stagingpathhard: <ROOTPATH>/DELIVERY_HARD/<PROJECTID> 
+    stagingpathhard: <ROOTPATH>/DELIVERY_HARD/<PROJECTID>
     deliverypath: "{{ milou_delivery_root }}/<UPPNEXID>/INBOX/<PROJECTNAME>-<PROJECTID>"
     reportpath: <ANALYSISPATH>/piper_ngi
     logpath: <REPORTPATH>/logs
@@ -19,7 +19,7 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
     misc_files_to_deliver:
-        - 
+        -
 {% if "rna" == item %}
             - <ANALYSISPATH>/rnaseq_ngi/results/
             - <STAGINGPATH>/01-RNA-Results
@@ -40,4 +40,5 @@ deliver:
             - <STAGINGPATH>/00-Reports
 {% if "sthlm" == site %}
     save_meta_info: True
+    xmlgen_ignore_lib_prep: True
 {% endif %}

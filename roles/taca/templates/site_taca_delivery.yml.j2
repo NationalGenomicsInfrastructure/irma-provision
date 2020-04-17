@@ -6,7 +6,7 @@ deliver:
     analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
-    stagingpathhard: <ROOTPATH>/DELIVERY_HARD/<PROJECTID> 
+    stagingpathhard: <ROOTPATH>/DELIVERY_HARD/<PROJECTID>
     reportpath: <ANALYSISPATH>/piper_ngi
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
@@ -17,7 +17,7 @@ deliver:
     report_aggregate: "ngi_reports ign_aggregate_report -n {{ site_full }}"
     report_sample: "ngi_reports ign_sample_report -n {{ site_full }}"
     copy_reports_to_reports_outbox: True
-    reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/" 
+    reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/"
 {% else %}
     deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTNAME>-<PROJECTID>"
 {% endif %}
@@ -30,7 +30,7 @@ deliver:
         -
             - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
             - <STAGINGPATH>
-        -   
+        -
             - {{ ngi_site_softlinks }}/DELIVERY.README.txt
             - <STAGINGPATH>
 {% endif %}
@@ -59,7 +59,7 @@ deliver:
 {% if "upps" == site %}
             - required: True
 {% endif %}
-        - 
+        -
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.*.snpEff.summary.*
             - <STAGINGPATH>/<SAMPLEID>/00-Reports
             - required: True
@@ -76,7 +76,7 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/01-QC
             - required: True
 {% if "sthlm" == site %}
-        - 
+        -
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/<SAMPLEID>.gt_concordance
             - <STAGINGPATH>/<SAMPLEID>/01-QC
 {% endif %}
@@ -98,18 +98,18 @@ deliver:
             - {{ ngi_site_softlinks }}/applyRecalibration.sh
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
             - required: True
-        - 
+        -
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.genomic.vcf.gz
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
             - required: True
-        - 
+        -
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.genomic.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
-        - 
+        -
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.annotated.vcf.gz
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
             - required: True
-        - 
+        -
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.annotated.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
 {% if "sthlm" == site %}
@@ -120,7 +120,7 @@ deliver:
         -
             - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
             - <STAGINGPATH>
-        -   
+        -
             - {{ ngi_site_softlinks }}/DELIVERY.README.txt
             - <STAGINGPATH>
         -
@@ -130,4 +130,5 @@ deliver:
             - <ANALYSISPATH>/*multiqc_report.html
             - <STAGINGPATH>/00-Reports
     save_meta_info: True
+    xmlgen_ignore_lib_prep: True
 {% endif %}

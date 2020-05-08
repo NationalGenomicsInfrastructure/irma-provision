@@ -53,10 +53,10 @@
     dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"
     line: >
           alias sarek='nextflow run {{ sarek_dest }}/workflow/ \
-          -profile uppmax \
-          --project {{ item.project_id }} \
+          -profile uppmax --project {{ item.project_id }} \
           -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config \
-          -c {{ ngi_pipeline_conf }}/sarek_irma.config'
+          -c {{ ngi_pipeline_conf }}/sarek_irma.config \
+          --custom_config_base {{ sarek_dest }}/configs/'
     backup: no
   with_items:
     - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }

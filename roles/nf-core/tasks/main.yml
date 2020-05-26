@@ -23,7 +23,7 @@
 
 - name: Create temp directories for singularity images
   file:
-    path: "{{ item }}"
+    path: "{{ item   }}"
     state: directory
   with_items:
     - "{{ ngi_containers }}/singularity_cache"
@@ -81,7 +81,7 @@
 - name: Download SILVA classifier data for ampliseq
   get_url:
     url: https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_132_release.zip
-    dest: "{{ ngi_resources }}ampliseq/Silva_132_release.zip"
+    dest: "{{ ngi_rcontainers }}/ampliseq/Silva_132_release.zip"
 
 - name: Store tool version in deployment
   lineinfile:

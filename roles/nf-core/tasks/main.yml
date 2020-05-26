@@ -21,6 +21,14 @@
     NXF_HOME: "{{ nf_core_env }}/nextflow"
     NXF_WORK: "/scratch"
 
+- name: Create temp directories for singularity images
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ ngi_containers }}/singularity_cache"
+    - "{{ ngi_containers }}/singularity_temp"
+
 - name: nf-core
   command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }} --singularity --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
   environment:

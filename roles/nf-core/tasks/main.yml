@@ -23,7 +23,7 @@
 
 - name: Create temp directories for singularity images
   file:
-    path: "{{ item   }}"
+    path: "{{ item }}"
     state: directory
   with_items:
     - "{{ ngi_containers }}/singularity_cache"

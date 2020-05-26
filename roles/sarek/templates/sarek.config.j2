@@ -1,3 +1,5 @@
 singularity {
     cacheDir = '{{ sarek_containers }}'
 }
+
+process.container = "{{ sarek_containers }}/nfcore-sarek-{{sarek_tag}}.img"

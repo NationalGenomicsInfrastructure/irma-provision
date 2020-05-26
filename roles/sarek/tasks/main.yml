@@ -15,23 +15,23 @@
   - "{{ sarek_containers }}/singularity_temp"
 
 - name: Pull sarek Singularity image
-  command: "singularity pull --name sarek-{{ sarek_tag }}.img {{ sarek_containers_repo }}/sarek:{{ sarek_tag }}"
+  command: "singularity pull --name nfcore-sarek-{{ sarek_tag }}.img {{ sarek_containers_repo }}/sarek:{{ sarek_tag }}"
   environment:
     SINGULARITY_CACHEDIR: "{{ sarek_containers }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ sarek_containers }}/singularity_temp"
   args:
     chdir: "{{ sarek_containers }}"
-    creates: "{{ sarek_containers }}/sarek-{{ sarek_tag }}.img"
+    creates: "{{ sarek_containers }}/nfcore-sarek-{{ sarek_tag }}.img"
   ignore_errors: true
 
 - name: Pull sarekvep, sareksnpeff Singularity images
-  command: "singularity pull --name {{ item.0 }}-{{ sarek_tag }}.{{ item.1 }}.img {{ sarek_containers_repo }}/{{ item.0 }}:{{ sarek_tag }}.{{ item.1 }}"
+  command: "singularity pull --name nfcore-{{ item.0 }}-{{ sarek_tag }}.{{ item.1 }}.img {{ sarek_containers_repo }}/{{ item.0 }}:{{ sarek_tag }}.{{ item.1 }}"
   environment:
     SINGULARITY_CACHEDIR: "{{ sarek_containers }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ sarek_containers }}/singularity_temp"
   args:
     chdir: "{{ sarek_containers }}"
-    creates: "{{ sarek_containers }}/{{ item.0 }}-{{ sarek_tag }}.{{ item.1 }}.img"
+    creates: "{{ sarek_containers }}/nfcore-{{ item.0 }}-{{ sarek_tag }}.{{ item.1 }}.img"
   with_nested:
     - "{{ sarek_genome_specific_containers }}"
     - "{{ sarek_genomes }}"
@@ -56,7 +56,8 @@
           -profile uppmax --project {{ item.project_id }} \
           -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config \
           -c {{ ngi_pipeline_conf }}/sarek_irma.config \
-          --custom_config_base {{ sarek_dest }}/configs/'
+          --custom_config_base {{ sarek_dest }}/configs/ \
+          --igenomes_ignore'
     backup: no
   with_items:
     - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }

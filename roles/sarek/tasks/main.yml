@@ -52,11 +52,11 @@
   lineinfile:
     dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"
     line: >
-          alias sarek='nextflow run {{ sarek_dest }}/workflow/ \
-          -profile uppmax --project {{ item.project_id }} \
-          -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config \
-          -c {{ ngi_pipeline_conf }}/sarek_irma.config \
-          --custom_config_base {{ sarek_dest }}/configs/ \
+          alias sarek='nextflow run {{ sarek_dest }}/workflow/
+          -profile uppmax --project {{ item.project_id }}
+          -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config
+          -c {{ ngi_pipeline_conf }}/sarek_irma.config
+          --custom_config_base {{ sarek_dest }}/configs/
           --igenomes_ignore'
     backup: no
   with_items:

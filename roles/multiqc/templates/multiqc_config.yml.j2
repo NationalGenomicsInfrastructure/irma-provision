@@ -5,6 +5,10 @@ export_plots: true
 {% if item.site == "upps" %}
 swedac_accredited: False
 swedac_location: 'uppsala'
+{% if deployment_environment == "production" %}
+megaqc_url: https://megaqc.snpseq.medsci.uu.se:443/api/upload_data
+megaqc_access_token: {{ megaqc_token_upps }}
+{% endif %}
 {% endif %}
 
 {% if item.site == "sthlm" and deployment_environment in ["production", "staging"]%}

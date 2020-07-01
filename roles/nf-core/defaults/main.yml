@@ -11,3 +11,5 @@ pipelines:
     release: 1.1.2
   - name: atacseq
     release: 1.1.0
+  - name: viralrecon
+    release: 1.1.0

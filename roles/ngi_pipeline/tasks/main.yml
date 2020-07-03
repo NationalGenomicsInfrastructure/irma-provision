@@ -57,8 +57,10 @@
 - set_fact:
     ngi_pipeline_db: "{{ ngi_pipeline_db_upps }}"
     ngi_pipeline_slurm_project: "{{ ngi_pipeline_upps_delivery }}"
+    ngi_pipeline_sequencing_center: "NGI-U"
     ngi_pipeline_log: "{{ ngi_pipeline_log_upps }}"
     recipient_mail: "{{ recipient_mail_upps }}"
+    site: "upps"
 
 - name: Deploy irma ngi_pipeline config for uppsala
   template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ upps_config }}"
@@ -67,8 +69,10 @@
 - set_fact:
     ngi_pipeline_db: "{{ ngi_pipeline_db_sthlm }}"
     ngi_pipeline_slurm_project: "{{ ngi_pipeline_sthlm_delivery }}"
+    ngi_pipeline_sequencing_center: "NGI-S"
     ngi_pipeline_log: "{{ ngi_pipeline_log_sthlm }}"
     recipient_mail: "{{ recipient_mail_sthlm }}"
+    site: "sthlm"
 
 - name: Deploy irma ngi_pipeline config for stockholm
   template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ sthlm_config }}"

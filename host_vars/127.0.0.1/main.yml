@@ -21,6 +21,7 @@ ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipelin
 ngi_pipeline_dest: "{{ sw_path }}/ngi_pipeline"
 ngi_pipeline_version: 036f989ef200369378eadf3b38e913f89f80ede5
 NGI_venv_name: "NGI"
+NGI_venv_py3_name: "NGI_py3"
 ngi_pipeline_venv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"

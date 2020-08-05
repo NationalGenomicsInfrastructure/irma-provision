@@ -8,9 +8,6 @@
        force=yes
        recursive=yes
 
-- name: Install ngi_reports requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_reports_dest }}/requirements.txt"
-
 - name: Install ngi_reports
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
   args:

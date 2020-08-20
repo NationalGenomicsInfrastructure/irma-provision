@@ -82,6 +82,9 @@
   get_url:
     url: https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_132_release.zip
     dest: "{{ ngi_containers }}/ampliseq/Silva_132_release.zip"
+  when: item.name == "ampliseq"
+  with_items:
+  - "{{ pipelines }}"
 
 - name: Store tool version in deployment
   lineinfile:

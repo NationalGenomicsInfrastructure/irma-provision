@@ -1,39 +1,33 @@
 ---
 - include: dependencies.yml
 
-- name: Fetch ngi_reports from github 
-  git: repo="{{ ngi_reports_repo }}" 
+- name: Fetch ngi_reports from github
+  git: repo="{{ ngi_reports_repo }}"
        dest="{{ ngi_reports_dest }}"
        version="{{ ngi_reports_version }}"
        force=yes
        recursive=yes
-
-- name: Install ngi_reports requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_reports_dest }}/requirements.txt"
 
 - name: Install ngi_reports
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
   args:
     chdir: "{{ ngi_reports_dest }}"
 
-- name: Install pandocfilters submodule
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
-  args:
-    chdir: "{{ ngi_reports_dest }}/data/pandoc_templates/pandocfilters/"
 
-- name: Create ngi_reports conf files
-  template: src="ngi_reports_{{ item.site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ item.site }}.conf"
-  with_items:
-  - { site: "upps" }
-  - { site: "sthlm" }
+- name: Create ngi_reports conf file
+  template: src="ngi_reports_sthlm.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_sthlm.conf"
 
-- name: Export NGI_REPORTS_CONFIG via sourceme_{{ item.site }}
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.env_script }}"
-              line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ item.site }}.conf'
+- name: Export NGI_REPORTS_CONFIG via sourceme_sthlm
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
+              line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_sthlm.conf'
               backup=no
-  with_items:
-  - { site: "upps", env_script: "{{ bash_env_upps_script }}" }
-  - { site: "sthlm", env_script: "{{ bash_env_sthlm_script }}" }
+
+- name: Set alias for regenerating project summary report
+  lineinfile:
+    dest: "{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
+    line: >
+          alias make_report='ngi_reports project_summary -md'
+    backup: no
 
 - name: Store ngi_reports tool version in deployment
   lineinfile:
@@ -41,4 +35,4 @@
     line: "{{ item.tool_name }}: {{ item.tool_version }}"
   with_items:
     - { tool_name: "ngi_reports", tool_version: "{{ ngi_reports_version }}" }
-    - { tool_name: "ngi_visualizations", tool_version: "{{ ngi_visual_version }}" } 
+    - { tool_name: "ngi_visualizations", tool_version: "{{ ngi_visual_version }}" }

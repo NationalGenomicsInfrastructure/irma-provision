@@ -6,8 +6,9 @@
        force=yes
 
 #Remember to use --upgrade flag if using commit-id
+#Using the python3 env
 - name: Install MultiQC
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install ."
   args:
     chdir: "{{ multiqc_dest }}"
 
@@ -18,8 +19,9 @@
        force=yes
 
 #Remember to use --upgrade flag if using commit-id
+#Using the python3 env
 - name: Install MultiQC NGI submodule
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install ."
   args:
     chdir: "{{ multiqc_ngi_dest }}"
 
@@ -31,7 +33,7 @@
 
 - name: Force multiqc to autorun config
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml {{ item.flags }}'"
+              line="alias multiqc='{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml {{ item.flags }}'"
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", flags: ""}
@@ -40,7 +42,7 @@
 - name: Store MultiQC tool version in deployment
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
-    line: "{{ item.tool_name }}: {{ item.tool_version }}"
+    line: "{{ NGI_venv_py3_name }}, {{ item.tool_name }}: {{ item.tool_version }}"
   with_items:
     - { tool_name: "MultiQC", tool_version: "{{ multiqc_version }}" }
     - { tool_name: "MultiQC_NGI", tool_version: "{{ multiqc_ngi_version }}" }

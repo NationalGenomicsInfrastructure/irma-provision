@@ -5,12 +5,12 @@ taca_ngi_version: 114f34d56c5d670c198b4834490c39ff7152858d
 
 statusdb_repo: "https://github.com/SciLifeLab/statusdb.git"
 statusdb_dest: "{{ sw_path }}/statusdb"
-statusdb_version: "4100278170269759e65dd0e8801a33787dd5d5c2"
+statusdb_version: "f21b4124e512aa50babe665f9839fcbc7205bc26"
 
 flowcell_parser_repo: "https://github.com/SciLifeLab/flowcell_parser.git"
 flowcell_parser_dest: "{{ sw_path }}/flowcell_parser"
-flowcell_parser_version: "39224d94cf3d6b6547ae06012f54b664a22e8fac"
+flowcell_parser_version: "320bd8c8a5669fd4552f1f8f88232cde613c0cf2"
 
 taca_repo: "https://github.com/SciLifeLab/TACA.git"
 taca_dest: "{{ sw_path }}/TACA"
-taca_version: b62b824870bd07086a50bf5cba305ef0df677724
+taca_version: abd0d87808fbe40b3e34367f45abea2257b733c3

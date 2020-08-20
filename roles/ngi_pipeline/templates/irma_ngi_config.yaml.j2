@@ -39,16 +39,28 @@ piper:
     gatk_key: "{{ ngi_resources }}/piper/{{ gatk_key }}"
 
 sarek:
-    profile: uppmax
-    nf_path: {{ nextflow_dest }}/nextflow
-    sarek_path: {{ sarek_dest }}
-    containerPath: {{ sarek_containers }}
-    project: {{ ngi_pipeline_slurm_project }}
+    command: {{ sarek_dest }}/workflow/main.nf
     tag: {{ sarek_tag }}
-    genome_base: /sw/data/uppnex/ToolBox/hg38bundle
     tools:
       - haplotypecaller
       - snpeff
+    genomes_base_paths:
+        GRCh37: /sw/data/uppnex/ToolBox/ReferenceAssemblies/hg38make/bundle/2.8/b37/
+        GRCh38: /sw/data/uppnex/ToolBox/hg38bundle/
+    project: {{ ngi_pipeline_slurm_project }}
+    custom_config_base: {{ sarek_dest }}/configs/
+    igenomes_ignore: " "
+    no_gatk_spark: " "
+    sequencing_center: {{ ngi_pipeline_sequencing_center }}
+
+nextflow:
+    command: {{ nextflow_dest }}/nextflow
+    subcommand: run
+    profile: uppmax
+    config:
+        - {{ ngi_pipeline_conf }}/nextflow_irma_{{ site }}.config
+        - {{ ngi_pipeline_conf }}/sarek_irma.config
+    resume: " "
 
 supported_genomes:
     # GRCh37: Indexed version of "/lupus/data/uppnex/reference/Homo_sapiens/GRCh37/concat/Homo_sapiens.GRCh37.57.dna.concat.fa"
@@ -78,7 +90,11 @@ analysis:
             upps_ngi_conf: {{ upps_rna_seq_conf }}
         wgs_germline:
             analysis_engine: ngi_pipeline.engines.sarek
+        wgs_somatic:
+            analysis_engine: ngi_pipeline.engines.sarek
         exome_germline:
+            analysis_engine: ngi_pipeline.engines.sarek
+        exome_somatic:
             analysis_engine: ngi_pipeline.engines.sarek
     top_dir: nobackup/NGI
     sthlm_root: {{ ngi_pipeline_sthlm_delivery }}

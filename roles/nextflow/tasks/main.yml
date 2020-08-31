@@ -35,7 +35,7 @@
 
 - name: Create irma config
   template:
-    src: "nextflow_irma_site.config"
+    src: "nextflow_irma_site.config.j2"
     dest: "{{ ngi_pipeline_conf }}/nextflow_irma_{{ item.site }}.config"
   with_items:
   - { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }

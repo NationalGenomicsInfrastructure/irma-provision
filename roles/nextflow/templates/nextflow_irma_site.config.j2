@@ -3,9 +3,11 @@ params {
     multiqc_config = "{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"
 }
 
+{% if item.site == "sthlm" %}
 process {
     withName: 'multiqc|MultiQC' {
         container = null
         executor = 'local'
     }
 }
+{% endif %}

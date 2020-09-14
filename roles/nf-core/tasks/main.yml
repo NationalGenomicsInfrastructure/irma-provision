@@ -29,8 +29,25 @@
     - "{{ ngi_containers }}/singularity_cache"
     - "{{ ngi_containers }}/singularity_temp"
 
+- name: Checking existing containers
+  find:
+    paths: "{{ ngi_containers }}"
+    file_type: file
+    patterns:  '^nf-core-.*-[0-9]\.[0-9]\.[0-9]\.simg'
+    use_regex: yes
+    recurse: yes
+  register: check_containers
+
+- name: Add to existing containers
+  no_log: true
+  set_fact:
+    existing_containers: "{{ existing_containers + [item.path.split('/')[-1]] }}"
+  with_items: "{{ check_containers.files }}"
+
 - name: nf-core
-  command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }} --singularity --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
+  command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }}
+   {% if 'nf-core-'+item.name+'-'+ item.release|string +'.simg' not in existing_containers %} --singularity {% endif %}
+   --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
   environment:
     PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
     SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
@@ -46,10 +63,21 @@
     mode: g+s
   with_items: "{{ pipelines }}"
 
-- name: Move singularity images
-  shell: "mv {{ sw_path }}{{ item.name }}/singularity-images/nf-core-{{ item.name }}-{{ item.release }}.simg {{ ngi_containers }}/{{ item.name }}/"
+- name: Copy singularity images
+  copy:
+     src: "{{ sw_path }}{{ item.name }}/singularity-images/nf-core-{{ item.name }}-{{ item.release }}.simg"
+     dest: "{{ ngi_containers }}/{{ item.name }}/nf-core-{{ item.name }}-{{ item.release }}.simg"
+     group: ngi
+     mode: u=rwx,g=rwx,o=rx
+  when: "{{ 'nf-core-'+item.name+'-'+ item.release|string +'.simg' not in existing_containers }}"
   with_items:
     - "{{ pipelines }}"
+
+- name: Remove downloaded singularity images
+  file:
+    path: "{{ sw_path }}{{ item.name }}/singularity-images/nf-core-{{ item.name }}-{{ item.release }}.simg"
+    state: absent
+  with_items: "{{ pipelines }}"
 
 - name: Remove singularity cache directories
   file: name="{{ item }}" state=absent

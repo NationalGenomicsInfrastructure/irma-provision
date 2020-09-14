@@ -1,6 +1,6 @@
 ---
 sw_path: "{{ root_path }}/sw/"
-
+ngi_containers: "/lupus/ngi/containers/"
 
 anaconda_path: "{{ sw_path }}/anaconda"
 ansible_path: "/lupus/ngi/irma3/ansible-env/"
@@ -26,7 +26,6 @@ ngi_pipeline_venv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
 ngi_resources: "{{ root_path }}/resources/"
-ngi_containers: "{{ ngi_resources }}/containers"
 
 ngi_pipeline_sthlm_delivery: ngi2016003
 ngi_pipeline_upps_delivery: ngi2016001

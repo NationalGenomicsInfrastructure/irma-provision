@@ -21,7 +21,7 @@
     SINGULARITY_TMPDIR: "{{ sarek_containers }}/singularity_temp"
   args:
     chdir: "{{ sarek_containers }}"
-    creates: "{{ sarek_containers }}/nfcore-sarek-{{ sarek_tag }}.img"
+    creates: "{{ sarek_containers }}/nfcore-sarek-{{ sarek_tag }}.img" #creates skips action if file already exists
   ignore_errors: true
 
 - name: Pull sarekvep, sareksnpeff Singularity images

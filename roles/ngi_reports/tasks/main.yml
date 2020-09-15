@@ -9,7 +9,7 @@
        recursive=yes
 
 - name: Install ngi_reports
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
+  shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install -e ."
   args:
     chdir: "{{ ngi_reports_dest }}"
 

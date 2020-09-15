@@ -21,6 +21,7 @@
     SINGULARITY_TMPDIR: "{{ neutronstar_container_path }}/singularity_temp"
   args:
     chdir: "{{ neutronstar_container_path }}"
+    creates: "{{ neutronstar_image }}"
   ignore_errors: true
 
 - name: Pull supernova Singularity images
@@ -30,6 +31,7 @@
     SINGULARITY_TMPDIR: "{{ supernova_container_path }}/singularity_temp"
   args:
     chdir: "{{ supernova_container_path }}"
+    creates: "{{ supernova_image }}"
   ignore_errors: true
 
 - name: Remove neutronstar and supernova singularity temp directories

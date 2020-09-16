@@ -133,11 +133,11 @@ else:
 excludes = "--exclude=*.swp --exclude=irma3/"
 rsync_cmd = "/bin/rsync -avzP --omit-dir-times {0} --log-file={1} {2} {3} {4}@{5}:{6}".format(excludes,
                                                                                                rsync_log_path,
-																							   src_root_path,
-																							   src_containers_path,
-																							   user,
-																							   host,
-																							   dest)
+                                                                                               src_root_path,
+                                                                                               src_containers_path,
+                                                                                               user,
+                                                                                               host,
+                                                                                               dest)
 # TODO: Do this cleaner?
 dry_cmd = "/bin/rsync --dry-run -avzP --omit-dir-times {0} {1} {2} {3}@{4}:{5}".format(excludes, src_root_path, src_containers_path, user, host, dest)
 

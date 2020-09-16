@@ -98,7 +98,7 @@ ansible-playbook install.yml -e deployment_environment=staging -e deployment_ver
 python sync.py staging
 ```
 
-if you want to stage test a specific commit hash of `arteria-checksum`, and the default version of `arteria-siswrap`. 
+if you want to stage test a specific commit hash of `arteria-checksum` and the default versions of the other arteria services. 
 	
 Launch the Arteria staging services by running the command `start-arteria-staging` as the `funk_004` user. That will spawn a detached screen session named `arteria-staging` with one window for each Arteria web service. If a service has crashed then one can (after debugging the stacktrace) respawn the process by hitting the `r` key  for the relevant window. If one want to manually force a restart of the process one can first abort the process with a normal `^C`, followed by the `r` key as mentioned previously. To kill all Arteria services the whole screen session can be closed down with the command `stop-arteria-staging`.  
 

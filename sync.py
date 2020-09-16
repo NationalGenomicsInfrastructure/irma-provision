@@ -16,6 +16,7 @@ import sys
 import getpass
 import subprocess
 import argparse
+import os
 
 # TODO: Need to catch wrong token or wrong password.
 # TODO: Lots of errors that can go wrong.
@@ -27,17 +28,17 @@ parser.add_argument("-d", "--destination", help="the non-standard destination pa
 args = parser.parse_args()
 
 ngi_root = "/lupus/ngi/"
-src_root_path = ngi_root + args.environment
+src_root_path = os.path.join(ngi_root, args.environment)
 
 if args.destination:
 	dest = args.destination
 else:
 	dest = ngi_root
 
-src_containers_path = ngi_root+'containers'
+src_containers_path = os.path.join(ngi_root,'containers')
 
 host = "irma2"
-rsync_log_path = ngi_root + "/irma3/log/rsync.log"
+rsync_log_path = os.path.join(ngi_root, "irma3/log/rsync.log")
 
 user = getpass.getuser()
 password = getpass.getpass("Enter your UPPMAX password: ")
@@ -129,14 +130,14 @@ else:
 
 # Step 5. Sync our destignated folders.
 
-excludes = "--exclude=*.swp --exclude=irma3/ --exclude='*'"
+excludes = "--exclude=*.swp --exclude=irma3/"
 rsync_cmd = "/bin/rsync -avzP --omit-dir-times {0} --log-file={1} {2} {3} {4}@{5}:{6}".format(excludes,
-																								rsync_log_path,
-																								src_root_path,
-																								src_containers_path,
-																								user,
-																								host,
-																								dest)
+                                                                                               rsync_log_path,
+																							   src_root_path,
+																							   src_containers_path,
+																							   user,
+																							   host,
+																							   dest)
 # TODO: Do this cleaner?
 dry_cmd = "/bin/rsync --dry-run -avzP --omit-dir-times {0} {1} {2} {3}@{4}:{5}".format(excludes, src_root_path, src_containers_path, user, host, dest)
 

@@ -1,10 +1,9 @@
 ---
 ngi_reports_repo: https://github.com/NationalGenomicsInfrastructure/ngi_reports.git
 ngi_reports_dest: "{{ sw_path }}/ngi_reports"
-ngi_reports_version: 51ffe95e2b06e11f289b39db5551d931f34b9cdb
+ngi_reports_version: 6b8b8a691d697c021eff5776bbb6b110cf376bca
 ngi_reports_log: "/log/ngi_reports.log"
 ngi_reports_log_sthlm: "{{ ngi_pipeline_sthlm_path }}/{{ ngi_reports_log }}"
-ngi_reports_log_upps: "{{ ngi_pipeline_upps_path }}/{{ ngi_reports_log }}"
 
 ngi_visual_repo: https://github.com/NationalGenomicsInfrastructure/ngi_visualizations.git
 ngi_visual_dest: "{{ sw_path }}//ngi_visualization"

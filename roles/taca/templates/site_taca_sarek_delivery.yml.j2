@@ -35,7 +35,7 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/results/pipeline_info
             - required: True
         -
-            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Preprocessing/TSV/duplicates_marked*
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Preprocessing/TSV/duplicates_marked*<SAMPLEID>.tsv*
             - <STAGINGPATH>/<SAMPLEID>/results/Preprocessing/TSV
             - required: True
         -
@@ -58,4 +58,3 @@ deliver:
             - {{ ngi_resources }}/TACA/apply_recalibration.sh
             - <STAGINGPATH>/01-Resources/
             - required: True
-

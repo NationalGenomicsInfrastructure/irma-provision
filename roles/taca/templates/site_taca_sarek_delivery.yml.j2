@@ -22,6 +22,16 @@ deliver:
             - <STAGINGPATH>/00-Reports/
             - required: True
 {% endif %}
+{% if "sthlm" == site %}
+        -
+            - <ANALYSISPATH>/sarek_ngi/*multiqc_report.html
+            - <STAGINGPATH>/00-Reports/
+            - required: True
+        -
+            - <ANALYSISPATH>/reports/*
+            - <STAGINGPATH>/00-Reports/
+            - required: True
+{% endif %}
         -
             - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Annotation/*
             - <STAGINGPATH>/<SAMPLEID>/results/Annotation/
@@ -51,8 +61,8 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/results/VariantCalling/
             - required: True
         -
-            - {{ ngi_resources }}/TACA/DELIVERY.README.SAREK.txt
-            - <STAGINGPATH>
+            - {{ ngi_resources }}/TACA/{{ site }}.DELIVERY.README.SAREK.txt
+            - <STAGINGPATH>/DELIVERY.README.SAREK.txt
             - required: True
         -
             - {{ ngi_resources }}/TACA/apply_recalibration.sh

@@ -53,10 +53,13 @@
     src: "apply_recalibration.sh.j2"
     dest: "{{ ngi_resources }}/TACA/apply_recalibration.sh"
 
-- name: Create Delivery README and add to TACA resources
+- name: Create Delivery READMEs and add to TACA resources
   template:
     src: "DELIVERY.README.SAREK.txt.j2"
-    dest: "{{ ngi_resources }}/TACA/DELIVERY.README.SAREK.txt"
+    dest: "{{ ngi_resources }}/TACA/{{ item.site }}.DELIVERY.README.SAREK.txt"
+  with_items:
+    - site: sthlm
+    - site: upps
 
 - name: Set alias for pipeline
   lineinfile:

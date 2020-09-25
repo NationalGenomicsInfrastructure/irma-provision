@@ -35,12 +35,15 @@ ProjectID -> 00-Reports
 |--ProjectID
    |--00-Reports
       |--ProjectID_multiqc_report.html
+{% if "upps" == item.site %}
       |--ProjectID_multiqc_report_data.zip
       |--SequenceQC
+{% endif %}
 
 --ProjectID_multiqc_report.html
 A project report summarizing the included samples and results from the sequencing and analysis.
 
+{% if "upps" == item.site %}
 --ProjectID_multiqc_report_data.zip
 Source data for the project report.
 
@@ -48,6 +51,7 @@ Source data for the project report.
 The SequenceQC folder contain sequence QC data, which provide information about the
 quality and other features of the fastq-files. The reports are organized by sequence run.
 
+{% endif %}
 ====================================================================
 ProjectID -> 01-Resources
 ====================================================================

@@ -1,0 +1,70 @@
+log:
+    file: "{{ ngi_pipeline_site_path }}/log/taca.log"
+
+deliver:
+    rootpath: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/nobackup/NGI"
+    analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
+    stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
+    operator: "{{ recipient_mail }}"
+    hash_algorithm: md5
+    files_to_deliver:
+{% if "upps" == site %}
+        -
+            - <ANALYSISPATH>/seqreports/*
+            - <STAGINGPATH>/00-Reports/SequenceQC/
+            - required: True
+        -
+            - <ANALYSISPATH>/multiqc_ngi/*multiqc_report.html
+            - <STAGINGPATH>/00-Reports/
+            - required: True
+        -
+            - <ANALYSISPATH>/multiqc_ngi/*multiqc_report_data.zip
+            - <STAGINGPATH>/00-Reports/
+            - required: True
+{% endif %}
+{% if "sthlm" == site %}
+        -
+            - <ANALYSISPATH>/sarek_ngi/*multiqc_report.html
+            - <STAGINGPATH>/00-Reports/
+            - required: True
+        -
+            - <ANALYSISPATH>/reports/*
+            - <STAGINGPATH>/00-Reports/
+            - required: True
+{% endif %}
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Annotation/*
+            - <STAGINGPATH>/<SAMPLEID>/results/Annotation/
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/pipeline_info/results_description.html
+            - <STAGINGPATH>/<SAMPLEID>/results/pipeline_info
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/pipeline_info/software_versions.csv
+            - <STAGINGPATH>/<SAMPLEID>/results/pipeline_info
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Preprocessing/TSV/duplicates_marked*<SAMPLEID>.tsv*
+            - <STAGINGPATH>/<SAMPLEID>/results/Preprocessing/TSV
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Preprocessing/<SAMPLEID>/DuplicatesMarked/*
+            - <STAGINGPATH>/<SAMPLEID>/results/Preprocessing/DuplicatesMarked
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Reports/*
+            - <STAGINGPATH>/<SAMPLEID>/results/Reports
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/VariantCalling/<SAMPLEID>/*
+            - <STAGINGPATH>/<SAMPLEID>/results/VariantCalling/
+            - required: True
+        -
+            - {{ ngi_resources }}/TACA/{{ site }}.DELIVERY.README.SAREK.txt
+            - <STAGINGPATH>/DELIVERY.README.SAREK.txt
+            - required: True
+        -
+            - {{ ngi_resources }}/TACA/apply_recalibration.sh
+            - <STAGINGPATH>/01-Resources/
+            - required: True

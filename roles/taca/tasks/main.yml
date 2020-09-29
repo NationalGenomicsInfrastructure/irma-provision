@@ -17,6 +17,9 @@
 - name: Create TACA delivery configs directory
   file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
 
+- name: Create TACA resources folder
+  file: path="{{ ngi_resources }}/TACA" state=directory mode=g+s
+
 - set_fact:
     site: "upps"
     site_full: "uppsala"
@@ -25,11 +28,14 @@
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_upps_delivery }}"
     recipient_mail: "{{ recipient_mail_upps }}"
 
-- name: Deploy standard uppsala configs
+- name: Deploy uppsala piper config
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_delivery.yml"
   with_items:
   - { proj_path: "{{ proj_root }}", name: "lupus" }
   - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
+
+- name: Deploy uppsala sarek config
+  template: src="site_taca_sarek_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_sarek_delivery.yml"
 
 - set_fact:
     site: "sthlm"
@@ -51,6 +57,9 @@
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_wgs_delivery.yml"
   with_items:
   - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
+
+- name: Deploy sthlm sarek config
+  template: src="site_taca_sarek_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_sarek_delivery.yml"
 
 - name: Deploy application specific stockholm configs
   template: src="site_app_specific_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_{{ item }}_delivery.yml"

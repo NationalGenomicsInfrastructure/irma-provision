@@ -48,6 +48,19 @@
     src: "sarek.config.j2"
     dest: "{{ ngi_pipeline_conf }}/sarek_irma.config"
 
+- name: Create recalibration script and add to TACA resources
+  template:
+    src: "apply_recalibration.sh.j2"
+    dest: "{{ ngi_resources }}/TACA/apply_recalibration.sh"
+
+- name: Create Delivery READMEs and add to TACA resources
+  template:
+    src: "DELIVERY.README.SAREK.txt.j2"
+    dest: "{{ ngi_resources }}/TACA/{{ item.site }}.DELIVERY.README.SAREK.txt"
+  with_items:
+    - site: sthlm
+    - site: upps
+
 - name: Set alias for pipeline
   lineinfile:
     dest: "{{ ngi_pipeline_conf }}/{{ item.script }}"

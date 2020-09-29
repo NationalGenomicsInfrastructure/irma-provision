@@ -36,7 +36,6 @@
     - { role: arteria-staging, tags: arteria-staging }
     - { role: arteria-checksum-ws, tags: arteria-checksum }
     - { role: arteria-delivery-ws, tags: arteria-delivery }
-    - { role: neutronstar, tags: neutronstar }
     - { role: standalone_scripts, tags: standalone_scripts }
     - { role: ugc, tags: ugc }
     - { role: misc-tools, tags: misc-tools }

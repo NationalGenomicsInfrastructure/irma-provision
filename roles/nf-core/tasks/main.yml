@@ -44,7 +44,7 @@
   file:
     path: "{{ ngi_containers }}/{{ item.name }}"
     state: directory
-    mode: g+s
+    mode: 02775 #ug=rwx, o=rx, g+s
   with_items: "{{ pipelines }}"
 
 - name: Pull Singularity images if version has been updated

@@ -17,8 +17,14 @@
 - name: Create TACA delivery configs directory
   file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
 
-- name: Create TACA resources folder
-  file: path="{{ ngi_resources }}/TACA" state=directory mode=g+s
+- name: Create TACA resources folders for each site
+  file: 
+    path: "{{ ngi_resources }}/TACA/{{ item }}"
+    state: directory
+    mode: g+s
+  with_items:
+    - "upps"
+    - "sthlm"
 
 - set_fact:
     site: "upps"

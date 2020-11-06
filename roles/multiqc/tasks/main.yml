@@ -7,8 +7,11 @@
 
 #Remember to use --upgrade flag if using commit-id
 #Using the python3 env
--name: Temporarily fix matplotlib at v3.2.2 to get rid of warnings
-  shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install matplotlib==3.2.2"
+- name: Temporarily fix matplotlib at v3.2.2 to get rid of warnings
+  pip:
+    name: matplotlib
+    version: 3.2.2
+    executable: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip"
 
 - name: Install MultiQC
   shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install ."

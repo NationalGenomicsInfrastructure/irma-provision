@@ -24,14 +24,14 @@ import os
 
 # Step 0. Settings to fetch from user or set globally for the sync.
 parser = argparse.ArgumentParser()
-parser.add_argument('environment', choices=['production', 'staging'], help='which environment to sync over')
-parser.add_argument('-d', '--destination', help='the non-standard destination path on the remote host to sync to')
-parser.add_argument('deployment', help='which deployment to sync over')
+parser.add_argument('-e','--environment', choices=['production', 'staging'], required=True, help='which environment to sync over')
+parser.add_argument('-d','--deployment', help='which deployment to sync over')
+parser.add_argument('--destination', help='the non-standard destination path on the remote host to sync to')
 parser.add_argument('--dryrun', action='store_true', dest='dryrun', default=False, help='do a dry run first before the actual sync')
 args = parser.parse_args()
 
-ngi_root = '/lupus/ngi/.' #break url for relative path
-src_root_path = os.path.join(ngi_root, args.environment)
+ngi_root = '/lupus/ngi/'
+src_root_path = os.path.join(ngi_root, '.', args.environment) #break url for relative path
 
 if args.deployment:
 	src_root_path = os.path.join(src_root_path, args.deployment)
@@ -41,7 +41,7 @@ if args.destination:
 else:
 	dest = ngi_root
 
-src_containers_path = os.path.join(ngi_root,'containers')
+src_containers_path = os.path.join(ngi_root, '.', 'containers') #break url for relative path
 
 host = 'irma2'
 rsync_log_path = os.path.join(ngi_root, 'irma3/log/rsync.log')
@@ -149,7 +149,7 @@ rsync_cmd = '/bin/rsync -avzP --relative --omit-dir-times {0} --log-file={1} {2}
 if args.dryrun:
 	dry_cmd = '/bin/rsync --dry-run -avzP --relative --omit-dir-times {0} {1} {2} {3}@{4}:{5}'.format(excludes, src_root_path, src_containers_path, user, host, dest)
 
-	# First doing a dry-run to confirm sync.
+	# Do a dry-run to confirm sync.
 	print('Initiating a rsync dry-run')
 	child = pexpect.spawn(dry_cmd)
 	child.expect(exp_pass)

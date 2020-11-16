@@ -36,7 +36,7 @@ src_path_link = ''
 
 if args.deployment:
 	src_path_link = os.path.join(src_root_path, 'latest')
-	src_root_path = os.path.join(src_root_path, args.deployment)	
+	src_root_path = os.path.join(src_root_path, args.deployment)
 
 if args.destination:
 	dest = args.destination
@@ -144,7 +144,7 @@ rsync_cmd = '/bin/rsync -avzP --relative --omit-dir-times {0} --log-file={1} {2}
                                                                                                rsync_log_path,
                                                                                                src_root_path,
                                                                                                src_containers_path,
-																							   src_path_link,
+                                                                                               src_path_link,
                                                                                                user,
                                                                                                host,
                                                                                                dest)

@@ -32,9 +32,11 @@ args = parser.parse_args()
 
 ngi_root = '/lupus/ngi/'
 src_root_path = os.path.join(ngi_root, '.', args.environment) #break url for relative path
+src_path_link = ''
 
 if args.deployment:
-	src_root_path = os.path.join(src_root_path, args.deployment)
+	src_path_link = os.path.join(src_root_path, 'latest')
+	src_root_path = os.path.join(src_root_path, args.deployment)	
 
 if args.destination:
 	dest = args.destination
@@ -138,16 +140,17 @@ else:
 print('Syncing directories:\n{}\n{}'.format(src_root_path, src_containers_path))
 
 excludes = '--exclude=*.swp --exclude=irma3/'
-rsync_cmd = '/bin/rsync -avzP --relative --omit-dir-times {0} --log-file={1} {2} {3} {4}@{5}:{6}'.format(excludes,
+rsync_cmd = '/bin/rsync -avzP --relative --omit-dir-times {0} --log-file={1} {2} {3} {4} {5}@{6}:{7}'.format(excludes,
                                                                                                rsync_log_path,
                                                                                                src_root_path,
                                                                                                src_containers_path,
+																							   src_path_link,
                                                                                                user,
                                                                                                host,
                                                                                                dest)
 # TODO: Do this cleaner?
 if args.dryrun:
-	dry_cmd = '/bin/rsync --dry-run -avzP --relative --omit-dir-times {0} {1} {2} {3}@{4}:{5}'.format(excludes, src_root_path, src_containers_path, user, host, dest)
+	dry_cmd = '/bin/rsync --dry-run -avzP --relative --omit-dir-times {0} {1} {2} {3} {4}@{5}:{6}'.format(excludes, src_root_path, src_containers_path, src_path_link, user, host, dest)
 
 	# Do a dry-run to confirm sync.
 	print('Initiating a rsync dry-run')

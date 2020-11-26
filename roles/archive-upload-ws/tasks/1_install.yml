@@ -13,7 +13,6 @@
       virtualenv: "{{ archive_upload_env_root }}"
       virtualenv_command: "{{ archive_upload_virtual_env_command }}"
       state: present
-      executable: "{{ archive_upload_env_root }}/bin/pip"
       extra_args: "-U"
 
 - name: install archive-upload
@@ -23,6 +22,5 @@
       virtualenv: "{{ archive_upload_env_root }}"
       virtualenv_command: "{{ archive_upload_virtual_env_command }} "
       state: present
-      executable: "{{ archive_upload_env_root }}/bin/pip"
       extra_args: "-U"
 

@@ -6,12 +6,16 @@
        force=yes
 
 - name: Install ngi_visualizations requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_visual_dest }}/requirements.txt"
+  pip:
+    requirements: "{{ ngi_visual_dest }}/requirements.txt"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Install ngi_visualizations
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
-  args:
-    chdir: "{{ ngi_visual_dest }}"
+  pip:
+    name: "file:{{ ngi_visual_dest }}"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Install couchDB (minimal version of statusDB)
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install couchdb"
+  pip:
+    name: "couchdb"
+    virtualenv: "{{ ngi_pipeline_venv }}"

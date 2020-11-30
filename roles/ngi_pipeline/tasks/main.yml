@@ -25,13 +25,20 @@
   when: "not py3_venv_exists.stdout"
 
 - name: (Temporary until everything is updated) Install click7.0 as click7.1 breaks everything
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install click==7.0"
+  pip:
+    name: click
+    version: "7.0"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Install ngi_pipeline requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_pipeline_dest }}/requirements.txt"
+  pip:
+    requirements: "{{ ngi_pipeline_dest }}/requirements.txt"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Install ngi_pipeline
-  shell: "cd {{ ngi_pipeline_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
+  pip:
+    name: "file:{{ ngi_pipeline_dest }}"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Create ngi_pipeline conf directory
   file: path="{{ ngi_pipeline_conf }}" state=directory mode=g+s
@@ -46,7 +53,9 @@
   when: deployment_environment in ["staging", "devel"]
 
 - name: Install PyVCF for joint calling
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install PyVCF"
+  pip:
+    name: "PyVCF"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Create ngi_resources folder
   file: name="{{ ngi_resources }}" state=directory mode=g+s

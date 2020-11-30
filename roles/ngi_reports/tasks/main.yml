@@ -9,10 +9,9 @@
        recursive=yes
 
 - name: Install ngi_reports
-  shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install -e ."
-  args:
-    chdir: "{{ ngi_reports_dest }}"
-
+  pip:
+    name: "file:{{ ngi_reports_dest }}"
+    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}"
 
 - name: Create ngi_reports conf file
   template: src="ngi_reports_sthlm.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_sthlm.conf"

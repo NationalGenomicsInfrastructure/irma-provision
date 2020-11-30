@@ -7,7 +7,7 @@
        force=yes
 
 - name: "Check if {{ NGI_venv_name }} virtual env exists"
-  shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_name }}$"
+  shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_name }}$"
   register: "py2_venv_exists"
   ignore_errors: true
 
@@ -16,7 +16,7 @@
   when: "not py2_venv_exists.stdout"
 
 - name: "Check if {{ NGI_venv_py3_name }} virtual env exists"
-  shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_py3_name }}$"
+  shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_py3_name }}$"
   register: "py3_venv_exists"
   ignore_errors: true
 

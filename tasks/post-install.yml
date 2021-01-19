@@ -9,7 +9,7 @@
       lineinfile:
         dest: "{{ deployed_tool_versions }}"
         line: "-- Deployed at {{ ansible_date_time.iso8601 }} by irma_provision ({{ irma_provision_version.stdout }}) --"
-      when: "'{{ irma_provision_version.stdout }}'"
+      when: irma_provision_version.stdout
 
     # Create an alias to easily get the deployed tools version
     # not using 'blockinline' to avoid ansible markers

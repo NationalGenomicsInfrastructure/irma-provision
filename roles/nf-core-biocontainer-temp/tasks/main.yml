@@ -16,12 +16,14 @@
 
 - name: Create temp directories for download
   file:
-    path: "{{ ngi_containers }}/download"
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - "{{ ngi_containers }}/download"
+    - "{{ ngi_containers }}/download/biocontainers"
 
 #Download these for rnaseq 3 containers until nf-core dowload is updated
 #wget -L https://dl.dropboxusercontent.com/s/5venz3l2wihaqdp/nf-core-rnaseq_v3.0.tar.gz
-#wget -L https://dl.dropboxusercontent.com/s/0w2e72pz2iuj37e/nf-core-rnaseq_v3.0.tar.gz.md5
 
 - name: Download containers
   get_url:
@@ -32,14 +34,21 @@
 - name: Unarchive downloaded file
   unarchive:
     src: "{{ ngi_containers }}/download/nf-core-rnaseq_v3.0.tar.gz"
-    dest: "{{ ngi_containers }}/biocontainers"
+    dest: "{{ ngi_containers }}/download/biocontainers"
     remote_src: yes
+
+- name: Move unarchived files to biocontainers
+  synchronize:
+    src: "{{ ngi_containers }}/download/biocontainers/nf-core-rnaseq_v3.0/"
+    dest: "{{ ngi_containers }}/biocontainers/"
+
 
 - name: Clean download
   file:
     path: "{{ item }}"
     state: absent
   with_items:
+    - "{{ ngi_containers }}/download/biocontainers/"
     - "{{ ngi_containers }}/download/nf-core-rnaseq_v3.0.tar.gz"
     - "{{ ngi_containers }}/download"
 

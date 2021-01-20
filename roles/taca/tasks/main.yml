@@ -18,7 +18,7 @@
   file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
 
 - name: Create TACA resources folders for each site
-  file: 
+  file:
     path: "{{ ngi_resources }}/TACA/{{ item }}"
     state: directory
     mode: g+s
@@ -73,6 +73,9 @@
 
 - name: Deploy runfolder delivery stockholm config
   template: src="site_taca_runfolder_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_runfolder_delivery.yml"
+
+- name: Deploy script for softlinking sthlm delivery Readmes
+  template: src="create_delivery_readme_softlinks.sh.j2" dest=""{{ ngi_resources }}/create_delivery_readme_softlinks.sh"
 
 - name: Store taca tools version on deployment
   lineinfile:

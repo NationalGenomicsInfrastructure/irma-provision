@@ -29,6 +29,8 @@ deliver:
             - <ANALYSISPATH>/*multiqc_report.html
             - <STAGINGPATH>/00-Reports
 {% if site == "sthlm" %}
+        -
+            - {{ ngi_site_softlinks }}/DELIVERY.README.RAW_DATA.txt 
+            - <STAGINGPATH>
     save_meta_info: True
-    xmlgen_ignore_lib_prep: False
 {% endif %}

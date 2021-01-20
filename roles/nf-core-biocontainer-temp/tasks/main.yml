@@ -16,11 +16,8 @@
 
 - name: Create temp directories for download
   file:
-    path: "{{ item }}"
+    path: "{{ ngi_containers }}/download/biocontainers"
     state: directory
-  with_items:
-    - "{{ ngi_containers }}/download"
-    - "{{ ngi_containers }}/download/biocontainers"
 
 #Download these for rnaseq 3 containers until nf-core dowload is updated
 #wget -L https://dl.dropboxusercontent.com/s/5venz3l2wihaqdp/nf-core-rnaseq_v3.0.tar.gz
@@ -41,7 +38,6 @@
   synchronize:
     src: "{{ ngi_containers }}/download/biocontainers/nf-core-rnaseq_v3.0/"
     dest: "{{ ngi_containers }}/biocontainers/"
-
 
 - name: Clean download
   file:

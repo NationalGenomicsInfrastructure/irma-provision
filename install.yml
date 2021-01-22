@@ -41,6 +41,7 @@
     - { role: misc-tools, tags: misc-tools }
     - { role: archive-upload-ws, tags: archive-upload }
     - { role: nf-core, tags: nf-core }
+    - { role: nf-core-biocontainer-temp, tags: nf-core-biocontainer-temp }
     - { role: sarek, tags: sarek }
 
   environment: "{{ anaconda_env }}"

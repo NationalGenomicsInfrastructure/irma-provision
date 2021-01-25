@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Minimalistic script that initiates project/site specific
+# directories for delivery readmes under respective
+# site's project dirs. Currently only used by sthlm
+
+# To be run as func account:
+#
+# funk_006 -> ngi2016003
+
+if [ $# -ne 1 ]; then
+        echo "$0: usage: create_delivery_readme_softlinks.sh <project id>"
+        exit 1
+fi
+
+ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/taca-ngi-pipeline/delivery_readmes/DELIVERY.README.RAW_DATA.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/DELIVERY.README.RAW_DATA.txt
+ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/taca-ngi-pipeline/delivery_readmes/DELIVERY.README.MethylSeq.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/DELIVERY.README.MethylSeq.txt

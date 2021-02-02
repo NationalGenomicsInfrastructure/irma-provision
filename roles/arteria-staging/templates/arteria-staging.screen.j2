@@ -2,4 +2,5 @@ sessionname arteria-staging
 zombie kr
 verbose on
 screen -t checksum 0 bash -i -c "{{ arteria_checksum_env_root }}/bin/python {{ arteria_delivery_env_root }}/bin/checksum-ws --configroot={{ arteria_checksum_config_root }} --port={{ arteria_checksum_port_stage }} --debug"
-screen -t delivery 2 bash -i -c "{{ arteria_delivery_env_root }}/bin/python {{ arteria_delivery_env_root }}/bin/delivery-ws --configroot={{ arteria_delivery_config_root }} --port={{ arteria_delivery_port_stage }} --debug"
+screen -t delivery 1 bash -i -c "{{ arteria_delivery_env_root }}/bin/python {{ arteria_delivery_env_root }}/bin/delivery-ws --configroot={{ arteria_delivery_config_root }} --port={{ arteria_delivery_port_stage }} --debug"
+screen -t upload 2 bash -i -c "{{ arteria_checksum_env_root }}/bin/python {{ arteria_delivery_env_root }}/bin/checksum-ws --configroot=/lupus/ngi/staging/latest/conf/arteria/archive_upload/ --port=10481 --debug"

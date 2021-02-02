@@ -1,5 +1,10 @@
 ---
 
+- name: create virtual python env for arteria-checksum
+  shell: "{{ conda_bin }} create --name arteria-checksum python=2.7"
+  args: 
+    creates: "{{ arteria_checksum_env_root }}"
+
 - name: get arteria-checksum from git
   git:
     repo: "{{ arteria_checksum_repo }}"
@@ -8,19 +13,17 @@
 
 - name: install arteria-checksum requirements
   pip:
-      requirements: "{{ arteria_checksum_src_path }}/requirements/prod"
-      chdir: "{{ arteria_checksum_src_path }}"
-      virtualenv: "{{ arteria_checksum_env_root }}"
-      virtualenv_command: "{{ arteria_checksum_virtual_env_command }}"
-      state: present
-      extra_args: "-U"
+    requirements: "{{ arteria_checksum_src_path }}/requirements/prod"
+    chdir: "{{ arteria_checksum_src_path }}"
+    virtualenv: "{{ arteria_checksum_env_root }}"
+    state: present
+    extra_args: "-U"
 
 - name: install arteria-checksum
   pip:
-      name: .
-      chdir: "{{ arteria_checksum_src_path }}"
-      virtualenv: "{{ arteria_checksum_env_root }}"
-      virtualenv_command: "{{ arteria_checksum_virtual_env_command }}"
-      state: present
-      extra_args: "-U"
+    name: .
+    chdir: "{{ arteria_checksum_src_path }}"
+    virtualenv: "{{ arteria_checksum_env_root }}"
+    state: present
+    extra_args: "-U"
 

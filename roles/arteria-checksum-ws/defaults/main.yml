@@ -20,7 +20,7 @@ arteria_checksum_version: v1.0.4
 # to disappear when the wildwest directory is cleaned out with every 
 # staging sync. 
 arteria_checksum_monitored_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming"
-arteria_checksum_env_root: "{{ sw_path }}/arteria/checksum_venv/"
+arteria_checksum_env_root: "{{ anaconda_path }}/envs/arteria-checksum"
 arteria_checksum_src_path: "{{ sw_path }}/arteria/checksum_src/"
 arteria_checksum_config_root: "{{ ngi_pipeline_conf }}/arteria/checksum/"
 arteria_checksum_md5sum_log_dir: "/proj/{{ ngi_pipeline_upps_delivery }}/private/log/arteria/checksum_md5sum/"
@@ -30,5 +30,3 @@ arteria_checksum_service_log: "/proj/{{ ngi_pipeline_upps_delivery }}/private/lo
 arteria_checksum_port_prod: 10420
 arteria_checksum_port_stage: 10421
 arteria_checksum_cores_to_use: 8
-
-arteria_checksum_virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"

@@ -38,6 +38,9 @@
   synchronize:
     src: "{{ ngi_containers }}/download/biocontainers/nf-core-rnaseq_v3.0/"
     dest: "{{ ngi_containers }}/biocontainers/"
+    archive: no
+    group: yes
+    recursive: true
 
 - name: Clean download
   file:

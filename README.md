@@ -73,7 +73,7 @@ There are two staging branches in the repository, one called monthly and the oth
 
 Production deployments on the monthly release cycle are done on the last Monday of each month. A stage deployment from the monthly branch will be made two weeks before this date and the introduction of new changes to the monthly branch will be frozen. Only fixes to changes already merged will be approved to the monthly branch during this time.
 
-Stage deployments from the bimonthly branch can be made outside of the monthly release cycle. The changes on the bimonthly branch would generally be pulled to the master branch and deployed to production in the monthly release cycle once all validations are complete.
+Stage deployments from the bimonthly branch can be made outside of the monthly release cycle. The changes on the bimonthly branch would generally be pulled to the monthly branch and deployed to production in the monthly release cycle once all validations are complete.
 
 Do the following once the feature has been approved. The deployment version should be `$(date +%y%m%d).$(git rev-parse --short HEAD)-bimonthly` in case of the bimonthly branch.
 

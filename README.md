@@ -67,14 +67,20 @@ Start by forking the repository https://github.com/NationalGenomicsInfrastructur
 
 If you want to test your roles/playbook run `ansible-playbook install.yml`. This will install your development run in `/lupus/ngi/irma3/devel-root/<username>_<branch_name>`.
 
-When you are satisfied with your changes you need to test it in staging. First create a pull request from your feature branch into upstream irma-provisioning's master branch.
+When you are satisfied with your changes you need to test it in staging. To do this, you must create a pull request to one of the two staging branches of irma-provision.
 
-Do the following once the feature has been approved:
+There are two staging branches in the repository, one called monthly and the other bimonthly. The changes that do not need extensive testing and validation on stage should be pushed to the monthly branch, which is used to make stage and production deployments on a monthly cycle. Changes that need time for validation on stage (like pipeline version updates) should be pushed to the bimonthly branch.
+
+Production deployments on the monthly release cycle are done on the last Monday of each month. A stage deployment from the monthly branch will be made two weeks before this date and the introduction of new changes to the monthly branch will be frozen. Only fixes to changes already merged will be approved to the monthly branch during this time.
+
+Stage deployments from the bimonthly branch can be made outside of the monthly release cycle. The changes on the bimonthly branch would generally be pulled to the monthly branch and deployed to production in the monthly release cycle once all validations are complete.
+
+Do the following once the feature has been approved. The deployment version should be `$(date +%y%m%d).$(git rev-parse --short HEAD)-bimonthly` in case of the bimonthly branch.
 
 ```
     cd /lupus/ngi/irma3/deploy
-    git checkout master
-    git pull
+    git checkout [monthly/bimonthly]
+    git pull origin [monthly/bimonthly]
     ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=$(date +%y%m%d).$(git rev-parse --short HEAD)
     python sync.py -e staging -d deployment_version
 ```
@@ -85,7 +91,7 @@ If you want to stage test many feature branches at the same time then an alterna
 
 When everything is synced over to Irma properly then login to e.g. `irma1` as your personal user and run `source /lupus/ngi/staging/latest/conf/sourceme_<site>.sh && source activate NGI` (where `site` is `upps` or `sthlm` depending on location). For convenience add this to your personal file bash init file `~/.bashrc`. This will load the staging environment for your user with the appropriate staging variables set.
 
-When the staged environment has been verified to work OK (TODO: add test protocol, manual or automated sanity checks) proceed with making a production release at https://github.com/NationalGenomicsInfrastructure/irma-provision/releases/new. Make sure to write a good release note that summarizes all the significant changes that are included since the last production release.
+When the staged environment has been verified to work OK (TODO: add test protocol, manual or automated sanity checks) proceed with making a pull request from the staging branch to the master branch of the repository. Once your pull request is approved and merged, create a production release at https://github.com/NationalGenomicsInfrastructure/irma-provision/releases/new. Make sure to write a good release note that summarizes all the significant changes that are included since the last production release.
 
 ##### Arteria staging
 
@@ -95,7 +101,7 @@ So in essence it should work almost as usual. You run something similar to:
 
 ```
 ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=arteria-staging-FOO -e arteria_checksum_version=660a8ff
-python sync.py -e staging 
+python sync.py -e staging
 ```
 
 if you want to stage test a specific commit hash of `arteria-checksum` and the default versions of the other arteria services.
@@ -114,6 +120,7 @@ To install software and sync to the cluster, run the following commands:
 
 ```
    cd /lupus/ngi/irma3/deploy
+   git checkout master
    git fetch --tags
    git checkout tags/vX.Y
    ansible-playbook install.yml -e deployment_environment=production

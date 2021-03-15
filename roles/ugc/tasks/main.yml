@@ -36,4 +36,4 @@
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
     line: "ugc-delivery: {{ delivery_version.stdout }}"
-  when: delivery_version.stdout
+  when: "'{{ delivery_version.stdout }}'"

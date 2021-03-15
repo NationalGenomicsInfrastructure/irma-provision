@@ -7,14 +7,12 @@
        force=yes
 
 - name: Install TACA-ngi-pipeline requirements
-  pip:
-    requirements: "{{ taca_ngi_dest }}/requirements.txt"
-    virtualenv: "{{ ngi_pipeline_venv }}"
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ taca_ngi_dest }}/requirements.txt"
 
 - name: Install TACA-ngi-pipeline
-  pip:
-    name: "file:{{ taca_ngi_dest }}"
-    virtualenv: "{{ ngi_pipeline_venv }}"
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  args:
+    chdir: "{{ taca_ngi_dest }}"
 
 - name: Create TACA delivery configs directory
   file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s

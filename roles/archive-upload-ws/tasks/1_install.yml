@@ -1,10 +1,5 @@
 ---
 
-- name: create virtual python env for archive-upload
-  shell: "{{ conda_bin }} create --name archive-upload python=2.7"
-  args: 
-    creates: "{{ archive_upload_env_root }}"
-
 - name: get archive-upload from git
   git:
     repo: "{{ archive_upload_repo }}"
@@ -13,17 +8,21 @@
 
 - name: install archive-upload requirements
   pip:
-    requirements: "{{ archive_upload_src_path }}/requirements/prod"
-    chdir: "{{ archive_upload_src_path }}"
-    virtualenv: "{{ archive_upload_env_root }}"
-    state: present
-    extra_args: "-U"
+      requirements: "{{ archive_upload_src_path }}/requirements/prod"
+      chdir: "{{ archive_upload_src_path }}"
+      virtualenv: "{{ archive_upload_env_root }}"
+      virtualenv_command: "{{ archive_upload_virtual_env_command }}"
+      state: present
+      executable: "{{ archive_upload_env_root }}/bin/pip"
+      extra_args: "-U"
 
 - name: install archive-upload
   pip:
-    name: .
-    chdir: "{{ archive_upload_src_path }}"
-    virtualenv: "{{ archive_upload_env_root }}"
-    state: present
-    extra_args: "-U"
+      name: .
+      chdir: "{{ archive_upload_src_path }}"
+      virtualenv: "{{ archive_upload_env_root }}"
+      virtualenv_command: "{{ archive_upload_virtual_env_command }} "
+      state: present
+      executable: "{{ archive_upload_env_root }}/bin/pip"
+      extra_args: "-U"
 

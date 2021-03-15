@@ -23,12 +23,14 @@
        force=yes
 
 - name: Install statusdb requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ statusdb_dest }}/requirements.txt"
+  pip:
+    requirements: "{{ statusdb_dest }}/requirements.txt"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Install statusDB
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
-  args:
-    chdir: "{{ statusdb_dest }}"
+  pip:
+    name: "file:{{ statusdb_dest }}"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Copy statusDB credentials
   copy: src="files/{{ statusdb_creds }}" dest="{{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
@@ -45,12 +47,14 @@
        force=yes
 
 - name: Install flowcell_parser requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ flowcell_parser_dest }}/requirements.txt"
+  pip:
+    requirements: "{{ flowcell_parser_dest }}/requirements.txt"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Install flowcell_parser
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
-  args:
-    chdir: "{{ flowcell_parser_dest }}"
+  pip:
+    name: "file:{{ flowcell_parser_dest }}"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Fetch TACA from GitHub
   git: repo="{{ taca_repo }}"
@@ -59,9 +63,11 @@
        force=yes
 
 - name: Install TACA requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ taca_dest }}/requirements.txt"
+  pip:
+    requirements: "{{ taca_dest }}/requirements.txt"
+    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Install TACA
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
-  args:
-    chdir: "{{ taca_dest }}"
+  pip:
+    name: "file:{{ taca_dest }}"
+    virtualenv: "{{ ngi_pipeline_venv }}"

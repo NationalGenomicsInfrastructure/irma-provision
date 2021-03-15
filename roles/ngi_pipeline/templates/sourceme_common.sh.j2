@@ -7,13 +7,13 @@ export CHARON_BASE_URL={{ charon_base_url }}
 # Hopefully possible to remove dependency in a later version
 module load bioinfo-tools piper/{{ piper_module_version }}
 
-# Force English locale as e.g. some downstream scripts depend on the 
-# pipeline outputing data with "." as decimal output instead of Swedish ",". 
+# Force English locale as e.g. some downstream scripts depend on the
+# pipeline outputing data with "." as decimal output instead of Swedish ",".
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # Append the Bash prompt with the version of the Irma environment/provisioning
-# that we're running. 
+# that we're running.
 IRMA_ENV=`echo $BASH_SOURCE | cut -d/ -f4`
 IRMA_VER=`echo $BASH_SOURCE | cut -d/ -f5`
 
@@ -27,3 +27,5 @@ export PS1="$IRMA_PROMPT [\u@\h \w]$ "
 
 # Default SNIC_TMP as /scratch
 export SNIC_TMP="/scratch"
+
+export NXF_SINGULARITY_CACHEDIR="{{ ngi_containers }}/biocontainers/"

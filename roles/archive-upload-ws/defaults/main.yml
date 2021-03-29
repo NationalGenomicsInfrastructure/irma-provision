@@ -17,7 +17,7 @@ archive_upload_monitored_path_stage: "/proj/{{ ngi_pipeline_upps_delivery }}/nob
 archive_upload_path_to_archive_root_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/arteria/pdc_archive_links/production/"
 archive_upload_path_to_archive_root_stage: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/arteria/pdc_archive_links/staging/"
 
-archive_upload_env_root: "{{ sw_path }}/arteria/archive_upload_venv"
+archive_upload_env_root: "{{ anaconda_path }}/envs/archive-upload"
 archive_upload_src_path: "{{ sw_path }}/arteria/archive_upload_src"
 
 archive_upload_config_root: "{{ ngi_pipeline_conf }}/arteria/archive_upload/"
@@ -29,8 +29,6 @@ archive_upload_log_dir: "/proj/{{ ngi_pipeline_upps_delivery }}/private/log/arte
 archive_upload_port_prod: 10480
 archive_upload_port_stage: 10481 
 archive_upload_cores_to_use: 2
-
-archive_upload_virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"
 
 # We want to fake a successful return code for the dsmc subprocess for some certain warnings.
 # Otherwise the Arteria workflow in Stackstorm would be marked as failed when it actually suceeded.  

@@ -125,7 +125,7 @@
 
 - name: Add py3 anaconda env path to sthlm sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
-              line='export PATH=$PATH:{{ anaconda_path }}/envs/{{ NGI_venv_py3_name }}/bin'
+              line='export PATH={{ anaconda_path }}/envs/{{ NGI_venv_py3_name }}/bin:$PATH'
               backup=no
 
 - name: Try getting anaconda version

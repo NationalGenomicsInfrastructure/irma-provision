@@ -1,0 +1,4 @@
+{% if item.0.name=='rnaseq' %}
+params.reverseStranded = true
+{% endif %}
+params.seq_center = "SciLifeLab National Genomics Infrastructure {% if item.1.site=='sthlm' %}Stockholm{% else %}Uppsala{% endif %}"

@@ -1,0 +1,80 @@
+---
+- name: install nf-core/rnaseq
+  command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }}
+   --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
+  environment:
+    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
+  args:
+    chdir: "{{ sw_path }}"
+  with_items: "{{ pipelines }}"
+
+- name: Create directory for rnaseq biocontainers
+  file:
+    path: "{{ ngi_containers }}/biocontainers"
+    state: directory
+    mode: 02775 #ug=rwx, o=rx, g+s
+
+- name: Create temp directories for download
+  file:
+    path: "{{ ngi_containers }}/download/biocontainers"
+    state: directory
+
+#Download these for rnaseq 3 containers until nf-core dowload is updated
+#wget -L https://dl.dropboxusercontent.com/s/5venz3l2wihaqdp/nf-core-rnaseq_v3.0.tar.gz
+
+- name: Download containers
+  get_url:
+    url: https://dl.dropboxusercontent.com/s/5venz3l2wihaqdp/nf-core-rnaseq_v3.0.tar.gz
+    dest: "{{ ngi_containers }}/download/nf-core-rnaseq_v3.0.tar.gz"
+    remote_src: yes
+
+- name: Unarchive downloaded file
+  unarchive:
+    src: "{{ ngi_containers }}/download/nf-core-rnaseq_v3.0.tar.gz"
+    dest: "{{ ngi_containers }}/download/biocontainers"
+    remote_src: yes
+
+- name: Move unarchived files to biocontainers
+  synchronize:
+    src: "{{ ngi_containers }}/download/biocontainers/nf-core-rnaseq_v3.0/"
+    dest: "{{ ngi_containers }}/biocontainers/"
+    archive: no
+    group: yes
+    recursive: true
+
+- name: Clean download
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ ngi_containers }}/download/biocontainers/"
+    - "{{ ngi_containers }}/download/nf-core-rnaseq_v3.0.tar.gz"
+    - "{{ ngi_containers }}/download"
+
+- name: Create nf-core config
+  template:
+    src: "site.config.j2"
+    dest: "{{ ngi_pipeline_conf }}/{{ item.0.name }}_{{ item.1.site }}.config"
+  with_nested:
+  - "{{ pipelines }}"
+  - [ { site: "sthlm", project_id: "{{ ngi_pipeline_sthlm_delivery }}" }, { site: "upps", project_id: "{{ ngi_pipeline_upps_delivery }}" }]
+
+- name: Set alias for pipeline
+  lineinfile:
+    dest: "{{ ngi_pipeline_conf }}/{{ item.1.script }}"
+    line: >
+          alias {{ item.0.name }}='nextflow run {{ sw_path }}{{ item.0.name }}/workflow/ \
+          -profile uppmax \
+          -c {{ ngi_pipeline_conf }}/nextflow_irma_{{ item.1.site }}.config \
+          -c {{ ngi_pipeline_conf }}/{{ item.0.name }}_{{ item.1.site }}.config'
+    backup: no
+  with_nested:
+  - "{{ pipelines }}"
+  - [ { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }, { site: "upps", script: "{{ bash_env_upps_script }}" } ]
+
+- name: Store tool version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "{{ item.name }}: {{ item.release }}"
+  with_items:
+  - "{{ pipelines }}"

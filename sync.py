@@ -50,7 +50,7 @@ rsync_log_path = os.path.join(ngi_root, 'irma3/log/rsync.log')
 
 user = getpass.getuser()
 password = getpass.getpass('Enter your UPPMAX password: ')
-token = input('Enter your second factor: ')
+token = raw_input('Enter your second factor: ')
 
 
 # Step 1. Execute SSH command to disable two factor.
@@ -95,7 +95,7 @@ print('Searching for files that are 1) not owned by group ngi-sw, 2) group reada
 find_cmd = "/bin/bash -c 'find {0} ! -perm -g+rw -ls -or ! -perm -o+r -ls -or ! -group ngi-sw -ls -or ! -name wildwest -d | egrep -v \"\.swp|/lupus/ngi/irma3/\"'".format(src_root_path)
 
 def yes_or_no(question):
-	reply = str(input(question+' (y/n): ')).lower().strip()
+	reply = str(raw_input(question+' (y/n): ')).lower().strip()
 
 	if reply[0] == 'y':
 		return True

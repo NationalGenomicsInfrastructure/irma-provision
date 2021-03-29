@@ -7,7 +7,7 @@ params {
 
 {% if item.site == "sthlm" %}
 process {
-    withName: 'multiqc|MultiQC|MULTIQC' {
+    withName: 'multiqc|MultiQC' {
         container = null
         executor = 'local'
     }

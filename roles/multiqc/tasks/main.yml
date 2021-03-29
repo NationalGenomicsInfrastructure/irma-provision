@@ -14,9 +14,9 @@
     executable: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip"
 
 - name: Install MultiQC
-  shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install ."
-  args:
-    chdir: "{{ multiqc_dest }}"
+  pip:
+    name: "file:{{ multiqc_dest }}"
+    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}"
 
 - name: Fetch MultiQC NGI plugin from GitHub
   git: repo="{{ multiqc_ngi_repo }}"
@@ -27,9 +27,9 @@
 #Remember to use --upgrade flag if using commit-id
 #Using the python3 env
 - name: Install MultiQC NGI submodule
-  shell: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/pip install ."
-  args:
-    chdir: "{{ multiqc_ngi_dest }}"
+  pip:
+    name: "file:{{ multiqc_ngi_dest }}"
+    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}"
 
 - name: Deploy multiqc configs
   template: src="multiqc_config.yml.j2" dest="{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"

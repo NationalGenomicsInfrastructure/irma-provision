@@ -7,8 +7,8 @@ deliver:
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
     operator: "{{ recipient_mail }}"
     hash_algorithm: md5
-    files_to_deliver:
 {% if "upps" == site %}
+    files_to_deliver:
         -
             - <ANALYSISPATH>/seqreports/*
             - <STAGINGPATH>/00-Reports/SequenceQC/
@@ -21,17 +21,6 @@ deliver:
             - <ANALYSISPATH>/multiqc_ngi/*multiqc_report_data.zip
             - <STAGINGPATH>/00-Reports/
             - required: True
-{% endif %}
-{% if "sthlm" == site %}
-        -
-            - <ANALYSISPATH>/sarek_ngi/*multiqc_report.html
-            - <STAGINGPATH>/00-Reports/
-            - required: True
-        -
-            - <ANALYSISPATH>/reports/*
-            - <STAGINGPATH>/00-Reports/
-            - required: True
-{% endif %}
         -
             - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Annotation/*
             - <STAGINGPATH>/<SAMPLEID>/results/Annotation/
@@ -68,3 +57,64 @@ deliver:
             - {{ ngi_resources }}/TACA/apply_recalibration.sh
             - <STAGINGPATH>/01-Resources/
             - required: True
+{% endif %}
+{% if "sthlm" == site %}
+    datapath: <ROOTPATH>/DATA/<PROJECTID>
+    stagingpathhard: <ROOTPATH>/DELIVERY_HARD/<PROJECTID>
+    files_to_deliver:
+        -
+            - <DATAPATH>/<SAMPLEID>/*/*
+            - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Annotation/*
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/Annotation/
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/pipeline_info/results_description.html
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/pipeline_info
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/pipeline_info/software_versions.csv
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/pipeline_info
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Preprocessing/TSV/duplicates_marked*<SAMPLEID>.tsv*
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/Preprocessing/TSV
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Preprocessing/<SAMPLEID>/DuplicatesMarked/*
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/Preprocessing/DuplicatesMarked
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Preprocessing/<SAMPLEID>/Recalibrated/*
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/Preprocessing/Recalibrated
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/Reports/*
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/Reports
+            - required: True
+        -
+            - <ANALYSISPATH>/<SAMPLEID>/SarekGermlineAnalysis/results/VariantCalling/<SAMPLEID>/*
+            - <STAGINGPATH>/<SAMPLEID>/01-SarekGermline-Results/VariantCalling/
+            - required: True
+    misc_files_to_deliver:
+        -
+            - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
+            - <STAGINGPATH>
+        -
+            - <ANALYSISPATH>/reports/*
+            - <STAGINGPATH>/00-Reports
+        -
+            - <ANALYSISPATH>/*multiqc_report.html
+            - <STAGINGPATH>/00-Reports
+        -
+            - <ANALYSISPATH>/sarek_multiqc_report/*multiqc_report.html
+            - <STAGINGPATH>/00-Reports
+        -
+            - {{ ngi_resources }}/TACA/{{ site }}/DELIVERY.README.SAREK.txt
+            - <STAGINGPATH>
+            - required: True
+    save_meta_info: True
+    xmlgen_ignore_lib_prep: False
+{% endif %}

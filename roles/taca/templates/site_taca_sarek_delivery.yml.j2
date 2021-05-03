@@ -111,5 +111,7 @@ deliver:
         -
             - {{ ngi_resources }}/TACA/{{ site }}/DELIVERY.README.SAREK.txt
             - <STAGINGPATH>
-    save_meta_info: True
+            - no_digest: True
+
+save_meta_info: True
 {% endif %}

@@ -19,7 +19,7 @@ bash_env_sthlm_script: sourceme_sthlm.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ sw_path }}/ngi_pipeline"
-ngi_pipeline_version: 1e2e11955c07f58512f93c6dfb5bf18912324f1c
+ngi_pipeline_version: d1f206f2e28c6af498c711ff8b8d4a479d98440d
 NGI_venv_name: "NGI"
 NGI_venv_py3_name: "NGI_py3"
 ngi_pipeline_venv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"

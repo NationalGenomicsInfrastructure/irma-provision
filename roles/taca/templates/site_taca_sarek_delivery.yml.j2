@@ -103,13 +103,13 @@ deliver:
             - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
             - <STAGINGPATH>
         -
+            - {{ ngi_site_softlinks }}/DELIVERY.README.SAREK.txt
+            - <STAGINGPATH>
+        -
             - <ANALYSISPATH>/reports/*
             - <STAGINGPATH>/00-Reports
         -
             - <ANALYSISPATH>/*multiqc_report.html
             - <STAGINGPATH>/00-Reports
-        -
-            - {{ ngi_site_softlinks }}/DELIVERY.README.SAREK.txt
-            - <STAGINGPATH>
     save_meta_info: True
 {% endif %}

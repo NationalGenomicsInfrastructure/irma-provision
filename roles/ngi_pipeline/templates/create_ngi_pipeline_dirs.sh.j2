@@ -36,3 +36,8 @@ ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/DELIVERY.RE
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/scripts/applyRecalibration.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/applyRecalibration.sh
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/scripts/bam2fastq.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/bam2fastq.sh
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/$ACKNOWLEDGE_SITE {{ proj_root }}/$1/nobackup/NGI/softlinks/ACKNOWLEDGEMENTS.txt
+
+#if sthlm, source delivery readme script
+if [ $1 == "ngi2016003" ]; then
+. create_delivery_readme_softlinks.sh
+fi

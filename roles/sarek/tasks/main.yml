@@ -58,7 +58,6 @@
     src: "DELIVERY.README.SAREK.txt.j2"
     dest: "{{ ngi_resources }}/TACA/{{ item.site }}/DELIVERY.README.SAREK.txt"
   with_items:
-    - site: sthlm
     - site: upps
 
 - name: Set alias for pipeline

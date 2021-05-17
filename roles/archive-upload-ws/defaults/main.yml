@@ -1,14 +1,14 @@
 ---
 
-# If deploying to staging one should call with 
+# If deploying to staging one should call with
 # -e deployment_environment=staging
-# One can also override the default installed version 
-# by overriding the archive_upload_version on the command line. 
+# One can also override the default installed version
+# by overriding the archive_upload_version on the command line.
 #
-# This will set corresponding paths and use the appropriate port.  
+# This will set corresponding paths and use the appropriate port.
 
 archive_upload_repo: https://github.com/Molmed/snpseq-archive-upload.git
-archive_upload_version: v1.0.2
+archive_upload_version: v1.0.3
 
 # in production this should be  /proj/ngi2016001/nobackup/NGI/ANALYSIS/<PROJECT ID>
 archive_upload_monitored_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/ANALYSIS/"
@@ -27,11 +27,11 @@ archive_upload_logger_config: "{{ archive_upload_config_root }}/logger.config"
 archive_upload_log_dir: "/proj/{{ ngi_pipeline_upps_delivery }}/private/log/arteria/archive-upload-ws"
 
 archive_upload_port_prod: 10480
-archive_upload_port_stage: 10481 
+archive_upload_port_stage: 10481
 archive_upload_cores_to_use: 2
 
 # We want to fake a successful return code for the dsmc subprocess for some certain warnings.
-# Otherwise the Arteria workflow in Stackstorm would be marked as failed when it actually suceeded.  
+# Otherwise the Arteria workflow in Stackstorm would be marked as failed when it actually suceeded.
 #
 # ANS1809W = a session with the TSM server has been disconnected: will retry again
 # ANS2042W = a symblic link to a file on other fs has been uploaded: acls/extended attributes might not be backed up

@@ -1,0 +1,5 @@
+---
+- name: Install dds
+  pip:
+    name: git+https://github.com/ScilifelabDataCentre/DS_CLI.git
+    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}"

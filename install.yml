@@ -43,6 +43,7 @@
     - { role: nf-core, tags: nf-core }
     - { role: nf-core-biocontainer-temp, tags: nf-core-biocontainer-temp }
     - { role: sarek, tags: sarek }
+    - { role: dds, tags: dds }
 
   environment: "{{ anaconda_env }}"
 

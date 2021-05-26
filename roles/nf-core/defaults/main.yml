@@ -10,7 +10,7 @@ pipelines:
   - name: atacseq
     release: 1.1.0
   - name: viralrecon
-    release: 2.0
+    release: 1.1.0
   - name: rnafusion
     release: 1.2.0
   - name: nanoseq

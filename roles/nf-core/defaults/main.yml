@@ -4,11 +4,11 @@ nextflow_download_url: "https://github.com/nextflow-io/nextflow/releases/downloa
 nf_core_env: "/lupus/ngi/irma3/nf-core-env"
 pipelines:
   - name: methylseq
-    release: 1.6
+    release: 1.6.1
   - name: ampliseq
-    release: 1.1.2
+    release: 1.2.0
   - name: atacseq
-    release: 1.1.0
+    release: 1.2.1
   - name: viralrecon
     release: 1.1.0
   - name: rnafusion

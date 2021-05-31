@@ -39,5 +39,5 @@ ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/$ACKNOWLEDG
 
 #if sthlm, source delivery readme script
 if [ $1 == "ngi2016003" ]; then
-. create_delivery_readme_softlinks.sh
+. {{ ngi_resources }}/create_delivery_readme_softlinks.sh
 fi

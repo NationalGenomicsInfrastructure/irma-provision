@@ -80,12 +80,6 @@ deliver:
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/<SAMPLEID>.gt_concordance
             - <STAGINGPATH>/<SAMPLEID>/01-QC
 {% endif %}
-{% if "upps" == site %}
-        -
-            - {{ ngi_site_softlinks }}/bam2fastq.sh
-            - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
-            - required: True
-{% endif %}
         -
             - <ANALYSISPATH>/piper_ngi/05_processed_alignments/<SAMPLEID>.clean.dedup.ba[im]
             - <STAGINGPATH>/<SAMPLEID>/03-BAM

@@ -8,7 +8,7 @@
 # This will set corresponding paths and use the appropriate port.
 
 archive_upload_repo: https://github.com/Molmed/snpseq-archive-upload.git
-archive_upload_version: v1.0.3
+archive_upload_version: v1.0.4
 
 # in production this should be  /proj/ngi2016001/nobackup/NGI/ANALYSIS/<PROJECT ID>
 archive_upload_monitored_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/ANALYSIS/"

@@ -33,8 +33,6 @@ ACKNOWLEDGE_SITE="ACKNOWLEDGEMENTS_U.txt"
 fi
 
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/DELIVERY.README.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/DELIVERY.README.txt
-ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/scripts/applyRecalibration.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/applyRecalibration.sh
-ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/scripts/bam2fastq.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/bam2fastq.sh
 ln -s /lupus/ngi/{{ deployment_environment }}/latest/sw/ngi_pipeline/$ACKNOWLEDGE_SITE {{ proj_root }}/$1/nobackup/NGI/softlinks/ACKNOWLEDGEMENTS.txt
 
 #if sthlm, source delivery readme script

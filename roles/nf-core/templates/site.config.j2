@@ -1,5 +1,4 @@
 process {
-  container = '{{ ngi_containers }}/{{ item.0.name }}/nf-core-{{ item.0.name }}-{{ item.0.release }}.simg'
   {% if item.0.name=='methylseq' %}
   memory = { 15.GB * task.attempt }
   time = { 6.h * task.attempt }
@@ -24,3 +23,5 @@ params.reverseStranded = true
 {% if item.0.name=='ampliseq' %}
 params.reference_database = '{{ ngi_containers }}/ampliseq/Silva_132_release.zip'
 {% endif %}
+
+singularity.cacheDir = '{{ ngi_containers }}/{{ item.0.name if item.0.modified_singularity_cachedir!=false else item.0.modified_singularity_cachedir }}'

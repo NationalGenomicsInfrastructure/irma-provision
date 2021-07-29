@@ -29,6 +29,7 @@
     - "{{ ngi_containers }}/singularity_cache"
     - "{{ ngi_containers }}/singularity_temp"
 
+# Creating singularity subdirectories based on pipeline name when another location is not defined in the modified_singularity_cachedir variable.
 - name: Create directories for pipeline specific singularity images
   file:
     path: "{{ ngi_containers }}/{{ item.name }}"

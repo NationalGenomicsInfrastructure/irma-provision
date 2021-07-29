@@ -34,6 +34,7 @@
     path: "{{ ngi_containers }}/{{ item.name }}"
     state: directory
     mode: 02775 #ug=rwx, o=rx, g+s
+  when: item.modified_singularity_cachedir == false
   with_items: "{{ pipelines }}"
 
 - name: Create directory for pipelines using biocontainers
@@ -42,16 +43,33 @@
     state: directory
     mode: 02775 #ug=rwx, o=rx, g+s
 
+# - name: nf-core
+#   command: "{{ nf_core_env }}/bin/nf-core -v
+#     download {{ item.name }}
+#     --compress none
+#     --outdir {{ sw_path }}{{ item.name }}
+#     --revision {{ item.release }}"
+#   environment:
+#     PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
+#     SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
+#     SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
+#   args:
+#     chdir: "{{ sw_path }}"
+#   with_items: "{{ pipelines }}"
+
 - name: nf-core
   command: "{{ nf_core_env }}/bin/nf-core -v
-    download {{ item.name }}
-    --compress none
-    --outdir {{ sw_path }}{{ item.name }}
-    --revision {{ item.release }}"
+      download rnaseq
+      --compress none
+      --outdir {{ sw_path }}{{ item.name }}
+      --revision {{ item.release }}
+      --container singularity
+      --singularity-cache-only"
+  vars:
+    container_dir: "{{ item.modified_singularity_cachedir | default(item.name) }}"
   environment:
-    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
-    SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
-    SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
+    NXF_SINGULARITY_CACHEDIR: "{{ ngi_containers }}/{{ container_dir }}"
+    NXF_HOME: "{{ nf_core_env }}/nextflow"
   args:
     chdir: "{{ sw_path }}"
   with_items: "{{ pipelines }}"

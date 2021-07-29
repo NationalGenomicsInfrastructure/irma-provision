@@ -24,4 +24,8 @@ params.reverseStranded = true
 params.reference_database = '{{ ngi_containers }}/ampliseq/Silva_132_release.zip'
 {% endif %}
 
-singularity.cacheDir = '{{ ngi_containers }}/{{ item.0.name if item.0.modified_singularity_cachedir!=false else item.0.modified_singularity_cachedir }}'
+{% if item.0.modified_singularity_cachedir is defined %}
+singularity.cacheDir = '{{ ngi_containers }}/{{ item.0.modified_singularity_cachedir }}'
+{% else %}
+singularity.cacheDir = '{{ ngi_containers }}/{{ item.0.name }}'
+{% endif %}

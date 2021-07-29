@@ -1,6 +1,6 @@
 ---
 
-- name: install nf-core
+- name: Install nf-core tools to the virtual environment
   local_action:
     module: pip
     virtualenv_command: /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py
@@ -12,7 +12,7 @@
   local_action:
     get_url url="{{ nextflow_download_url }}" dest="{{ nf_core_env }}/bin" mode="u+rwx,g=rwx"
 
-- name: Install NextFlow
+- name: Install NextFlow to the virtual environment
   local_action:
     module: command
     _raw_params: "{{ nf_core_env }}/bin/nextflow"
@@ -29,33 +29,31 @@
     - "{{ ngi_containers }}/singularity_cache"
     - "{{ ngi_containers }}/singularity_temp"
 
-- name: nf-core
-  command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }}
-   --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
-  environment:
-    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
-    SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
-    SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
-  args:
-    chdir: "{{ sw_path }}"
-  with_items: "{{ pipelines }}"
-
-- name: Create directories for singularity images
+- name: Create directories for pipeline specific singularity images
   file:
     path: "{{ ngi_containers }}/{{ item.name }}"
     state: directory
     mode: 02775 #ug=rwx, o=rx, g+s
   with_items: "{{ pipelines }}"
 
-- name: Pull Singularity images if version has been updated
-  command: "singularity pull --name nf-core-{{ item.name }}-{{ item.release }}.simg docker://nfcore/{{ item.name }}:{{ item.release }}"
+- name: Create directory for pipelines using biocontainers
+  file:
+    path: "{{ ngi_containers }}/biocontainers"
+    state: directory
+    mode: 02775 #ug=rwx, o=rx, g+s
+
+- name: nf-core
+  command: "{{ nf_core_env }}/bin/nf-core -v
+    download {{ item.name }}
+    --compress none
+    --outdir {{ sw_path }}{{ item.name }}
+    --revision {{ item.release }}"
   environment:
+    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
     SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
   args:
-    chdir: "{{ ngi_containers }}/{{ item.name }}"
-    creates: "{{ ngi_containers }}/{{ item.name }}/nf-core-{{ item.name }}-{{ item.release }}.simg" #creates skips action if file already exists
-  ignore_errors: true
+    chdir: "{{ sw_path }}"
   with_items: "{{ pipelines }}"
 
 - name: Remove singularity cache directories

@@ -6,13 +6,22 @@ nf_core_tools_min_version: 2.1
 pipelines:
   - name: methylseq
     release: 1.6.1
+    modified_singularity_cachedir: false
   - name: ampliseq
-    release: 1.2.0
+    release: 2.0.0
+    modified_singularity_cachedir: false
   - name: atacseq
     release: 1.2.1
+    modified_singularity_cachedir: false
   - name: viralrecon
-    release: 1.1.0
+    release: 2.1
+    modified_singularity_cachedir: false
   - name: rnafusion
     release: 1.2.0
+    modified_singularity_cachedir: false
   - name: nanoseq
     release: 1.1.0
+    modified_singularity_cachedir: false
+  - name: rnaseq
+    release: 3.2
+    modified_singularity_cachedir: "biocontainers"

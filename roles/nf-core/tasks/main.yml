@@ -34,7 +34,7 @@
     path: "{{ ngi_containers }}/{{ item.name }}"
     state: directory
     mode: 02775 #ug=rwx, o=rx, g+s
-  when: item.modified_singularity_cachedir == false
+  when: item.modified_singularity_cachedir is not defined
   with_items: "{{ pipelines }}"
 
 - name: Create directory for pipelines using biocontainers

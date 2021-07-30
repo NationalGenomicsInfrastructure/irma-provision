@@ -17,5 +17,5 @@ pipelines:
   - name: nanoseq
     release: 1.1.0
   - name: rnaseq
-    release: 3.2
+    release: 3.3
     modified_singularity_cachedir: "biocontainers"

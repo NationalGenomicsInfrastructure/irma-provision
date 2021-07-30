@@ -29,7 +29,6 @@
     - "{{ ngi_containers }}/singularity_cache"
     - "{{ ngi_containers }}/singularity_temp"
 
-# Creating singularity subdirectories based on pipeline name when another location is not defined in the modified_singularity_cachedir variable.
 - name: Create directories for pipeline specific singularity images
   file:
     path: "{{ ngi_containers }}/{{ item.name }}"
@@ -56,9 +55,10 @@
     container_dir: "{{ item.modified_singularity_cachedir | default(item.name) }}"
   environment:
     PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
-    NXF_SINGULARITY_CACHEDIR: "{{ ngi_containers }}/{{ container_dir }}"
-    SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
     NXF_HOME: "{{ nf_core_env }}/nextflow"
+    NXF_SINGULARITY_CACHEDIR: "{{ ngi_containers }}/{{ container_dir }}"
+    SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
+    SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
   args:
     chdir: "{{ sw_path }}"
   with_items: "{{ pipelines }}"

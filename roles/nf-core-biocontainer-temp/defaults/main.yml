@@ -1,3 +1,0 @@
-pipelines:
-  - name: rnaseq
-    release: 3.0

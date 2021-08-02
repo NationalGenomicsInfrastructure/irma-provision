@@ -1,12 +1,5 @@
 ---
 
-- name: Fetch sarek configs from nf-core
-  command: "{{ nf_core_env }}/bin/nf-core -v download sarek --compress none --outdir {{ sarek_dest }} --revision {{ sarek_tag }}"
-  environment:
-    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
-  args:
-    chdir: "{{ sw_path }}"
-
 - name: Create sarek containers folder and temp/cache for images
   file: name="{{ item }}" state=directory mode=g+s
   with_items:
@@ -14,15 +7,22 @@
   - "{{ sarek_containers }}/singularity_cache"
   - "{{ sarek_containers }}/singularity_temp"
 
-- name: Pull sarek Singularity image
-  command: "singularity pull --name nfcore-sarek-{{ sarek_tag }}.img {{ sarek_containers_repo }}/sarek:{{ sarek_tag }}"
+- name: Fetch sarek configs from nf-core
+  command: "{{ nf_core_env }}/bin/nf-core -v
+      download sarek
+      --compress none
+      --outdir {{ sarek_dest }}
+      --revision {{ sarek_tag }}
+      --container singularity
+      --singularity-cache-only"
   environment:
+    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
+    NXF_HOME: "{{ nf_core_env }}/nextflow"
+    NXF_SINGULARITY_CACHEDIR: "{{ sarek_containers }}"
     SINGULARITY_CACHEDIR: "{{ sarek_containers }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ sarek_containers }}/singularity_temp"
   args:
-    chdir: "{{ sarek_containers }}"
-    creates: "{{ sarek_containers }}/nfcore-sarek-{{ sarek_tag }}.img" #creates skips action if file already exists
-  ignore_errors: true
+    chdir: "{{ sw_path }}"
 
 - name: Pull sarekvep, sareksnpeff Singularity images
   command: "singularity pull --name nfcore-{{ item.0 }}-{{ sarek_tag }}.{{ item.1 }}.img {{ sarek_containers_repo }}/{{ item.0 }}:{{ sarek_tag }}.{{ item.1 }}"

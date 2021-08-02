@@ -14,7 +14,7 @@ pipelines:
     release: 1.1.0
   - name: ampliseq
     release: 2.0.0
-    modified_singularity_cachedir: "biocontainer"
+    modified_singularity_cachedir: "biocontainers"
   - name: viralrecon
     release: 2.2
     modified_singularity_cachedir: "biocontainers"

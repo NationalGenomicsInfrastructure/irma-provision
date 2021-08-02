@@ -3,7 +3,7 @@ nextflow_version_tag: "v21.04.3"
 nextflow_download_url: "https://github.com/nextflow-io/nextflow/releases/download/{{ nextflow_version_tag }}/nextflow"
 nf_core_env: "/lupus/ngi/irma3/nf-core-env"
 nf_core_tools_min_version: 2.1
-singularity_biocontainers_dir: "biocontainers"
+biocontainers_dirname: "biocontainers"
 pipelines:
   - name: methylseq
     release: 1.6.1
@@ -15,10 +15,10 @@ pipelines:
     release: 1.1.0
   - name: ampliseq
     release: 2.0.0
-    modified_singularity_cachedir: "{{ singularity_biocontainers_dir }}"
+    modified_singularity_cachedir: "{{ biocontainers_dirname }}"
   - name: viralrecon
     release: 2.2
-    modified_singularity_cachedir: "{{ singularity_biocontainers_dir }}"
+    modified_singularity_cachedir: "{{ biocontainers_dirname }}"
   - name: rnaseq
     release: 3.3
-    modified_singularity_cachedir: "{{ singularity_biocontainers_dir }}"
+    modified_singularity_cachedir: "{{ biocontainers_dirname }}"

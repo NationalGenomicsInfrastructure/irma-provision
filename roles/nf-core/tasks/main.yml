@@ -29,19 +29,14 @@
     - "{{ ngi_containers }}/singularity_cache"
     - "{{ ngi_containers }}/singularity_temp"
 
-- name: Create directories for pipeline specific singularity images
+- name: Create directories for singularity images
+  vars:
+    container_dir: "{{ item.modified_singularity_cachedir | default(item.name) }}"
   file:
-    path: "{{ ngi_containers }}/{{ item.name }}"
+    path: "{{ ngi_containers }}/{{ container_dir }}"
     state: directory
     mode: 02775 #ug=rwx, o=rx, g+s
-  when: item.modified_singularity_cachedir is not defined
   with_items: "{{ pipelines }}"
-
-- name: Create directory for pipelines using biocontainers
-  file:
-    path: "{{ ngi_containers }}/biocontainers"
-    state: directory
-    mode: 02775 #ug=rwx, o=rx, g+s
 
 - name: nf-core
   command: "{{ nf_core_env }}/bin/nf-core -v

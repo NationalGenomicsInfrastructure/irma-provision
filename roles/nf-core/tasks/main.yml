@@ -5,7 +5,7 @@
     module: pip
     virtualenv_command: /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py
     virtualenv: "{{ nf_core_env }}"
-    name: nf-core>="{{ nf_core_tools_min_version }}"
+    name: nf-core=="{{ nf_core_tools_version }}"
     state: present
 
 - name: Download NextFlow

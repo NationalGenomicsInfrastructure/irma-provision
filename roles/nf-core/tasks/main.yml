@@ -1,6 +1,5 @@
 ---
 
-
 - name: Create nf-core venv directory
   file: path="{{ nf_core_env }}" state=directory mode=g+rwXs
 
@@ -88,6 +87,12 @@
   with_nested:
   - "{{ pipelines }}"
   - [ { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }, { site: "upps", script: "{{ bash_env_upps_script }}" } ]
+
+- name: Create directory for ampliseq
+  file:
+    path: "{{ ngi_containers }}/ampliseq"
+    state: directory
+    mode: 02775 #ug=rwx, o=rx, g+s
 
 - name: Download SILVA classifier data for ampliseq
   get_url:

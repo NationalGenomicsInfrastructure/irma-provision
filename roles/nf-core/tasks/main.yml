@@ -1,5 +1,9 @@
 ---
 
+
+- name: Create nf-core venv directory
+  file: path="{{ nf_core_env }}" state=directory mode=g+rwXs
+
 - name: Install nf-core tools to the virtual environment
   local_action:
     module: pip

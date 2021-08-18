@@ -20,9 +20,6 @@ process {
 }
 {% endif %}
 
-{% if item.0.name=='rnaseq' %}
-params.reverseStranded = true
-{% endif %}
 {% if item.0.name=='ampliseq' %}
 params.reference_database = '{{ ngi_containers }}/ampliseq/Silva_132_release.zip'
 {% endif %}

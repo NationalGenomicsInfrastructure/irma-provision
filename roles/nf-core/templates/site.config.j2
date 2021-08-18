@@ -11,7 +11,7 @@ process {
   }
   {% endif %}
   {% if item.0.name=='ampliseq' %}
-  withName:classifier {
+  withName:QIIME2_CLASSIFY {
         cpus = 20
         memory = 120.GB
         time = 36.h

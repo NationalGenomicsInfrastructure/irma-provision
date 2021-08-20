@@ -1,17 +1,24 @@
 nextflow_java: "/sw/comp/java/x86_64/sun_jdk1.8.0_151"
-nextflow_version_tag: "v21.04.1"
+nextflow_version_tag: "v21.04.3"
 nextflow_download_url: "https://github.com/nextflow-io/nextflow/releases/download/{{ nextflow_version_tag }}/nextflow"
-nf_core_env: "/lupus/ngi/irma3/nf-core-env"
+nf_core_env: "/lupus/ngi/irma3/nf-core-env-v2"
+nf_core_tools_version: 2.1
+biocontainers_dirname: "biocontainers"
 pipelines:
   - name: methylseq
-    release: 1.6
-  - name: ampliseq
-    release: 1.1.2
+    release: 1.6.1
   - name: atacseq
-    release: 1.1.0
-  - name: viralrecon
-    release: 1.1.0
+    release: 1.2.1
   - name: rnafusion
     release: 1.2.0
   - name: nanoseq
     release: 1.1.0
+  - name: ampliseq
+    release: 2.0.0
+    modified_singularity_cachedir: "{{ biocontainers_dirname }}"
+  - name: viralrecon
+    release: 2.2
+    modified_singularity_cachedir: "{{ biocontainers_dirname }}"
+  - name: rnaseq
+    release: 3.3
+    modified_singularity_cachedir: "{{ biocontainers_dirname }}"

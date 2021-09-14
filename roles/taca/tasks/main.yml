@@ -86,5 +86,4 @@
   with_items:
     - { tool_name: "TACA", tool_version: "{{ taca_version }}" }
     - { tool_name: "taca-ngi-pipeline", tool_version: "{{ taca_ngi_version }}" }
-    - { tool_name: "StatusDB", tool_version: "{{ statusdb_version }}" }
     - { tool_name: "flowcell_parser", tool_version: "{{ flowcell_parser_version }}" }

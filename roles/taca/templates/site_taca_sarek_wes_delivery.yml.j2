@@ -1,0 +1,73 @@
+log:
+    file: "{{ ngi_pipeline_site_path }}/log/taca.log"
+
+deliver:
+    rootpath: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/nobackup/NGI"
+    analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
+    stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
+    operator: "{{ recipient_mail }}"
+    hash_algorithm: md5
+
+    files_to_deliver:
+        -
+          - <ANALYSISPATH>/results/multiqc_ngi/*multiqc_report.html
+          - <STAGINGPATH>/multiqc_ngi/
+          -
+            required: True
+        -
+          - <ANALYSISPATH>/results/multiqc_ngi/*multiqc_report_data.zip
+          - <STAGINGPATH>/multiqc_ngi/
+          -
+            required: True
+        -
+          - <ANALYSISPATH>/results/Annotation/<SAMPLEID>/
+          - <STAGINGPATH>/Annotation/<SAMPLEID>/
+          -
+            required: True
+        -
+          - <ANALYSISPATH>/results/pipeline_info/results_description.html
+          - <STAGINGPATH>/pipeline_info/
+          -
+            required: True
+        -
+          - <ANALYSISPATH>/results/pipeline_info/software_versions.csv
+          - <STAGINGPATH>/pipeline_info/
+          -
+            required: True
+         -
+          - <ANALYSISPATH>/results/Preprocessing/TSV/duplicates_marked_<SAMPLEID>.tsv
+          - <STAGINGPATH>/Preprocessing/TSV
+          -
+            required: True
+        -
+            - <ANALYSISPATH>/results/Preprocessing/<SAMPLEID>/DuplicatesMarked/*
+            - <STAGINGPATH>/Preprocessing/<SAMPLEID>/DuplicatesMarked/
+            -
+              required: True
+        -
+            - <ANALYSISPATH>/results/Reports/<SAMPLEID>/
+            - <STAGINGPATH>/Reports/<SAMPLEID>/
+            -
+              required: True
+        -
+            - <ANALYSISPATH>/results/Reports/HsMetrics/<SAMPLEID>*
+            - <STAGINGPATH>/Reports/HsMetrics/<SAMPLEID>/
+            -
+              required: True
+        -
+            - <ANALYSISPATH>/results/VariantCalling/<SAMPLEID>/
+            - <STAGINGPATH>/VariantCalling/<SAMPLEID>/
+            -
+              required: True
+        -
+            - {{ ngi_resources }}/TACA/apply_recalibration.sh
+            - <STAGINGPATH>/Resources/
+            -
+              required: True
+              no_digest_cache: True
+        -
+            - {{ ngi_resources }}/TACA/{{ site }}/DELIVERY.README.SAREK.WES.j2
+            - <STAGINGPATH>/
+            -
+              required: True
+              no_digest_cache: true

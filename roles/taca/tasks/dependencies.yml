@@ -1,5 +1,4 @@
 ---
-# NOTE: STATUSDB IS A REQUIREMENT, BUT CURRENTLY CONFIG IS ONLY PROVIDED FOR NORMAL TACA-NGI-PIPELINE. THIS IS ACCEPTABLE
 - name: Copy SNIC-SUPR credentials
   copy: src="files/{{ snic_sthlm_creds }}" dest="{{ ngi_pipeline_conf }}/{{ snic_sthlm_creds }}"
 

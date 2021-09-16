@@ -72,9 +72,6 @@
 - name: Deploy sthlm sarek config
   template: src="site_taca_sarek_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_sarek_delivery.yml"
 
-- name: Deploy sthlm sarek WES config
-  template: src="site_taca_sarek_wes_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_sarek_wes_delivery.yml"
-
 - name: Deploy application specific stockholm configs
   template: src="site_app_specific_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_{{ item }}_delivery.yml"
   with_items: ['rna', 'denovo']

@@ -53,10 +53,17 @@
     src: "apply_recalibration.sh.j2"
     dest: "{{ ngi_resources }}/TACA/apply_recalibration.sh"
 
-- name: Create Delivery READMEs and add to TACA resources
+- name: Create Delivery READMEs for WGS and add to TACA resources
   template:
     src: "DELIVERY.README.SAREK.txt.j2"
     dest: "{{ ngi_resources }}/TACA/{{ item.site }}/DELIVERY.README.SAREK.txt"
+  with_items:
+    - site: upps
+
+- name: Create Delivery READMEs for WES and add to TACA resources
+  template:
+    src: "DELIVERY.README.SAREK.WES.md.j2"
+    dest: "{{ ngi_resources }}/TACA/{{ item.site }}/DELIVERY.README.SAREK.WES.md"
   with_items:
     - site: upps
 

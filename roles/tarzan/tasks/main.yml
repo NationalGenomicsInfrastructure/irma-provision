@@ -69,7 +69,7 @@
 
 - name: modify uppsala's crontab to start kong
   lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
-              line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.conf'
+              line='38 * * * *      source $HOME/.bash_profile && kill -0 $(cat {{ tarzan_log_dest }}/pids/nginx.pid) 2> /dev/null || kong start -c {{ tarzan_conf }}/webproxy.conf'
               backup=no
 
 - name: snapshot cassandra once a week, so that normal backups can be taken of a sany copy of files (kb sizes)  

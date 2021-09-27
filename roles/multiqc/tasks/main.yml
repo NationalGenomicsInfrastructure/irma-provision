@@ -9,7 +9,7 @@
 - name: Install MultiQC
   pip:
     name: "file:{{ multiqc_dest }}"
-    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}"
+    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
 
 - name: Fetch MultiQC NGI plugin from GitHub
   git: repo="{{ multiqc_ngi_repo }}"
@@ -22,7 +22,7 @@
 - name: Install MultiQC NGI submodule
   pip:
     name: "file:{{ multiqc_ngi_dest }}"
-    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}"
+    virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
 
 - name: Deploy multiqc configs
   template: src="multiqc_config.yml.j2" dest="{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"
@@ -32,7 +32,7 @@
 
 - name: Force multiqc to autorun config
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias multiqc='{{ sw_path }}/anaconda/envs/{{ NGI_venv_py3_name }}/bin/multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml {{ item.flags }}'"
+              line="alias multiqc='{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}/bin/multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml {{ item.flags }}'"
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", flags: ""}
@@ -41,7 +41,7 @@
 - name: Store MultiQC tool version in deployment
   lineinfile:
     dest: "{{ deployed_tool_versions }}"
-    line: "{{ NGI_venv_py3_name }}, {{ item.tool_name }}: {{ item.tool_version }}"
+    line: "{{ NGI_venv_name }}, {{ item.tool_name }}: {{ item.tool_version }}"
   with_items:
     - { tool_name: "MultiQC", tool_version: "{{ multiqc_version }}" }
     - { tool_name: "MultiQC_NGI", tool_version: "{{ multiqc_ngi_version }}" }

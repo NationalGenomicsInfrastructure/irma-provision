@@ -8,21 +8,21 @@
 
 - name: "Check if {{ NGI_venv_name }} virtual env exists"
   shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_name }}$"
-  register: "py2_venv_exists"
-  ignore_errors: true
-
-- name: Setup virtual env and install dependencies
-  shell: "conda create -n {{ NGI_venv_name }} pip"
-  when: "not py2_venv_exists.stdout"
-
-- name: "Check if {{ NGI_venv_py3_name }} virtual env exists"
-  shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_py3_name }}$"
   register: "py3_venv_exists"
   ignore_errors: true
 
-- name: Setup virtual env with python3 and install dependencies
-  shell: "conda create -n {{ NGI_venv_py3_name }} -c anaconda python=3.8"
+- name: Setup virtual env and install dependencies
+  shell:  "conda create -n {{ NGI_venv_name }} -c anaconda python=3.8"
   when: "not py3_venv_exists.stdout"
+
+- name: "Check if {{ NGI_venv_py2_name }} virtual env exists"
+  shell: "conda env list | awk '{print $1}' | egrep -e ^{{ NGI_venv_py2_name }}$"
+  register: "py2_venv_exists"
+  ignore_errors: true
+
+- name: Setup virtual env with python2 and install dependencies
+  shell: "conda create -n {{ NGI_venv_py2_name }} pip"
+  when: "not py2_venv_exists.stdout"
 
 - name: (Temporary until everything is updated) Install click7.0 as click7.1 breaks everything
   pip:
@@ -130,11 +130,6 @@
 - name: Add anaconda path to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ anaconda_path }}/bin:$PATH'
-              backup=no
-
-- name: Add py3 anaconda env path to sthlm sourceme script
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
-              line='export PATH={{ anaconda_path }}/envs/{{ NGI_venv_py3_name }}/bin:$PATH'
               backup=no
 
 - name: Try getting anaconda version

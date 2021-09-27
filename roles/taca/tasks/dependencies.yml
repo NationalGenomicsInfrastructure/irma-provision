@@ -1,5 +1,4 @@
 ---
-# NOTE: STATUSDB IS A REQUIREMENT, BUT CURRENTLY CONFIG IS ONLY PROVIDED FOR NORMAL TACA-NGI-PIPELINE. THIS IS ACCEPTABLE
 - name: Copy SNIC-SUPR credentials
   copy: src="files/{{ snic_sthlm_creds }}" dest="{{ ngi_pipeline_conf }}/{{ snic_sthlm_creds }}"
 
@@ -15,22 +14,6 @@
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
               line="export ORDER_PORTAL={{ ngi_pipeline_conf }}/{{ orderportal_creds }}"
               backup=no
-
-- name: Fetch statusdb from GitHub
-  git: repo="{{ statusdb_repo }}"
-       dest="{{ statusdb_dest }}"
-       version="{{ statusdb_version }}"
-       force=yes
-
-- name: Install statusdb requirements
-  pip:
-    requirements: "{{ statusdb_dest }}/requirements.txt"
-    virtualenv: "{{ ngi_pipeline_venv }}"
-
-- name: Install statusDB
-  pip:
-    name: "file:{{ statusdb_dest }}"
-    virtualenv: "{{ ngi_pipeline_venv }}"
 
 - name: Copy statusDB credentials
   copy: src="files/{{ statusdb_creds }}" dest="{{ ngi_pipeline_conf }}/{{ statusdb_creds }}"

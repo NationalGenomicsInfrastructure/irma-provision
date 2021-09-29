@@ -76,14 +76,44 @@ ProjectID -> SampleN
 ====================================================================
 Each sample will contain a results folder:
 
-|--ProjectID
-   |--SampleN
-      |--results
-         |--PipelineTool1
-         |--PipelineTool2
-         ...
-         ...
-         |--PipelineToolN
+SampleN
+└── results
+    ├── Annotation
+    │   └── SampleN
+    │       └── snpEff
+    ├── pipeline_info
+    │   ├── results_description.html
+    │   └── software_versions.csv
+    ├── Preprocessing
+    │   ├── DuplicatesMarked
+    │   │   ├── SampleN.md.bam
+    │   │   ├── SampleN.md.bam.bai
+    │   │   └── SampleN.recal.table
+    │   └── TSV
+    │       ├── duplicates_marked_SampleN.tsv
+    │       └── duplicates_marked_no_table_SampleN.tsv
+    ├── Reports
+    │   ├── SampleN
+    │   │   ├── bamQC
+    │   │   ├── BCFToolsStats
+    │   │   ├── FastQC
+    │   │   ├── MarkDuplicates
+    │   │   ├── SamToolsStats
+    │   │   ├── snpEff
+    │   │   └── VCFTools
+    │   ├── SampleN_RunfolderID.1.S1
+    │   │   └── bamQC
+    │   └── MultiQC
+    │       ├── multiqc_data
+    │       ├── multiqc_plots
+    │       └── multiqc_report.html
+    └── VariantCalling
+        ├── HaplotypeCaller
+        │   ├── HaplotypeCaller_SampleN.vcf.gz
+        │   └── HaplotypeCaller_SampleN.vcf.gz.tbi
+        └── HaplotypeCallerGVCF
+            ├── HaplotypeCaller_SampleN.g.vcf.gz
+            └── HaplotypeCaller_SampleN.g.vcf.gz.tbi
 
 This folder contains output from the sarek pipeline. Refer to
 https://github.com/nf-core/sarek/blob/{{ sarek_tag }}/docs/output.md for output description.

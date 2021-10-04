@@ -115,10 +115,17 @@ SampleN
             ├── HaplotypeCaller_SampleN.g.vcf.gz
             └── HaplotypeCaller_SampleN.g.vcf.gz.tbi
 
-This folder contains output from the sarek pipeline. Refer to
-https://github.com/nf-core/sarek/blob/{{ sarek_tag }}/docs/output.md for output description.
+Top level folders:
 
-====================================================================
+Annotation:     Variant calls annotated with e.g. transcript information and predicted variant effects
+pipeline_info:  Information about pipeline and software versions
+Preprocessing:  BAM files and recalibrated BAM files with duplicates marked
+Reports:        Statistics and QC from various tools. A summary can be found in the MultiQC report. 
+VariantCalling: VCF and GVCF files containing e.g. SNVs, CNVs, small indels and structural variants.   
+
+This folder contains output from the sarek pipeline. Refer to
+https://github.com/nf-core/sarek/blob/{{ sarek_tag }}/docs/output.md for more detailed output description.
+
 FASTQS
 ====================================================================
 FASTQ files are not included in the delivery, but can be regenerated from the BAM files.

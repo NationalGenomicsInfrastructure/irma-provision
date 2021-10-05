@@ -76,11 +76,21 @@ ProjectID -> SampleN
 ====================================================================
 Each sample will contain a results folder:
 
+{% if "sthlm" == item.site %}
+|--ProjectID
+   |--SampleN
+      |--results
+         |--PipelineTool1
+         |--PipelineTool2
+         ...
+         ...
+         |--PipelineToolN
+{% endif %}
+{% if "upps" == item.site %}
 SampleN
 └── results
     ├── Annotation
-    │   └── SampleN
-    │       └── snpEff
+    │   └── snpEff
     ├── pipeline_info
     │   ├── results_description.html
     │   └── software_versions.csv
@@ -114,6 +124,7 @@ SampleN
         └── HaplotypeCallerGVCF
             ├── HaplotypeCaller_SampleN.g.vcf.gz
             └── HaplotypeCaller_SampleN.g.vcf.gz.tbi
+{% endif %}
 
 Top level folders:
 

@@ -1,0 +1,98 @@
+# DELIVERY OF RESULTS FROM EXOME ANALYSIS WITH SAREK
+
+## Analysis
+Samples were analysed with the Sarek pipeline release 2.6.1. In short, the pipeline does the following:
+Reads from fastq-files were mapped to a reference genome using BWA.
+Bam-files were de-duplicated with GATK MarkDuplicates.
+Base quality score recalibration tables were created with GATK BaseRecalibrator. 
+The tables were then used in GATK ApplyBQSR to create recalibrated bam-files.
+SNVs and small indels were called with GATK HaplotypeCaller.
+Variants were annoted with SnpEff.
+
+For details on the pipeline, folder structure and how to interpret results, please refer to the Sarek documentation:
+https://nf-co.re/sarek
+
+After running the pipeline, Picard CollectHsMetrics was used to evaluate the coverage
+
+## Delivery structure, directories and files:
+
+```
+
+├── Annotation
+│   ├── <sample1 name>
+│   │   └── snpEff
+│   └── <sample2 name>
+│       └── snpEff
+├── DELIVERY.README.SAREK.WES.txt
+├── multiqc_ngi
+│   ├── <project>_multiqc_report_data.zip
+│   └── <project>_multiqc_report.html
+├── pipeline_info
+│   ├── results_description.html
+│   └── software_versions.csv
+├── Preprocessing
+│   ├── TSV
+│   │   ├── duplicates_marked_no_table.tsv
+│   │   ├── duplicates_marked_no_table_<sample1 name>.tsv
+│   │   ├── duplicates_marked_no_table_<sample2 name>.tsv
+│   │   ├── duplicates_marked.tsv
+│   │   ├── duplicates_marked_<sample1 name>.tsv
+│   │   └── duplicates_marked_<sample2 name>.tsv
+│   ├── <sample1 name>
+│   │   └── DuplicatesMarked
+│   │       ├── <sample1 name>.md.bam
+│   │       ├── <sample1 name>.md.bam.bai
+│   │       └── <sample1 name>.recal.table
+│   └── <sample2 name>
+│       └── DuplicatesMarked
+│           ├── <sample2 name>.md.bam
+│           ├── <sample2 name>.md.bam.bai
+│           └── <sample2 name>.recal.table
+├── Reports
+│   ├── HsMetrics
+│   │   ├── <sample1 name>
+│   │   └── <sample2 name>
+│   ├── <sample1 name>
+│   │   ├── bamQC
+│   │   ├── BCFToolsStats
+│   │   ├── FastQC
+│   │   ├── MarkDuplicates
+│   │   ├── SamToolsStats
+│   │   ├── snpEff
+│   │   └── VCFTools
+│   └── <sample2 name>
+│       ├── bamQC
+│       ├── BCFToolsStats
+│       ├── FastQC
+│       ├── MarkDuplicates
+│       ├── SamToolsStats
+│       ├── snpEff
+│       └── VCFTools
+├── Resources
+│   └── apply_recalibration.sh
+├── <sample1 name>.lst
+├── <sample1 name>.md5
+├── <sample2 name>.lst
+├── <sample2 name>.md5
+└── VariantCalling
+    ├── <sample1 name>
+    │   ├── HaplotypeCaller
+    │   └── HaplotypeCallerGVCF
+    └── <sample2 name>
+        ├── HaplotypeCaller
+        └── HaplotypeCallerGVCF
+
+```
+
+## Known issues
+
+- Twist bait intervals are not publicly available and therefore, when running CollectHsMetrics (Picard), the target intervals are used to specify both target and bait. 
+This will lead to some incorrect entries in the HsMetrics table in the MultiQC-report, i.e. entries regarding baits should be neglected.
+
+## Additional information 
+
+- The original target file used for the analysis can be found here https://www.twistbioscience.com/resources/bed-file/twist-human-comprehensive-exome-panel-bed-files
+Note that each region in this file was padded with 100 bp upstream and downstream before submitting it to the pipeline. 
+- Note that samples that are sequenced on more than one flowcell/lane will be suffixed accordingly for some modules in the MultiQC report.
+A sample that has been sequenced twice will for some metrics be presented as a joint vaule for <sample name>, and with one value per run, i.e. <sample name>_1 and <sample_name>_2. 
+- To apply the recalibrations table to the deduplicated .bam-files use the script Resources/apply_recalibration.sh  

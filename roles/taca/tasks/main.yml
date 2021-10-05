@@ -45,6 +45,9 @@
 - name: Deploy uppsala sarek config
   template: src="site_taca_sarek_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_sarek_delivery.yml"
 
+- name: Deploy uppsala sarek WES config
+  template: src="site_taca_sarek_wes_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_sarek_wes_delivery.yml"
+
 - set_fact:
     site: "sthlm"
     site_full: "stockholm"

@@ -76,6 +76,7 @@ ProjectID -> SampleN
 ====================================================================
 Each sample will contain a results folder:
 
+{% if "sthlm" == item.site %}
 |--ProjectID
    |--SampleN
       |--results
@@ -84,9 +85,57 @@ Each sample will contain a results folder:
          ...
          ...
          |--PipelineToolN
+{% endif %}
+{% if "upps" == item.site %}
+SampleN
+└── results
+    ├── Annotation
+    │   └── snpEff
+    ├── pipeline_info
+    │   ├── results_description.html
+    │   └── software_versions.csv
+    ├── Preprocessing
+    │   ├── DuplicatesMarked
+    │   │   ├── SampleN.md.bam
+    │   │   ├── SampleN.md.bam.bai
+    │   │   └── SampleN.recal.table
+    │   └── TSV
+    │       ├── duplicates_marked_SampleN.tsv
+    │       └── duplicates_marked_no_table_SampleN.tsv
+    ├── Reports
+    │   ├── SampleN
+    │   │   ├── bamQC
+    │   │   ├── BCFToolsStats
+    │   │   ├── FastQC
+    │   │   ├── MarkDuplicates
+    │   │   ├── SamToolsStats
+    │   │   ├── snpEff
+    │   │   └── VCFTools
+    │   ├── SampleN_[RunfolderID].[Lane].[Samplesheet index]
+    │   │   └── bamQC
+    │   └── MultiQC
+    │       ├── multiqc_data
+    │       ├── multiqc_plots
+    │       └── multiqc_report.html
+    └── VariantCalling
+        ├── HaplotypeCaller
+        │   ├── HaplotypeCaller_SampleN.vcf.gz
+        │   └── HaplotypeCaller_SampleN.vcf.gz.tbi
+        └── HaplotypeCallerGVCF
+            ├── HaplotypeCaller_SampleN.g.vcf.gz
+            └── HaplotypeCaller_SampleN.g.vcf.gz.tbi
+{% endif %}
+
+Top level folders:
+
+Annotation:     Variant calls annotated with e.g. transcript information and predicted variant effects
+pipeline_info:  Information about pipeline and software versions
+Preprocessing:  BAM files with duplicates marked and tables for performing recalibration with GATK
+Reports:        Statistics and QC from various tools. A summary can be found in the MultiQC report. 
+VariantCalling: VCF and GVCF files containing e.g. SNVs, CNVs, small indels and structural variants.   
 
 This folder contains output from the sarek pipeline. Refer to
-https://github.com/nf-core/sarek/blob/{{ sarek_tag }}/docs/output.md for output description.
+https://github.com/nf-core/sarek/blob/{{ sarek_tag }}/docs/output.md for more detailed output description.
 
 ====================================================================
 FASTQS

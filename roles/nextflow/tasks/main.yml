@@ -10,6 +10,9 @@
 - name: Create NextFlow installation subdirectory
   file: path="{{ nextflow_dest }}/workfiles" state=directory mode=g+rwXs
 
+- name: Create NextFlow installation plugins subdirectory
+  file: path="{{ nextflow_dest }}/workfiles/plugins" state=directory mode=g+rwXs
+
 - name: Download NextFlow
   get_url: url="{{ nextflow_download_url }}" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
 

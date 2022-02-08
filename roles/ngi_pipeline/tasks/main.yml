@@ -24,12 +24,6 @@
   shell: "conda create -n {{ NGI_venv_py3_name }} -c anaconda python=3.8"
   when: "not py3_venv_exists.stdout"
 
-- name: (Temporary until everything is updated) Install click7.0 as click7.1 breaks everything
-  pip:
-    name: click
-    version: "7.0"
-    virtualenv: "{{ ngi_pipeline_venv }}"
-
 - name: Install ngi_pipeline requirements
   pip:
     requirements: "{{ ngi_pipeline_dest }}/requirements.txt"

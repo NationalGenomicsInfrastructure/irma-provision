@@ -4,4 +4,4 @@ multiqc_version: "v1.11"
 
 multiqc_ngi_repo: https://github.com/NationalGenomicsInfrastructure/MultiQC_NGI.git
 multiqc_ngi_dest: "{{ sw_path }}/multiqc_ngi"
-multiqc_ngi_version: "0.6.5"
+multiqc_ngi_version: "0.6.6"

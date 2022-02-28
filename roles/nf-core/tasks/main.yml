@@ -1,18 +1,21 @@
 ---
 
-- name: install nf-core
+- name: Create nf-core venv directory
+  file: path="{{ nf_core_env }}" state=directory mode=g+rwXs
+
+- name: Install nf-core tools to the virtual environment
   local_action:
     module: pip
     virtualenv_command: /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py
     virtualenv: "{{ nf_core_env }}"
-    name: nf-core
+    name: nf-core=={{ nf_core_tools_version }}
     state: present
 
 - name: Download NextFlow
   local_action:
     get_url url="{{ nextflow_download_url }}" dest="{{ nf_core_env }}/bin" mode="u+rwx,g=rwx"
 
-- name: Install NextFlow
+- name: Install NextFlow to the virtual environment
   local_action:
     module: command
     _raw_params: "{{ nf_core_env }}/bin/nextflow"
@@ -29,33 +32,33 @@
     - "{{ ngi_containers }}/singularity_cache"
     - "{{ ngi_containers }}/singularity_temp"
 
-- name: nf-core
-  command: "{{ nf_core_env }}/bin/nf-core -v download {{ item.name }}
-   --compress none --outdir {{ sw_path }}{{ item.name }} --release {{ item.release }}"
-  environment:
-    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
-    SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
-    SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
-  args:
-    chdir: "{{ sw_path }}"
-  with_items: "{{ pipelines }}"
-
 - name: Create directories for singularity images
+  vars:
+    container_dir: "{{ item.modified_singularity_cachedir | default(item.name) }}"
   file:
-    path: "{{ ngi_containers }}/{{ item.name }}"
+    path: "{{ ngi_containers }}/{{ container_dir }}"
     state: directory
     mode: 02775 #ug=rwx, o=rx, g+s
   with_items: "{{ pipelines }}"
 
-- name: Pull Singularity images if version has been updated
-  command: "singularity pull --name nf-core-{{ item.name }}-{{ item.release }}.simg docker://nfcore/{{ item.name }}:{{ item.release }}"
+- name: nf-core
+  command: "{{ nf_core_env }}/bin/nf-core -v
+      download {{ item.name }}
+      --compress none
+      --outdir {{ sw_path }}{{ item.name }}
+      --revision {{ item.release }}
+      --container singularity
+      --singularity-cache-only"
+  vars:
+    container_dir: "{{ item.modified_singularity_cachedir | default(item.name) }}"
   environment:
+    PATH: "{{ nf_core_env }}/bin:{{ ansible_env.PATH }}"
+    NXF_HOME: "{{ nf_core_env }}/nextflow"
+    NXF_SINGULARITY_CACHEDIR: "{{ ngi_containers }}/{{ container_dir }}"
     SINGULARITY_CACHEDIR: "{{ ngi_containers }}/singularity_cache"
     SINGULARITY_TMPDIR: "{{ ngi_containers }}/singularity_temp"
   args:
-    chdir: "{{ ngi_containers }}/{{ item.name }}"
-    creates: "{{ ngi_containers }}/{{ item.name }}/nf-core-{{ item.name }}-{{ item.release }}.simg" #creates skips action if file already exists
-  ignore_errors: true
+    chdir: "{{ sw_path }}"
   with_items: "{{ pipelines }}"
 
 - name: Remove singularity cache directories
@@ -84,6 +87,12 @@
   with_nested:
   - "{{ pipelines }}"
   - [ { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }, { site: "upps", script: "{{ bash_env_upps_script }}" } ]
+
+- name: Create directory for ampliseq
+  file:
+    path: "{{ ngi_containers }}/ampliseq"
+    state: directory
+    mode: 02775 #ug=rwx, o=rx, g+s
 
 - name: Download SILVA classifier data for ampliseq
   get_url:

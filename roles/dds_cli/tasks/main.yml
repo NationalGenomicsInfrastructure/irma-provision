@@ -1,5 +1,11 @@
 ---
 - name: Install dds-cli
   pip:
-    name: dds-cli==0.0.6
+    name: dds-cli=={{ dds_cli_version }}
     virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
+    
+    
+- name: Store DDS CLI version in deployment
+  lineinfile:
+    dest: "{{ deployed_tool_versions }}"
+    line: "dds-cli: {{ dds_cli_version }}"

@@ -1,5 +1,5 @@
 ---
 - name: Install dds-cli
   pip:
-    name: dds-cli==0.0.4
+    name: dds-cli==0.0.6
     virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"

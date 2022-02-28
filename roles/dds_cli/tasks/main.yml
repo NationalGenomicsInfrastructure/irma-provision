@@ -4,7 +4,6 @@
     name: dds-cli=={{ dds_cli_version }}
     virtualenv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
     
-    
 - name: Store DDS CLI version in deployment
   lineinfile:
     dest: "{{ deployed_tool_versions }}"

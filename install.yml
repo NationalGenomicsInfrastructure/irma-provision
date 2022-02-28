@@ -42,6 +42,7 @@
     - { role: archive-upload-ws, tags: archive-upload }
     - { role: nf-core, tags: nf-core }
     - { role: sarek, tags: sarek }
+    - { role: dds_cli, tags: dds_cli }
 
   environment: "{{ anaconda_env }}"
 

@@ -1,3 +1,5 @@
+# Superseded by miarka-provision
+
 # Deployment playbooks for NGI-Pipeline and related software (Piper, TACA, Tarzan, etc.)
 
 This repository concerns the creation and maintenance of the NGI python environment; which is a collection of software and solutions utilized by NGI Production on the currently available HPC. The solutions in question are unique for NGI Production and require updates to such a degree that deploying them within the facility is preferred.
